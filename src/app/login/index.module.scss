@@ -1,0 +1,42 @@
+.loginBox {
+  margin-top: auto;
+  opacity: 1;
+  border-radius: 35px 35px 0px 0px;
+  position: relative;
+  background-color: #fff;
+  .loginSubBox {
+    position: relative;
+    align-items: center;
+    margin-top: 63px;
+    margin: 20px;
+    height: 50px;
+    border-radius: 25px;
+  }
+  .input {
+    width: 90%;
+    margin: 30px auto 0;
+    border-radius: 12px;
+    border: 1px solid var(--tabTextColorActive);
+  }
+  .buttonBox {
+    display: flex;
+    margin: 20px;
+    padding-top: 10px;
+    align-items: center;
+    :global {
+      .adm-checkbox.adm-checkbox-checked .adm-checkbox-icon {
+        border-color: var(--tabTextColorActive);
+        background-color: var(--tabTextColorActive);
+      }
+    }
+  }
+
+  .userAgreement {
+    color: var(--tabTextColorActive);
+  }
+
+  .submit {
+    width: 90%;
+    margin: 20px auto;
+  }
+}

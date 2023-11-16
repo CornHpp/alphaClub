@@ -1,0 +1,16 @@
+@media (max-width: 430px) {
+  .leftAirBlack {
+    display: none;
+  }
+}
+
+@media (min-width: 431px) {
+  .exploreWrapper {
+    margin-top: -40px;
+  }
+}
+.exploreWrapper {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}

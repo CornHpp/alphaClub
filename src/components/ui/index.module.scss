@@ -1,0 +1,14 @@
+.button {
+  background-color: var(--buttonYellowBackground);
+  border: none;
+  border-radius: 1rem;
+  font-size: 0.86rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+.showShowColor {
+  box-shadow: 0px 0px 5px 0px var(--buttonYellowBackground);
+}

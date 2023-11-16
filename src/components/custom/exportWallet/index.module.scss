@@ -1,0 +1,69 @@
+.popupBox {
+  padding: 1.5rem 1rem;
+  font-size: 0.875rem;
+  .title {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .Transfer {
+      font-weight: 600;
+    }
+    .walletMessage {
+      padding: 0.37rem 0.62rem;
+      background-color: var(--border);
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      .walletIcon {
+        margin-right: 0.625rem;
+      }
+    }
+  }
+  .transferText {
+    margin-top: 1rem;
+  }
+  .step {
+    display: flex;
+    margin-top: 1.5rem;
+    .stepImg {
+      width: 1.6rem;
+    }
+    .explain {
+      margin-left: 1rem;
+      .choiceWallet {
+        margin-top: 0.2rem;
+      }
+      .copyKey {
+        margin-top: 3rem;
+      }
+    }
+  }
+  .copyKeybutton {
+    width: 100%;
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    .button {
+      width: calc(100% + 2px);
+      height: 3rem;
+      border-radius: 0.75rem;
+      position: absolute;
+      left: -2px;
+      top: -2px;
+      .leftCopy {
+        margin-right: 0.43rem;
+        font-size: 1rem;
+      }
+    }
+
+    .warning {
+      margin-top: 3.5rem;
+      padding: 0 1rem 1rem;
+      .warningTitle {
+        color: var(--primary-text-orange-color);
+      }
+    }
+  }
+}

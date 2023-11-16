@@ -1,0 +1,162 @@
+/* 手机 */
+@media (max-width: 430px) {
+  .cardList {
+    padding: 0 1rem;
+  }
+}
+/* pc */
+@media (min-width: 431px) {
+  .container {
+    height: calc(100vh - 40px) !important;
+    .header,
+    .tabsList {
+      background: none !important;
+      border-bottom: none !important;
+    }
+    .tabs {
+      background-color: var(--thiredBorder) !important;
+      cursor: pointer;
+    }
+    .active {
+      background-color: var(--tabColorActive) !important;
+      color: var(--tabTextColorActive) !important;
+    }
+
+    .searchBar {
+      margin-right: 10px;
+      background-color: #fff !important;
+      border-radius: 12px;
+      :global {
+        .adm-input-element {
+          background-color: #fff !important;
+          border-radius: 18px;
+        }
+        .adm-input-clear {
+          background-color: #fff !important;
+          position: absolute;
+          right: 0px;
+          top: 0px;
+        }
+      }
+    }
+  }
+  .wFull {
+    width: auto;
+    max-width: 542px;
+  }
+  .wFull:nth-child(2n) {
+    margin-left: 10px;
+  }
+  .superSpace {
+    width: 542px;
+  }
+  .createSpace {
+    position: absolute !important;
+    left: 340px !important;
+    top: 58px !important;
+    .button {
+      width: 200px !important;
+    }
+  }
+}
+
+.container {
+  background-color: var(--pageBackground);
+  height: 100vh;
+  // width: 100%;
+
+  :global {
+    .adm-input-clear {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+  }
+  .maxWidth {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .searchIcon {
+    padding: 0.5rem;
+    background-color: var(--sconedBorder);
+    border-radius: 50%;
+  }
+  .tabsList {
+    width: 100%;
+    display: flex;
+    background-color: #fff;
+    height: 3.75rem;
+    align-items: center;
+    .tabs {
+      width: 5.71rem;
+      height: 2.14rem;
+      border-radius: 1.07rem;
+      background: var(--sconedBorder);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 1rem;
+    }
+    .active {
+      background-color: var(--tabColorActive);
+      color: var(--tabTextColorActive);
+    }
+  }
+  .header {
+    width: 100%;
+    height: 3.14rem;
+    border-bottom: 1px solid var(--border);
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0.5rem 0 1rem;
+    .ethButton {
+      display: flex;
+      flex-shrink: 0;
+      .headerImg {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 1rem;
+        border-radius: 50%;
+      }
+    }
+  }
+  .cardList {
+    flex: 1;
+    overflow-y: scroll;
+    padding-bottom: 110px;
+  }
+  .createSpace {
+    position: fixed;
+    left: 50%;
+    bottom: 5.25rem;
+    transform: translateX(-50%);
+  }
+  .superSpace {
+    margin-top: 1rem;
+  }
+
+  .pwaContent {
+    width: 90vw;
+    height: 50vh;
+    min-height: 375px;
+    background-color: #fff;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    .titleContent {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .contentDetail {
+      font-size: 1rem;
+      width: 90%;
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+}

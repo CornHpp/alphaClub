@@ -1,0 +1,21 @@
+.baseCard {
+  padding: 0.85rem;
+  border-radius: 0.57rem;
+  background-color: #fff;
+  margin-bottom: 0.85rem;
+  position: relative;
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .title {
+      font-size: 1rem;
+      color: rgba(0, 0, 0, 0.85);
+      line-height: 1.7rem;
+    }
+  }
+  .rightFlex {
+    display: flex;
+  }
+}

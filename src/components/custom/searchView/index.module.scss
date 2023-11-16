@@ -1,0 +1,48 @@
+.container {
+  box-sizing: border-box;
+  height: 40vh;
+  .blackBackground {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+  }
+  .searchBoxList {
+    height: 40vh;
+    background: #fff;
+    position: relative;
+    z-index: 104;
+    border-radius: 0 0 12px 12px;
+    padding: 0 1rem;
+    :global {
+      .adm-input-element {
+        text-align: left !important;
+      }
+    }
+  }
+  .searchBar {
+    position: relative;
+    z-index: 104;
+  }
+
+  .searchList {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    .searchItem {
+      width: 100%;
+      background: var(--primary-text-gray-color2);
+      padding: 6px 6px;
+      margin-top: 0.5rem;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--primary-text-black-color);
+      font-weight: 600;
+    }
+  }
+}

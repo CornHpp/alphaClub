@@ -1,106 +1,304 @@
+"use client";
+import React, { useCallback, useEffect, useState } from "react";
+import styles from "./index.module.scss";
+import SuperSpaceCard from "@/components/custom/superSpaceCard";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import headerImg from "@/assets/images/home/headerImg.png";
+import { SearchOutline } from "antd-mobile-icons";
+import SearchInput from "@/components/custom/searchInput";
+import { useRouter } from "next/navigation";
+import { RightOutline } from "antd-mobile-icons";
+import { InfiniteScroll, Dialog, PullToRefresh } from "antd-mobile";
+import { PullStatus } from "antd-mobile/es/components/pull-to-refresh";
+import { getAllSpace, getMySpace, spaceCohostDecide } from "@/service/space";
+import { getBalance } from "@/service/userService";
+import { useSelector } from "react-redux";
+import { BackGround } from "@/components/custom/pwaNotification";
+import pwaIcon from "@/assets/images/home/pwa.png";
 
-export default function Home() {
+const statusRecord: Record<PullStatus, string> = {
+  pulling: "pull-down",
+  canRelease: "Release the hand",
+  refreshing: "loading...",
+  complete: "ok",
+};
+
+const HometabsList = [
+  {
+    title: "TOP",
+    key: "TOP",
+  },
+  {
+    title: "NEW",
+    key: "NEW",
+  },
+];
+
+const mySpaceTabsList = [
+  {
+    title: "Created",
+    key: "created",
+  },
+  {
+    title: "Co-host",
+    key: "cohost",
+  },
+  {
+    title: "Join",
+    key: "joined",
+  },
+];
+type homeProps = {
+  isMySpace?: boolean;
+};
+
+type _selfParamsProps = {
+  pageNum: number;
+  pageSize: number;
+  isTop?: boolean;
+  queryKey?: string;
+  joinedType?: string;
+};
+
+const Home: React.FC<homeProps> = (props) => {
+  const { isMySpace } = props;
+
+  const tabsList = isMySpace ? mySpaceTabsList : HometabsList;
+
+  const getListFunction = isMySpace ? getMySpace : getAllSpace;
+  const currentTab = isMySpace ? "created" : "TOP";
+
+  let [nowTab, setNowTab] = useState(currentTab);
+  const [showIcon, setShowIcon] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
+  const [walletBalance, setWalletBalance] = useState(0);
+  const router = useRouter();
+  const { userinfo } = useSelector((state: any) => state.user);
+
+  const [BackGroundShow, setBackGroundShow] = useState(false);
+
+  let [pageNum, setPageNum] = useState(1);
+  const [queryKey, setQueryKey] = useState("");
+
+  //获取首次渲染的数据
+  const datalist = async (type?: string) => {
+    const isInit = type === "refresh";
+    isInit && (pageNum = 1);
+    const param: _selfParamsProps = {
+      pageNum: pageNum,
+      pageSize: 10,
+      queryKey,
+    };
+    isMySpace
+      ? (param.joinedType = nowTab)
+      : (param.isTop = nowTab === "TOP" ? true : false);
+    return getListFunction(param).then((res) => {
+      let { pageList = [], count = 0 } = res.result;
+      pageList?.forEach((item: any) => {
+        if (nowTab == "created") {
+          item.role = "created";
+        } else if (nowTab == "joined") {
+          item.role = "joined";
+        }
+      });
+      const newList = [...(isInit ? [] : data), ...(pageList ? pageList : [])];
+      setData(newList);
+      pageNum++;
+      setHasMore(newList.length >= count ? false : pageList?.length > 0);
+    });
+  };
+
+  //首次展示的数据
+  const [data, setData] = useState<allSpaceResponse[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+
+  const getBalanceFunction = useCallback(() => {
+    getBalance().then((res) => {
+      setWalletBalance(res.result);
+    });
+  }, []);
+
+  useEffect(() => {
+    getBalanceFunction();
+
+    const isShowPwaNotification = localStorage.getItem("isShowPwaNotification");
+    if (!isShowPwaNotification) {
+      setBackGroundShow(true);
+      localStorage.setItem("isShowPwaNotification", "true");
+    }
+  }, [getBalanceFunction]);
+
+  const goCreateSpace = () => {
+    router.push("/createSpace");
+  };
+
+  const onClickDecideSpace = (sid: number, val: number) => {
+    const dialogText =
+      val == 1 ? "whether accect this space?" : "whether decline this space?";
+    Dialog.confirm({
+      getContainer: () => document.getElementById("root") as HTMLElement,
+      bodyClassName: styles.dialogBody,
+      content: dialogText,
+      onConfirm: async () => {
+        spaceCohostDecide({ sid: sid, flag: val }).then((res) => {
+          console.log(res);
+          datalist("refresh");
+        });
+      },
+      onCancel: () => {
+        console.log("onCancel");
+      },
+      cancelText: "Cancel",
+      confirmText: "Confirm",
+    });
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className={styles.container}>
+      <div className="maxWidth flex flex-col h-full relative">
+        <div className={styles.header}>
+          {showIcon ? (
+            <div className={styles.searchIcon}>
+              <SearchOutline
+                onClick={() => {
+                  setShowIcon(false);
+                }}
+              ></SearchOutline>
+            </div>
+          ) : (
+            <SearchInput
+              value={queryKey}
+              className={styles.searchBar}
+              onChange={(value: any) => {
+                setQueryKey(value);
+              }}
+              onEnterPress={() => {
+                datalist("refresh");
+              }}
+            ></SearchInput>
+          )}
+
+          <div
+            className={styles.ethButton}
+            onClick={(e) => {
+              console.log("click ethButton");
+              e.stopPropagation();
+              router.push("/earning");
+            }}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <Button
+              backgroundColor="var(--sconedBorder)"
+              textColor="var(--textColor)"
+              showBorderShodow={false}
+            >
+              <Image
+                className={styles.headerImg}
+                src={userinfo.imageUrl ? userinfo.imageUrl : headerImg}
+                width={40}
+                height={40}
+                alt=""
+              />
+              {walletBalance.toFixed(5)} ETH <RightOutline />
+            </Button>
+          </div>
         </div>
+        <div className={styles.tabsList}>
+          {tabsList.map((item, index) => {
+            return (
+              <div
+                key={index + "q"}
+                className={[
+                  nowTab == item.key ? styles.active : "",
+                  styles.tabs,
+                ].join(" ")}
+                onClick={() => {
+                  nowTab = item.key;
+                  datalist("refresh");
+                  setNowTab(item.key);
+                }}
+              >
+                {item.title}
+              </div>
+            );
+          })}
+        </div>
+        <div className={styles.cardList}>
+          <PullToRefresh
+            onRefresh={() => datalist("refresh")}
+            renderText={(status) => {
+              return <div>{statusRecord[status]}</div>;
+            }}
+          >
+            {/* 数据展示 */}
+            <div className={`flex flex-wrap justify-between w-full`}>
+              {data.map((item, index) => {
+                const isSpaceReadyToOpen =
+                  new Date(item.spaceBeginTime).getTime() - Date.now() <=
+                  5 * 60 * 1000;
+                const isUserSpace = !!isMySpace;
+
+                return (
+                  <div key={index + "s"} className={`w-full ${styles.wFull}`}>
+                    <SuperSpaceCard
+                      onClickDecide={onClickDecideSpace}
+                      item={item}
+                      onClick={() => {
+                        console.log(item.sid);
+                        router.push("/space/" + item.sid);
+                      }}
+                      className={styles.superSpace}
+                      // isOnGoingSpace={true}
+                      isOnGoingSpace={isUserSpace && isSpaceReadyToOpen}
+                    ></SuperSpaceCard>
+                  </div>
+                );
+              })}
+            </div>
+          </PullToRefresh>
+          {/* 上拉刷新操作 */}
+          <InfiniteScroll loadMore={() => datalist()} hasMore={hasMore}>
+            -- no more --
+          </InfiniteScroll>
+        </div>
+
+        {!isMySpace && (
+          <div className={styles.createSpace}>
+            <Button
+              maxWidth={"340px"}
+              onClick={goCreateSpace}
+              width={"90vw"}
+              height={"2.5rem"}
+              className={styles.button}
+            >
+              Create a space
+            </Button>
+          </div>
+        )}
+
+        <BackGround
+          show={BackGroundShow}
+          hideShow={() => {
+            setBackGroundShow(false);
+          }}
+        >
+          <div className={styles.pwaContent}>
+            <Image src={pwaIcon} alt="" width={145} height={145}></Image>
+            <div className={styles.titleContent}>Add To Home Screen</div>
+            <div className={styles.contentDetail}>
+              To install the app, you need to add this website to your home
+              screen.
+            </div>
+            <div className={styles.contentDetail}>
+              In your Safari browser menu, tap the Share icon and choose{" "}
+              <span>Add to Home Screen</span> in the options.Then open the Alpha
+              app on your home screen.
+            </div>
+          </div>
+        </BackGround>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        11111111111111111111111111111111111111111111111111
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default Home;

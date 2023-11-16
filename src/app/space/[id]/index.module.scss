@@ -1,0 +1,79 @@
+.container {
+  background-color: var(--pageBackground);
+  min-height: 100vh;
+  .formBox {
+    padding: 0.625rem;
+    padding-bottom: 7rem;
+  }
+  :global {
+    .adm-input-element {
+      text-align: right;
+      font-size: 0.8rem;
+      width: 10rem;
+    }
+  }
+
+  .content {
+    text-align: right;
+    color: var(--colorGray);
+  }
+  .coHostItem {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0.85rem;
+    border-top: 1px solid var(--border);
+    padding-top: 0.85rem;
+    .decreate {
+      width: 1.87rem;
+      height: 1.87rem;
+      margin-left: 0.5rem;
+    }
+  }
+  .coHostRightAddIcon {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: var(--colorGray);
+    img {
+      width: 1.87rem;
+      height: 1.87rem;
+      margin-left: 0.5rem;
+    }
+  }
+  .peopleListBox {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .peopleItem {
+      margin: 0 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .arrowIcon {
+        margin-top: 0.5rem;
+        animation: float 2s ease-in-out infinite;
+      }
+    }
+  }
+}
+.createSpace {
+  position: fixed;
+  left: 50%;
+  bottom: 4.25rem;
+  transform: translateX(-50%);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

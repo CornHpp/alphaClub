@@ -1,0 +1,145 @@
+.container {
+  background-color: var(--pageBackground);
+  min-height: calc(100vh - 40px);
+  width: 100%;
+  .formBox {
+    padding: 0.625rem;
+    padding-bottom: 7rem;
+  }
+  :global {
+    .adm-input-element {
+      text-align: right;
+      font-size: 0.8rem;
+      width: 10rem;
+    }
+  }
+
+  .content {
+    text-align: right;
+    color: var(--colorGray);
+  }
+  .coHostItem {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0.85rem;
+    border-top: 1px solid var(--border);
+    padding-top: 0.85rem;
+    .decreate {
+      width: 1.87rem;
+      height: 1.87rem;
+      margin-left: 0.5rem;
+    }
+  }
+  .coHostBox {
+    position: relative;
+    z-index: 102;
+    .setZindex {
+      z-index: 103;
+    }
+    .searchView {
+      position: absolute;
+      left: 0px;
+      top: 58px;
+      width: 100%;
+    }
+  }
+
+  .coHostRightAddIcon {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    color: var(--colorGray);
+    position: relative;
+    img {
+      width: 1.87rem;
+      height: 1.87rem;
+      margin-left: 0.5rem;
+    }
+    .searchList {
+      position: absolute;
+      left: -10.5rem;
+      top: 45px;
+      background-color: var(--pageBackground);
+      z-index: 100;
+      width: 100vw;
+      border-radius: 0 0 10px 10px;
+    }
+  }
+  .peopleListBox {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    .peopleItem {
+      margin: 0 1rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .setImgSize {
+        width: 3rem;
+        height: 3rem;
+      }
+      .arrowIcon {
+        margin-top: 0.5rem;
+        animation: float 2s ease-in-out infinite;
+      }
+    }
+  }
+}
+.dialogBody {
+  text-align: center;
+  :global {
+    .adm-button {
+      font-weight: normal !important;
+    }
+  }
+}
+
+@media (min-width: 431px) {
+  .createSpace {
+    left: 52% !important;
+  }
+}
+.createSpace {
+  position: fixed;
+  left: 50%;
+  bottom: 5.25rem;
+  transform: translateX(-50%);
+}
+.stealSpace {
+  position: fixed;
+  left: 50%;
+  bottom: 2.25rem;
+  transform: translateX(-50%);
+}
+
+.openSpaceDemo {
+  position: fixed;
+  left: 50%;
+  bottom: 7.25rem;
+  transform: translateX(-50%);
+}
+
+.noNore {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.8rem;
+}
+
+.grid {
+  filter: grayscale(100%);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

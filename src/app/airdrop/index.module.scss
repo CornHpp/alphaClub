@@ -1,0 +1,89 @@
+.exploreContainer {
+  padding: 40px 1rem 0;
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background: var(--primary-text-gray-color2);
+  box-sizing: border-box;
+  :global {
+    .css-ykm2jt {
+      padding-left: 0 !important;
+    }
+  }
+
+  .topPersonalDetails {
+    height: 6rem;
+    border-radius: 0.815rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    justify-content: space-between;
+    .qrCode {
+      width: 5.1rem;
+      height: 5.1rem;
+      border-radius: 1rem;
+      background-color: var(--primary-text-yellow-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .redpocket2 {
+    width: 40px;
+  }
+}
+
+.rewardstext {
+  display: flex;
+  color: #fff;
+  width: 96%;
+  height: 100%;
+  background-color: rgba(254, 211, 53, 0.2);
+  border-radius: 12px;
+  padding: 1rem;
+  .rewardsPoints,
+  .rank {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    & > div:first-child {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    & > div:last-child {
+      font-size: 1rem;
+    }
+    .inViteCode {
+      width: 100%;
+      max-height: 175px;
+      overflow-y: auto;
+      .code {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        margin-top: 5px;
+        img {
+          flex-shrink: 0;
+          width: 15px;
+          height: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 430px) {
+  .inViteCode {
+    max-height: 1000px !important;
+  }
+}
+
+.minigamesText {
+  margin: 0 auto;
+  width: 90%;
+  text-align: center;
+}
