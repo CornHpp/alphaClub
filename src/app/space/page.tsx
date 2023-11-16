@@ -68,7 +68,7 @@ const Space: React.FC<Iprops> = (props) => {
   const { detailId } = props;
 
   const initialBeginTimeValue = getInitialDefaultValue();
-  const initialBeginTime = `${initialBeginTimeValue.year}-${initialBeginTimeValue.month}-${initialBeginTimeValue.date} ${initialBeginTimeValue.hour}:${initialBeginTimeValue.minute}`;
+  const initialBeginTime = `${initialBeginTimeValue.year}-${initialBeginTimeValue.month}-${initialBeginTimeValue.date} ${initialBeginTimeValue.hour}:${initialBeginTimeValue.minute}:00`;
   const biddingEndTime = getBiddingTime(initialBeginTime);
   const [formMap, setFormMap] = useState({
     title: "",

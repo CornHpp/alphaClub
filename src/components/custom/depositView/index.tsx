@@ -74,7 +74,7 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
   // })
   const { data, isLoading, isSuccess, sendTransactionAsync, error, isError } =
     useSendTransaction({
-      to: address,
+      to: userinfo.walletAddress,
       value: parseEther(transferAmount ?? "0.01"),
     });
 
