@@ -7,7 +7,7 @@ const nextConfig = {
     loaderFile: "./image-loader.ts",
     unoptimized: true,
   },
-  distDir: "build",
+  // distDir: "build",
   reactStrictMode: false,
   async rewrites() {
     return [
