@@ -12,7 +12,10 @@ export const service = axios.create({
   //   process.env.NODE_ENV === "development"
   //     ? process.env.NEXT_PUBLIC_APP_URL
   //     : "",
-  baseURL: process.env.NODE_ENV === "development" ? "/api/" : "",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? "/api/"
+      : process.env.NEXT_PUBLIC_APP_URL,
   // 超时
   // timeout: 0,
   // 跨域时候允许携带凭证
