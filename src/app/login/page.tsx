@@ -28,8 +28,10 @@ const Login: React.FC = () => {
   const [BackGroundShow, setBackGroundShow] = useState(false);
 
   useEffect(() => {
-    // getUserInfoFunction();
+    showPwaNativeNotificationFunc();
+  }, []);
 
+  const showPwaNativeNotificationFunc = () => {
     const isShowPwaNotification = localStorage.getItem("isShowPwaNotification");
     const actualWidth =
       document.documentElement.clientWidth || document.body.clientWidth; // 实际宽度
@@ -39,7 +41,7 @@ const Login: React.FC = () => {
         localStorage.setItem("isShowPwaNotification", "true");
       }
     }
-  }, []);
+  };
 
   const [inviteCode, setInviteCode] = useState<string>(
     localStorage.getItem("inviteCode") || ""
@@ -66,8 +68,10 @@ const Login: React.FC = () => {
   const getUserInfoFunction = useCallback(() => {
     getUserInfo().then((res) => {
       console.log(res);
-      dispatch(setUserInfo(res.result));
-      router.push("/");
+      if (res.code == "200") {
+        dispatch(setUserInfo(res.result));
+        router.push("/home");
+      }
     });
   }, [dispatch, router]);
 
@@ -84,9 +88,12 @@ const Login: React.FC = () => {
       .then(async (res: any) => {
         if (res) {
           localStorage.setItem("token", res.result);
-          getUserInfoFunction();
-          router.push("/home");
-          localStorage.removeItem("inviteCode");
+          getUserInfo().then((res) => {
+            console.log(res);
+            dispatch(setUserInfo(res.result));
+            router.push("/home");
+            localStorage.removeItem("inviteCode");
+          });
         } else {
           // todo: route to /root, reset the params. other wise will infinity fail.
         }
@@ -94,14 +101,22 @@ const Login: React.FC = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [getUserInfoFunction, params.oauth_token, params.oauth_verifier, router]);
+  }, [params.oauth_token, params.oauth_verifier, router, dispatch]);
 
   useEffect(() => {
     console.log("use effect");
     if (params.oauth_token && params.oauth_verifier) {
       validateTwitterToken();
+    } else {
+      console.log("no token");
+      getUserInfoFunction();
     }
-  }, [params.oauth_token, params.oauth_verifier, validateTwitterToken]);
+  }, [
+    params.oauth_token,
+    params.oauth_verifier,
+    validateTwitterToken,
+    getUserInfoFunction,
+  ]);
 
   const clickSubmitLogin = () => {
     if (!params.oauth_token || !params.oauth_verifier) {

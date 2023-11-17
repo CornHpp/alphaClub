@@ -13,9 +13,8 @@ import Image from "next/image";
 
 // 应用底部展示tabBar的路由路径集合
 const showFooterTabBarPathList = [
-  "/",
+  "/home",
   "/myspace",
-  "/Airdrop",
   "/createSpace",
   "/airdrop",
 ];
@@ -68,7 +67,7 @@ export const tabList = [
     icon: (active: boolean) =>
       active ? formatIcon("Home", homeActive) : formatIcon("Home", home),
     name: "Home",
-    route: "/",
+    route: "/home",
   },
   {
     id: 2,

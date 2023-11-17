@@ -8,14 +8,8 @@ axios.defaults.headers["Content-Type"] = "application/json;charset=utf-8";
 // 创建axios实例
 export const service = axios.create({
   // 默认请求地址
-  // baseURL:
-  //   process.env.NODE_ENV === "development"
-  //     ? process.env.NEXT_PUBLIC_APP_URL
-  //     : "",
+
   baseURL:
-    // process.env.NODE_ENV === "development"
-    //   ? "/api/"
-    //   : process.env.NEXT_PUBLIC_APP_URL,
     process.env.NODE_ENV === "development"
       ? "/api/"
       : process.env.NEXT_PUBLIC_APP_URL,
@@ -83,6 +77,14 @@ service.interceptors.response.use(
         hideFullScreenLoading();
       }
     }, 200);
+
+    console.log(error);
+    if (error.config.url == "/secret/users/getLogin?") {
+      console.log("error");
+
+      return {};
+    }
+
     // 展示错误信息
     const { data: { data = "", msg = "" } = {}, status } = error.response || {};
     const errorMsg = msg || data || getErrorInfoByCodeStatus(status);
@@ -100,8 +102,7 @@ service.interceptors.response.use(
     if (status == 401) {
       setTimeout(() => {
         localStorage.removeItem("token");
-
-        // location.href = `${location.origin}/login`;
+        // location.href = `${location.origin}/`;
       }, 1000);
     }
     return Promise.reject(error);
