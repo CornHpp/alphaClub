@@ -13,7 +13,10 @@ export const service = axios.create({
   //     ? process.env.NEXT_PUBLIC_APP_URL
   //     : "",
   baseURL:
-    process.env.NODE_ENV === "development"
+    // process.env.NODE_ENV === "development"
+    //   ? "/api/"
+    //   : process.env.NEXT_PUBLIC_APP_URL,
+    process.env.NODE_ENV !== "development"
       ? "/api/"
       : process.env.NEXT_PUBLIC_APP_URL,
   // 超时
@@ -98,7 +101,7 @@ service.interceptors.response.use(
       setTimeout(() => {
         localStorage.removeItem("token");
 
-        location.href = `${location.origin}/login`;
+        // location.href = `${location.origin}/login`;
       }, 1000);
     }
     return Promise.reject(error);

@@ -28,8 +28,9 @@ const Login: React.FC = () => {
   const [BackGroundShow, setBackGroundShow] = useState(false);
 
   useEffect(() => {
-    const isShowPwaNotification = localStorage.getItem("isShowPwaNotification");
+    // getUserInfoFunction();
 
+    const isShowPwaNotification = localStorage.getItem("isShowPwaNotification");
     const actualWidth =
       document.documentElement.clientWidth || document.body.clientWidth; // 实际宽度
     if (actualWidth < 431) {
@@ -66,8 +67,9 @@ const Login: React.FC = () => {
     getUserInfo().then((res) => {
       console.log(res);
       dispatch(setUserInfo(res.result));
+      router.push("/");
     });
-  }, [dispatch]);
+  }, [dispatch, router]);
 
   const params = getQueryParams();
 
@@ -83,8 +85,7 @@ const Login: React.FC = () => {
         if (res) {
           localStorage.setItem("token", res.result);
           getUserInfoFunction();
-          router.push("/");
-
+          router.push("/home");
           localStorage.removeItem("inviteCode");
         } else {
           // todo: route to /root, reset the params. other wise will infinity fail.

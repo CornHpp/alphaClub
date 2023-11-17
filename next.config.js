@@ -8,14 +8,14 @@ const nextConfig = {
     unoptimized: true,
   },
   reactStrictMode: false,
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: process.env.NEXT_PUBLIC_APP_URL + "/:path*",
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: process.env.NEXT_PUBLIC_APP_URL + "/:path*",
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = withAntdLess({
