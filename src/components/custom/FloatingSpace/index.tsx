@@ -246,7 +246,6 @@ export default function FloatingSpace({
         // setRemoteParticipants((xs) => xs?.filter((p) => p !== participant));
         handleLeavedParticipant(participant)
       })
-      console.log("🚀 ~ file: index.tsx:200 ~ call.on ~ e:", e)
     })
 
     const handleHandChanged: RaisedHandListener = () => {
@@ -269,7 +268,7 @@ export default function FloatingSpace({
         }
       })
 
-      e.removed.forEach((p) => {
+      e.removed.forEach(async (p) => {
         if (currentUserInRoom?.role !== "Audience") {
           return
         }
@@ -279,6 +278,9 @@ export default function FloatingSpace({
           currentUserInRoom?.identity
         ) {
           setIsGivenSpeakPermission(false)
+          if (!call.isMuted) {
+            await call.mute()
+          }
         }
       })
     })
