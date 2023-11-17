@@ -32,8 +32,8 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
   isOnGoingSpace,
   onClickDecide,
 }) => {
-  const router = useRouter()
-  const [isOpeningSpace, setIsOpeningSpace] = React.useState(false)
+  const router = useRouter();
+  const [isOpeningSpace, setIsOpeningSpace] = React.useState(false);
   return (
     <div className={[styles.superSpaceCard, className].join(" ")}>
       <header className={styles.topCard}>
@@ -51,7 +51,9 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
           />
         </div>
         <div className={styles.rightDetails}>
-          <div className="font-semibold">{item?.twitterName}</div>
+          <div className={`font-semibold ${styles.titterName}`}>
+            {item?.twitterName}
+          </div>
           <div className={styles.twitterName}>@{item?.twitterScreenName}</div>
           <div className={styles.text}>
             <Image width={21} height={21} src={sofa} alt=""></Image>
@@ -59,7 +61,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
           </div>
           <div className={styles.text}>
             <Image width={21} height={21} src={timepiece} alt=""></Image>
-            {formatDateCheers(item?.spaceBeginTime)}
+            Space Beginning Time:{formatDateCheers(item?.spaceBeginTime)}
           </div>
           <div className={styles.text}>
             <Image width={21} height={21} src={dollorSimple} alt=""></Image>

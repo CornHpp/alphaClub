@@ -66,6 +66,9 @@
         align-items: center;
         font-size: 12px;
         margin-top: 5px;
+        .used {
+          text-decoration: line-through;
+        }
         img {
           flex-shrink: 0;
           width: 15px;

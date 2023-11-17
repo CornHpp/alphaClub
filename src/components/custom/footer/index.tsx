@@ -12,7 +12,13 @@ import mySpaceActive from "@/assets/images/footerBar/mySpaceActive.png";
 import Image from "next/image";
 
 // 应用底部展示tabBar的路由路径集合
-const showFooterTabBarPathList = ["/", "/myspace", "/Airdrop", "/createSpace"];
+const showFooterTabBarPathList = [
+  "/",
+  "/myspace",
+  "/Airdrop",
+  "/createSpace",
+  "/airdrop",
+];
 
 const Footer: React.FC = () => {
   const [isShow, setIsShow] = useState(true);

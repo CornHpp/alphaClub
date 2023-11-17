@@ -32,4 +32,5 @@ type spaceCoHostDecide = {
 
 type inviteCodeType = {
   inviteCode: string;
+  invitedTwitterUid?: string | number;
 };

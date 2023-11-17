@@ -11,6 +11,7 @@ import { copyTextToClipboardSafari } from "@/lib/utils";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import { getInviteCode } from "@/service/userService";
+import { toast } from "react-toastify";
 
 const Rewards = () => {
   //   const { userinfo } = useSelector((state: any) => state.user);
@@ -20,6 +21,7 @@ const Rewards = () => {
   useEffect(() => {
     getInviteCode().then((res) => {
       const { result } = res;
+      console.log(result);
       setInviteCodeList(result);
     });
   }, []);
@@ -63,7 +65,7 @@ const Rewards = () => {
         style={{
           position: "absolute",
           left: "0",
-          bottom: "20px",
+          bottom: "76px",
           borderRadius: "15px",
           marginLeft: "20px",
           width: "94%",
@@ -80,9 +82,15 @@ const Rewards = () => {
               {inviteCodeList.map((item, index) => {
                 return (
                   <div key={index + "q"} className={styles.code}>
-                    {item.inviteCode}
+                    <div className={item.invitedTwitterUid ? styles.used : ""}>
+                      {item.inviteCode}
+                    </div>
                     <Image
                       onClick={() => {
+                        if (item.invitedTwitterUid) {
+                          toast.error("This code has been used");
+                          return;
+                        }
                         copyInviteCode(item.inviteCode);
                       }}
                       width={15}

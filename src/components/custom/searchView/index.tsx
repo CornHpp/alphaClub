@@ -17,7 +17,6 @@ const SearchView: React.FC<SearchViewType> = (props) => {
   const { selectedPeople, hideSearchView } = props;
   const [value, setValue] = useState<string>("");
   const [searchList, setSearchList] = useState<UserInfoType[]>([]);
-  const [showEmpty, setShowEmpty] = useState<boolean>(false);
 
   const clickSeach = (value: string) => {
     setValue(value);
@@ -25,6 +24,7 @@ const SearchView: React.FC<SearchViewType> = (props) => {
       clearTimeout(time);
     }
     time = setTimeout(() => {
+      if (!value) return;
       searchUserByUserName(value).then((res) => {
         console.log(res);
         const { pageList } = res.result;
@@ -53,13 +53,12 @@ const SearchView: React.FC<SearchViewType> = (props) => {
       <div className={styles.blackBackground} onClick={hideSearchView}></div>
       <div className={styles.searchBoxList}>
         <SearchBar
-          placeholder="请输入内容"
+          placeholder="search"
           className={styles.searchBar}
           onSearch={clickSeach}
           value={value}
           onChange={clickSeach}
           onClear={() => {
-            setShowEmpty(false);
             setSearchList([]);
           }}
         />
@@ -77,7 +76,7 @@ const SearchView: React.FC<SearchViewType> = (props) => {
                 </div>
               );
             })}
-          {showEmpty && <Empty description="no data found" />}
+          {searchList.length == 0 && <Empty description="no data found" />}
         </div>
         <Button
           height="2.5rem"

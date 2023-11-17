@@ -14,8 +14,6 @@ import { PullStatus } from "antd-mobile/es/components/pull-to-refresh";
 import { getAllSpace, getMySpace, spaceCohostDecide } from "@/service/space";
 import { getBalance } from "@/service/userService";
 import { useSelector } from "react-redux";
-import { BackGround } from "@/components/custom/pwaNotification";
-import pwaIcon from "@/assets/images/home/pwa.png";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -76,8 +74,6 @@ const Home: React.FC<homeProps> = (props) => {
   const router = useRouter();
   const { userinfo } = useSelector((state: any) => state.user);
 
-  const [BackGroundShow, setBackGroundShow] = useState(false);
-
   let [pageNum, setPageNum] = useState(1);
   const [queryKey, setQueryKey] = useState("");
 
@@ -121,12 +117,6 @@ const Home: React.FC<homeProps> = (props) => {
 
   useEffect(() => {
     getBalanceFunction();
-
-    const isShowPwaNotification = localStorage.getItem("isShowPwaNotification");
-    if (!isShowPwaNotification) {
-      setBackGroundShow(true);
-      localStorage.setItem("isShowPwaNotification", "true");
-    }
   }, [getBalanceFunction]);
 
   const goCreateSpace = () => {
@@ -275,27 +265,6 @@ const Home: React.FC<homeProps> = (props) => {
             </Button>
           </div>
         )}
-
-        <BackGround
-          show={BackGroundShow}
-          hideShow={() => {
-            setBackGroundShow(false);
-          }}
-        >
-          <div className={styles.pwaContent}>
-            <Image src={pwaIcon} alt="" width={145} height={145}></Image>
-            <div className={styles.titleContent}>Add To Home Screen</div>
-            <div className={styles.contentDetail}>
-              To install the app, you need to add this website to your home
-              screen.
-            </div>
-            <div className={styles.contentDetail}>
-              In your Safari browser menu, tap the Share icon and choose{" "}
-              <span>Add to Home Screen</span> in the options.Then open the Alpha
-              app on your home screen.
-            </div>
-          </div>
-        </BackGround>
       </div>
     </div>
   );

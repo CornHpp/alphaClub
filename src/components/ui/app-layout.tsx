@@ -19,7 +19,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   });
   useEffect(() => {
     let timer = setInterval(() => {
-      if (!localStorage.getItem("token")) return;
+      if (!localStorage.getItem("token")) {
+        return;
+      }
       spaceCheckStatus().then((res) => {
         if (res.result.length > 0) {
           setShowNotification(true);

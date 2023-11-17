@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import styles from "./index.module.scss";
 import deposit from "@/assets/images/earning/deposit.png";
 import withdraw from "@/assets/images/earning/withdraw.png";
@@ -7,7 +7,7 @@ import exportIcon from "@/assets/images/earning/export.png";
 
 import Image from "next/image";
 import CountUp from "react-countup";
-import { DepositView } from "@/components/custom/depositView";
+import DepositView from "@/components/custom/depositView";
 import WithdrawETH from "@/components/custom/withdrawETH";
 import ExportWallet from "@/components/custom/exportWallet";
 import { getBalance, getMyEarned } from "@/service/userService";
@@ -28,6 +28,7 @@ const EarningPage = () => {
   const [showWallet, setShowWallet] = React.useState(false);
 
   const [decimals, setDecimals] = React.useState(0);
+  console.log("decimals", lastEarned);
 
   const getBalanceFunction = async () => {
     const res = await getBalance();
@@ -54,6 +55,11 @@ const EarningPage = () => {
 
   const router = useRouter();
 
+  const handleClick = useCallback(() => {
+    setDeposit((prevDeposit) => !prevDeposit);
+  }, []); // 注意这里的依赖项数组是空的，因为我们
+
+  const MemoCountUP = React.memo(CountUp);
   return (
     <div className={styles.container}>
       <NavBar
@@ -69,13 +75,13 @@ const EarningPage = () => {
         <div className="text-4xl mt-3">
           {/* <Countdown title="Countdown" value={lastRank}  /> */}
 
-          <CountUp
+          <MemoCountUP
             decimals={decimals}
             start={0}
             end={lastEarned}
             duration={2.75}
             separator=","
-          ></CountUp>
+          ></MemoCountUP>
 
           <span className="text-lg"> ETH</span>
         </div>
@@ -85,28 +91,23 @@ const EarningPage = () => {
         <div className={styles.leftBalance}>
           <div className="text-base">Balance</div>
           <div className="text-xl  mt-2">
-            <CountUp
+            <MemoCountUP
               start={0}
               end={lastBalance}
               duration={2.75}
               decimals={decimals}
               separator=","
-            ></CountUp>
+            ></MemoCountUP>
             <span className="text-base"> ETH</span>
           </div>
         </div>
 
         <div className="flex">
-          <div
-            className="flex flex-col items-center"
-            onClick={() => {
-              setDeposit(true);
-            }}
-          >
+          <div className="flex flex-col items-center" onClick={handleClick}>
             <Image width={68} height={68} src={deposit} alt=""></Image>
             Deposit
           </div>
-          <div
+          {/* <div
             className="flex flex-col items-center"
             onClick={() => {
               console.log("openWithdraw");
@@ -115,7 +116,7 @@ const EarningPage = () => {
           >
             <Image width={68} height={68} src={withdraw} alt=""></Image>
             Withdraw
-          </div>
+          </div> */}
           <div
             className="flex flex-col items-center"
             onClick={() => {
@@ -129,11 +130,14 @@ const EarningPage = () => {
       </div>
 
       <DepositView
-        balanceNumber={lastBalance}
+        successTransfer={() => {
+          getBalanceFunction();
+        }}
         visible={showDeposit}
         setVisible={() => {
           setDeposit(false);
         }}
+        balanceNumber={lastBalance}
       ></DepositView>
 
       <WithdrawETH
@@ -153,4 +157,4 @@ const EarningPage = () => {
   );
 };
 
-export default EarningPage;
+export default React.memo(EarningPage);

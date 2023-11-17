@@ -16,11 +16,29 @@ import { Input } from "@/components/ui/input";
 import { getUserInfo } from "@/service/userService";
 import Button from "@/components/ui/button";
 import { toast } from "react-toastify";
+import { BackGround } from "@/components/custom/pwaNotification";
+import pwaIcon from "@/assets/images/logoColorful.png";
+// import logo from "@/assets/images/"
+import Image from "next/image";
 
 const Login: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [isAgree, setIsAgree] = useState<boolean>(true);
+  const [BackGroundShow, setBackGroundShow] = useState(false);
+
+  useEffect(() => {
+    const isShowPwaNotification = localStorage.getItem("isShowPwaNotification");
+
+    const actualWidth =
+      document.documentElement.clientWidth || document.body.clientWidth; // 实际宽度
+    if (actualWidth < 431) {
+      if (!isShowPwaNotification) {
+        setBackGroundShow(true);
+        localStorage.setItem("isShowPwaNotification", "true");
+      }
+    }
+  }, []);
 
   const [inviteCode, setInviteCode] = useState<string>(
     localStorage.getItem("inviteCode") || ""
@@ -66,6 +84,7 @@ const Login: React.FC = () => {
           localStorage.setItem("token", res.result);
           getUserInfoFunction();
           router.push("/");
+
           localStorage.removeItem("inviteCode");
         } else {
           // todo: route to /root, reset the params. other wise will infinity fail.
@@ -142,6 +161,33 @@ const Login: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <BackGround
+        show={BackGroundShow}
+        hideShow={() => {
+          setBackGroundShow(false);
+        }}
+      >
+        <div className={styles.pwaContent}>
+          <Image
+            unoptimized
+            src={pwaIcon}
+            height={375}
+            width={225}
+            alt="pwaIcon"
+          ></Image>
+          <div className={styles.titleContent}>Add To Home Screen</div>
+          <div className={styles.contentDetail}>
+            To install the app, you need to add this website to your home
+            screen.
+          </div>
+          <div className={styles.contentDetail}>
+            In your Safari browser menu, tap the Share icon and choose{" "}
+            <span>Add to Home Screen</span> in the options.Then open the Alpha
+            app on your home screen.
+          </div>
+        </div>
+      </BackGround>
     </AuthPagesWrapper>
   );
 };

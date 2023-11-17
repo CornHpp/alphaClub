@@ -51,8 +51,10 @@ interface Iprops {
 }
 
 const getBiddingTime = (time: string) => {
+  console.log(time);
   const biddingTime = new Date(time).getTime() - 1 * 60 * 60 * 1000;
   const biddingDate = new Date(biddingTime);
+  console.log(biddingTime, "biddingTime");
   const [year, month, date, hour, minute] = [
     biddingDate.getFullYear(),
     biddingDate.getMonth() + 1,
@@ -70,6 +72,7 @@ const Space: React.FC<Iprops> = (props) => {
   const initialBeginTimeValue = getInitialDefaultValue();
   const initialBeginTime = `${initialBeginTimeValue.year}-${initialBeginTimeValue.month}-${initialBeginTimeValue.date} ${initialBeginTimeValue.hour}:${initialBeginTimeValue.minute}:00`;
   const biddingEndTime = getBiddingTime(initialBeginTime);
+  console.log(biddingEndTime);
   const [formMap, setFormMap] = useState({
     title: "",
     coHost: [],

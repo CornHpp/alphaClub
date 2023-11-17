@@ -10,9 +10,22 @@
     justify-content: space-between;
     padding: 0 1rem;
     height: 2.56rem;
+    .SupersapceText {
+      width: 70%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: 600;
+    }
     .ethColor {
       color: var(--textColor);
     }
+  }
+  .titterName {
+    width: 60%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .content {
     padding: 1rem;

@@ -79,7 +79,7 @@ export function copyTextToClipboardSafari(text: string) {
       textArea.remove();
     }).then(
       () => {
-        toaster.success("Copied your key to clipboard, please keep it safe!");
+        toaster.success("Copied your key to clipboard!");
       },
       () => {
         toaster.error("fail");

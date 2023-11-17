@@ -38,6 +38,7 @@ service.interceptors.request.use(
     config.headers["Content-Type"] = "application/json;charset=utf-8";
     // 请求携带自定义token
     const token = localStorage.getItem("token");
+
     config.headers["Authorization"] = token;
     return config;
   },
@@ -65,7 +66,6 @@ service.interceptors.response.use(
         hideFullScreenLoading();
       }
     }, 200);
-
     if (code != 200) {
       console.error(`[${res.config.url}]: ` + msg);
       toast.warning(msg);
@@ -93,9 +93,11 @@ service.interceptors.response.use(
         // location.href = `${location.origin}/404`;
       }
     }
+
     if (status == 401) {
       setTimeout(() => {
         localStorage.removeItem("token");
+
         location.href = `${location.origin}/login`;
       }, 1000);
     }

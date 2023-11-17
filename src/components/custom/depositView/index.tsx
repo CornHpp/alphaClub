@@ -16,6 +16,8 @@ import Image from "next/image";
 import { useAccount, useSendTransaction } from "wagmi";
 import { parseEther } from "viem";
 import { getBalance } from "@/service/userService";
+import { toast } from "react-toastify";
+import CopyIcon from "@/assets/images/earning/copy.png";
 
 interface walletMapType {
   address: string;
@@ -27,27 +29,31 @@ interface DepositViewProps {
   visible?: boolean;
   setVisible: (val: boolean) => void;
   balanceNumber?: number;
+  successTransfer: () => void;
 }
 let timer: any = null;
 export const DepositView: React.FC<DepositViewProps> = (props) => {
-  const { visible, setVisible, balanceNumber } = props;
+  const { visible, setVisible, balanceNumber, successTransfer } = props;
   const { userinfo } = useSelector((state: any) => state.user);
 
   const [walletMap, setWalletMap] = useState<walletMapType>({
     address: userinfo.walletAddress,
     balance: 0,
-    balanceNumber: 0,
+    balanceNumber: balanceNumber || 0,
   });
 
   const getBalanceFunction = useCallback(() => {
     getBalance().then((res) => {
+      if (Number(res.result) === walletMap.balanceNumber) return;
+      toast.success("Transfer success");
       setWalletMap({
         address: userinfo.walletAddress,
         balance: res.result,
         balanceNumber: Number(res.result),
       });
+      successTransfer();
     });
-  }, [userinfo.walletAddress]);
+  }, [userinfo.walletAddress, walletMap.balanceNumber, successTransfer]);
 
   useEffect(() => {
     if (!visible) {
@@ -153,7 +159,13 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
                 className="font-bold relative"
               >
                 {filterString(walletMap?.address)}
-                <PicturesOutline className={styles.copy}></PicturesOutline>
+                <Image
+                  src={CopyIcon}
+                  alt=""
+                  width={20}
+                  height={20}
+                  className={styles.copyIcon}
+                />
               </Button>
 
               <div className={[styles.balance, styles.marginTop].join(" ")}>
@@ -184,3 +196,5 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
     </>
   );
 };
+
+export default React.memo(DepositView);

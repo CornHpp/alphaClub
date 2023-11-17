@@ -1,23 +1,23 @@
-import { useState } from "react"
-import { Input, Popup } from "antd-mobile"
-import { CloseOutline } from "antd-mobile-icons"
-import Picker from "react-mobile-picker"
-import { useSelector } from "react-redux"
-import { cn } from "@/lib/utils"
-import Button from "../ui/button"
-import { RootState } from "@/redux/type"
-import { UserStateType } from "@/redux/features/userSlice"
+import { useState } from "react";
+import { Input, Popup } from "antd-mobile";
+import { CloseOutline } from "antd-mobile-icons";
+import Picker from "react-mobile-picker";
+import { useSelector } from "react-redux";
+import { cn } from "@/lib/utils";
+import Button from "../ui/button";
+import { RootState } from "@/redux/type";
+import { UserStateType } from "@/redux/features/userSlice";
 
 export const getNumberOfDaysInMonth = (config?: {
-  givenYear?: number
+  givenYear?: number;
   // Given month, start from 1
-  givenMonth?: number
+  givenMonth?: number;
 }) => {
-  const date = new Date()
-  const year = config?.givenYear ?? date.getFullYear()
-  const month = config?.givenMonth ?? (date.getMonth() + 1)
-  return new Date(year, month, 0).getDate()
-}
+  const date = new Date();
+  const year = config?.givenYear ?? date.getFullYear();
+  const month = config?.givenMonth ?? date.getMonth() + 1;
+  return new Date(year, month, 0).getDate();
+};
 
 const generateStrNumberArray = ({
   start,
@@ -25,31 +25,31 @@ const generateStrNumberArray = ({
   predicate,
   interval = 1,
 }: {
-  start: number
-  end?: number
-  predicate?: (x: number) => boolean
-  interval?: number
+  start: number;
+  end?: number;
+  predicate?: (x: number) => boolean;
+  interval?: number;
 }) => {
-  const len = typeof end !== "undefined" ? end - start + 1 : start
+  const len = typeof end !== "undefined" ? end - start + 1 : start;
   return new Array(len)
     .fill(null)
     .map((_, i) => (i + (typeof end !== "undefined" ? start : 0)) * interval)
     .filter((x) => predicate?.(x) ?? true)
-    .map((x) => x.toString().padStart(2, "0"))
-}
+    .map((x) => x.toString().padStart(2, "0"));
+};
 
 const getPickerSelections = (givenTime?: number) => {
   // filter conditions
-  const givenDate = givenTime ? new Date(givenTime) : undefined
-  const givenMonth = givenDate ? givenDate.getMonth() : undefined
+  const givenDate = givenTime ? new Date(givenTime) : undefined;
+  const givenMonth = givenDate ? givenDate.getMonth() : undefined;
   const numberOfDate = getNumberOfDaysInMonth({
     givenMonth: givenMonth,
-  })
-  const now = new Date()
-  const isCurrentMonth = givenDate && givenMonth === now.getMonth()
-  const isSameDay = isCurrentMonth && now.getDate() === givenDate.getDate()
+  });
+  const now = new Date();
+  const isCurrentMonth = givenDate && givenMonth === now.getMonth();
+  const isSameDay = isCurrentMonth && now.getDate() === givenDate.getDate();
   const isSameHour =
-    isCurrentMonth && isSameDay && now.getHours() === givenDate.getHours()
+    isCurrentMonth && isSameDay && now.getHours() === givenDate.getHours();
 
   return {
     year: [now.getFullYear().toString()],
@@ -74,18 +74,19 @@ const getPickerSelections = (givenTime?: number) => {
       interval: 15,
       predicate: (x) => (isSameHour ? x >= now.getMinutes() : true),
     }),
-  } as const
-}
+  } as const;
+};
 
 // Returns a default begin time value base on now + 2h
 export const getInitialDefaultValue = () => {
-  const now = new Date()
-  const year = now.getFullYear().toString().padStart(2, "0")
-  const minute = "00"
-  const hour = (now.getHours() + 2).toString().padStart(2, "0")
-  const date = now.getDate().toString().padStart(2, "0")
+  const now = new Date();
+  const year = now.getFullYear().toString().padStart(2, "0");
+  const minute = "00";
+  console.log(now.getHours());
+  const hour = now.getHours().toString().padStart(2, "0");
+  const date = now.getDate().toString().padStart(2, "0");
   // Month is 0 based
-  const month = (now.getMonth() + 1).toString().padStart(2, "0")
+  const month = (now.getMonth() + 1).toString().padStart(2, "0");
 
   return {
     year,
@@ -93,19 +94,19 @@ export const getInitialDefaultValue = () => {
     date,
     hour,
     minute,
-  }
-}
+  };
+};
 
 export type PickerType = Record<
   keyof ReturnType<typeof getPickerSelections>,
   string
->
+>;
 
 export interface TimePickerProps {
-  placeholder?: string
-  onSelectTime?: (time: string) => void
-  value: PickerType
-  disabled?: boolean
+  placeholder?: string;
+  onSelectTime?: (time: string) => void;
+  value: PickerType;
+  disabled?: boolean;
 }
 
 export function TimePicker({
@@ -114,14 +115,14 @@ export function TimePicker({
   onSelectTime,
   disabled,
 }: TimePickerProps) {
-  const [pickerValue, setPickerValue] = useState<PickerType>(value)
-  const [isPickerVisible, setIsPickerVisible] = useState(false)
-  const { year, month, date, hour, minute } = pickerValue
+  const [pickerValue, setPickerValue] = useState<PickerType>(value);
+  const [isPickerVisible, setIsPickerVisible] = useState(false);
+  const { year, month, date, hour, minute } = pickerValue;
   const time = new Date(
-    `${year}-${month}-${date} ${hour}:${minute}:00`,
-  ).getTime()
-  const selections = getPickerSelections(time)
-  const { isMobile } = useSelector<RootState, UserStateType>((x) => x.user)
+    `${year}-${month}-${date} ${hour}:${minute}:00`
+  ).getTime();
+  const selections = getPickerSelections(time);
+  const { isMobile } = useSelector<RootState, UserStateType>((x) => x.user);
 
   return (
     <>
@@ -178,7 +179,7 @@ export function TimePicker({
                       "text-base",
                       pickerValue[name as keyof typeof selections] === option
                         ? "text-black"
-                        : "text-gray-400",
+                        : "text-gray-400"
                     )}
                   >
                     {option}
@@ -194,10 +195,10 @@ export function TimePicker({
             height="42px"
             onClick={() => {
               if (disabled) {
-                return
+                return;
               }
-              onSelectTime?.(`${year}-${month}-${date} ${hour}:${minute}:00`)
-              setIsPickerVisible(false)
+              onSelectTime?.(`${year}-${month}-${date} ${hour}:${minute}:00`);
+              setIsPickerVisible(false);
             }}
           >
             Determine
@@ -205,5 +206,5 @@ export function TimePicker({
         </div>
       </Popup>
     </>
-  )
+  );
 }

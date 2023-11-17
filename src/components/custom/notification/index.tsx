@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./index.module.scss";
-import firstPopup from "@/assets/images/notification.png";
+import notificationImg from "@/assets/images/notification.png";
 import { CloseCircleOutline } from "antd-mobile-icons";
 import Image from "next/image";
 
@@ -21,8 +21,8 @@ export const Notification: React.FC<IProps> = (props) => {
     <div className={styles.comingSoonBox}>
       <div className={styles.imgBox}>
         <Image
-          src={firstPopup}
-          width={435}
+          src={notificationImg}
+          width={442}
           height={581}
           className={styles.firstPopup}
           alt=""

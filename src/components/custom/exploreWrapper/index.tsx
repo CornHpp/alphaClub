@@ -57,7 +57,7 @@ export const ExploreWrapper = (props: ExploreWrapperProps) => {
           position: "relative",
         }}
       >
-        <div style={{ height: "45px" }}></div>
+        <div style={{ height: "15px" }}></div>
         <NavBar
           onBack={() => {
             router.back();

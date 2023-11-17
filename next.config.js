@@ -7,7 +7,6 @@ const nextConfig = {
     loaderFile: "./image-loader.ts",
     unoptimized: true,
   },
-  // distDir: "build",
   reactStrictMode: false,
   async rewrites() {
     return [
@@ -17,11 +16,6 @@ const nextConfig = {
       },
     ];
   },
-
-  // output: "export",
-  // images: {
-  // /
-  // },
 };
 
 module.exports = withAntdLess({

@@ -82,8 +82,8 @@
         height: 3rem;
       }
       .arrowIcon {
-        margin-top: 0.5rem;
-        animation: float 2s ease-in-out infinite;
+        margin-top: 0.8rem;
+        animation: float 1.2s ease-in-out infinite;
       }
     }
   }
@@ -137,7 +137,7 @@
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
   }
   100% {
     transform: translateY(0px);
