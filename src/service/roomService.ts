@@ -1,11 +1,12 @@
-import { ParticipantRole } from "@azure/communication-calling"
 import request from "./config/request"
+
+export type RoomUserRole = "Host" | "Co-Host" | "Audience"
 
 export type RoomResponse = {
   identity: string
   roomId: string
   token: string
-  role: ParticipantRole
+  role: RoomUserRole
   twitterId: string
   sid: string
 }
@@ -20,7 +21,7 @@ export const requestUserRoomInfo = (
 export type RoomUser = {
   displayName: string
   icon: string | null
-  role: "Host" | "Co-Host" | "Audience" | string
+  role: RoomUserRole
   twitterId: number
   identity: string
 }

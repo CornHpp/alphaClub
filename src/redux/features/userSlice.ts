@@ -16,7 +16,7 @@ export type UserInfoType = {
   twitterName?: string;
   twitterScreenName?: string;
   walletAddress?: string;
-  twitterId?: number;
+  twitterUid?: number;
 };
 
 export interface UserStateType {
