@@ -38,14 +38,18 @@ const generateStrNumberArray = ({
     .map((x) => x.toString().padStart(2, "0"));
 };
 
-const getPickerSelections = (givenTime?: number) => {
+const getPickerSelections = (
+  hourLimit: number,
+  nowDate?: Date,
+  givenTime?: number
+) => {
   // filter conditions
   const givenDate = givenTime ? new Date(givenTime) : undefined;
   const givenMonth = givenDate ? givenDate.getMonth() : undefined;
   const numberOfDate = getNumberOfDaysInMonth({
     givenMonth: givenMonth,
   });
-  const now = new Date();
+  const now = nowDate ?? new Date();
   const isCurrentMonth = givenDate && givenMonth === now.getMonth();
   const isSameDay = isCurrentMonth && now.getDate() === givenDate.getDate();
   const isSameHour =
@@ -66,7 +70,7 @@ const getPickerSelections = (givenTime?: number) => {
     }),
     hour: generateStrNumberArray({
       start: 24,
-      predicate: (x) => (isSameDay ? x >= now.getHours() + 2 : true),
+      predicate: (x) => (isSameDay ? x >= now.getHours() + hourLimit : true),
     }),
     minute: generateStrNumberArray({
       start: 0,
@@ -82,8 +86,7 @@ export const getInitialDefaultValue = () => {
   const now = new Date();
   const year = now.getFullYear().toString().padStart(2, "0");
   const minute = "00";
-  console.log(now.getHours());
-  const hour = now.getHours().toString().padStart(2, "0");
+  const hour = (now.getHours() + 2).toString().padStart(2, "0");
   const date = now.getDate().toString().padStart(2, "0");
   // Month is 0 based
   const month = (now.getMonth() + 1).toString().padStart(2, "0");
@@ -107,6 +110,8 @@ export interface TimePickerProps {
   onSelectTime?: (time: string) => void;
   value: PickerType;
   disabled?: boolean;
+  hourLimit?: number;
+  startingTime?: Date;
 }
 
 export function TimePicker({
@@ -114,6 +119,8 @@ export function TimePicker({
   placeholder,
   onSelectTime,
   disabled,
+  hourLimit,
+  startingTime,
 }: TimePickerProps) {
   const [pickerValue, setPickerValue] = useState<PickerType>(value);
   const [isPickerVisible, setIsPickerVisible] = useState(false);
@@ -121,7 +128,7 @@ export function TimePicker({
   const time = new Date(
     `${year}-${month}-${date} ${hour}:${minute}:00`
   ).getTime();
-  const selections = getPickerSelections(time);
+  const selections = getPickerSelections(hourLimit ?? 1, startingTime, time);
   const { isMobile } = useSelector<RootState, UserStateType>((x) => x.user);
 
   return (

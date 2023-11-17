@@ -20,7 +20,7 @@ export const requestUserRoomInfo = (
 export type RoomUser = {
   displayName: string
   icon: string | null
-  role: ParticipantRole | null
+  role: "Host" | "Co-Host" | "Audience" | string
   twitterId: number
   identity: string
 }

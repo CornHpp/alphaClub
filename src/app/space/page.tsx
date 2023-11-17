@@ -410,6 +410,8 @@ const Space: React.FC<Iprops> = (props) => {
                   });
                 }}
                 disabled={detailId ? true : false}
+                hourLimit={1}
+                startingTime={new Date(formMap.biddingEndTime)}
               />
             }
           />

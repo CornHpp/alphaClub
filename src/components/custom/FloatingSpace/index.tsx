@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import ReactDOM, { unstable_batchedUpdates } from "react-dom";
 import { useSelector } from "react-redux";
 import Image from "next/image";
@@ -17,6 +17,7 @@ import {
   DeviceAccess,
   DeviceManager,
   Features,
+  ParticipantRole,
   RaisedHand,
   RaisedHandListener,
   RemoteParticipant,
@@ -36,6 +37,16 @@ import { cn } from "@/lib/utils";
 import { SpaceAvatar } from "./SpaceAvatar";
 import toaster from "../Toast/Toast";
 import CloseImage from "../../../assets/images/close.png";
+
+export const convertParticipantRoleToUserRole = (role: ParticipantRole) => {
+  if (role === "Presenter") {
+    return "Host";
+  } else if (role === "Consumer") {
+    return "Co-Host";
+  } else {
+    return "Audience";
+  }
+};
 
 export const isParticipantHandRaised = (
   participantId: CommunicationUserIdentifier,
@@ -62,13 +73,14 @@ export interface FloatingSpaceProps {
 
 const anchors = [60 + 100, window.innerHeight * 0.9];
 
+let roomUsers: RoomUser[] = [];
+
 export default function FloatingSpace({
   triggerNode,
   space,
   onSpaceOpened,
 }: React.PropsWithChildren<FloatingSpaceProps>) {
   const [controlledVisible, setControlledVisible] = useState(false);
-  const [raisedHands, setRaisedHands] = useState<RaisedHand[]>();
 
   const { data, isLoading, initialize, dispose } = useAzureCommunicationService(
     space.sid,
@@ -78,32 +90,100 @@ export default function FloatingSpace({
       },
     }
   );
+  const { userinfo } = useSelector((state: any) => state.user);
   const { call, room } = data ?? {};
   const raiseHandFeature = call?.feature(Features.RaiseHand);
+  const [raisedHands, setRaisedHands] = useState<RaisedHand[]>();
+  const [presenter, setPresenter] = useState<RoomUser | null>();
+  const [coHostList, setCoHostList] = useState<RoomUser[]>([]);
+  const [audienceList, setAudience] = useState<RoomUser[]>([]);
+  const [isHost, setIsHost] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState(false);
 
-  const [roomUsers, setRoomUsers] = useState<RoomUser[]>();
   const handleJoinSpace = async () => {
-    return initialize().then((d) => {
+    if (!roomUsers || roomUsers.length === 0) {
+      await requestRoomUsers(space.sid).then((x) => {
+        if (x.result) {
+          roomUsers = x.result;
+        }
+      });
+    }
+
+    return initialize().then(async (d) => {
       if (d && d.room && d.callAgent) {
         setControlledVisible(true);
         onSpaceOpened?.();
-        d.callAgent.join({ roomId: d.room.roomId });
+        const call = d.callAgent.join({ roomId: d.room.roomId });
 
-        // Skip on re-join
-        if (!roomUsers?.length) {
-          return requestRoomUsers(space.sid).then((x) => {
-            if (x.result) {
-              setRoomUsers(x.result);
-            }
-          });
+        // init room members
+        call?.remoteParticipants.forEach((x) => {
+          handleNewJoinedParticipant(x);
+        });
+
+        // todo: mute self
+        // if (call && !call.isMuted) {
+        //   await call?.mute();
+        //   setIsMuted(true);
+        // }
+
+        const user = roomUsers.find((x) => {
+          console.log("userinfo id:", userinfo, ", x: ", x.twitterId);
+
+          return x.twitterId == userinfo?.twitterId;
+        });
+
+        if (user) {
+          if (user.role === "Host") {
+            setIsHost(true);
+            setPresenter(user);
+          } else if (user.role === "Co-Host") {
+            setCoHostList((xs) => [...xs, user]);
+          } else {
+            setAudience((xs) => [...xs, user]);
+          }
         }
       }
     });
   };
-  const [isMuted, setIsMuted] = useState(false);
-  const [remoteParticipants, setRemoteParticipants] =
-    useState<RemoteParticipant[]>();
 
+  const handleNewJoinedParticipant = (participant: RemoteParticipant) => {
+    const { identifier } = participant;
+    const { communicationUserId } = identifier as CommunicationUserIdentifier;
+    console.log(roomUsers);
+
+    const user: RoomUser | null =
+      roomUsers?.find((x) => x.identity === communicationUserId) ?? null;
+
+    if (user) {
+      if (user.role === "Host") {
+        setPresenter(user);
+      } else if (user.role === "Co-Host") {
+        setCoHostList((xs) => [...xs, user]);
+      } else {
+        setAudience((xs) => [...xs, user]);
+      }
+    }
+  };
+
+  const handleLeavedParticipant = (participant: RemoteParticipant) => {
+    const { identifier } = participant;
+    const { communicationUserId } = identifier as CommunicationUserIdentifier;
+    const user: RoomUser | null =
+      roomUsers?.find((x) => x.identity === communicationUserId) ?? null;
+    if (user) {
+      if (user.role === "Host") {
+        setPresenter(null);
+      } else if (user.role === "Co-Host") {
+        setCoHostList((xs) =>
+          xs.filter((x) => x.identity !== communicationUserId)
+        );
+      } else {
+        setAudience((xs) =>
+          xs.filter((x) => x.identity !== communicationUserId)
+        );
+      }
+    }
+  };
   useEffect(() => {
     if (!call || !raiseHandFeature) {
       return;
@@ -113,13 +193,15 @@ export default function FloatingSpace({
     call.on("isMutedChanged", handleMutedChanged);
     call.on("remoteParticipantsUpdated", (e) => {
       e.added.forEach((participant) => {
-        setRemoteParticipants((xs) =>
-          xs?.includes(participant) ? xs : [...(xs ?? []), participant]
-        );
+        // setRemoteParticipants((xs) =>
+        //   xs?.includes(participant) ? xs : [...(xs ?? []), participant]
+        // );
+        handleNewJoinedParticipant(participant);
       });
 
       e.removed.forEach((participant) => {
-        setRemoteParticipants((xs) => xs?.filter((p) => p !== participant));
+        // setRemoteParticipants((xs) => xs?.filter((p) => p !== participant));
+        handleLeavedParticipant(participant);
       });
     });
 
@@ -141,7 +223,6 @@ export default function FloatingSpace({
     if (!call) {
       return;
     }
-
     if (isMuted) {
       call.unmute();
     } else {
@@ -154,7 +235,6 @@ export default function FloatingSpace({
     if (!room) {
       return;
     }
-
     const isHandRaised = isParticipantHandRaised(
       { communicationUserId: room.identity },
       raisedHands
@@ -170,7 +250,6 @@ export default function FloatingSpace({
     if (isClosingSpace) {
       return;
     }
-
     setIsClosingSpace(true);
     await dispose();
     unstable_batchedUpdates(() => {
@@ -179,8 +258,9 @@ export default function FloatingSpace({
     });
   };
 
-  const presenter = remoteParticipants?.find((x) => x.role === "Presenter");
-  const coHostList = roomUsers?.filter((x) => x.role === "Attendee");
+  // const presentear = remoteParticipants?.find((x) => x.role === "Presenter");
+  // const coHostList = roomUsers?.filter((x) => x.role === "Co-Host");
+
   const [maskOpacity, setMaskOpacity] = useState(0.2);
 
   return (
@@ -231,7 +311,6 @@ export default function FloatingSpace({
                   <p className="font-normal text-[22px] break-all">
                     {space.title}
                   </p>
-
                   <button
                     className={cn(
                       "rounded-full bg-[rgb(238,238,238)]",
@@ -252,7 +331,9 @@ export default function FloatingSpace({
                     )}
                   </button>
                 </div>
-
+                <p className="font-normal text-[22px] break-all">
+                  {isHost ? "Host" : "Not Host"}
+                </p>
                 <div className="divide-y divide-dashed divide-[rgb(238,238,238)]">
                   {(presenter || !!coHostList?.length) && (
                     <div className="grid grid-cols-4 pb-4">
@@ -260,11 +341,12 @@ export default function FloatingSpace({
                       {presenter && (
                         <SpaceAvatar
                           role="Host"
-                          identity={
-                            (
-                              presenter.identifier as CommunicationUserIdentifier
-                            ).communicationUserId
-                          }
+                          identity={presenter.identity}
+                          // {
+                          //   (
+                          //     presenter.identifier as CommunicationUserIdentifier
+                          //   ).communicationUserId
+                          // }
                           raisedHands={raisedHands}
                           userInfo={presenter}
                         />
@@ -283,8 +365,19 @@ export default function FloatingSpace({
                   )}
 
                   <div className="grid grid-cols-4 pt-4">
-                    {roomUsers
-                      ?.filter((x) => x.role === "Consumer")
+                    {/* {roomUsers
+                      ?.filter((x) => x.role === "Audience")
+                      ?.map((x) => (
+                        <SpaceAvatar
+                          userInfo={x}
+                          identity={x.identity}
+                          role="Audience"
+                          raisedHands={raisedHands}
+                          key={`participant-${x.identity}-${x.displayName}`}
+                        />
+                      ))} */}
+                    {audienceList
+                      ?.filter((x) => x.role === "Audience")
                       ?.map((x) => (
                         <SpaceAvatar
                           userInfo={x}
