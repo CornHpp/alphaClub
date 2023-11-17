@@ -27,10 +27,6 @@ const Login: React.FC = () => {
   const [isAgree, setIsAgree] = useState<boolean>(true);
   const [BackGroundShow, setBackGroundShow] = useState(false);
 
-  useEffect(() => {
-    showPwaNativeNotificationFunc();
-  }, []);
-
   const showPwaNativeNotificationFunc = () => {
     const isShowPwaNotification = localStorage.getItem("isShowPwaNotification");
     const actualWidth =
@@ -42,6 +38,38 @@ const Login: React.FC = () => {
       }
     }
   };
+
+  const showSafariBrowserNotificationFunc = () => {
+    const showSafariNatification = localStorage.getItem(
+      "isShowSafariNatification"
+    );
+
+    const userAgent = navigator.userAgent;
+    const vendor = navigator.vendor;
+    // 判断是否在苹果系统上
+    const isApple = /Mac|iPhone|iPad|iPod/.test(userAgent);
+
+    // 判断是否使用safari浏览器
+    const isSafari = /Safari/.test(userAgent) && /Apple Computer/.test(vendor);
+
+    console.log("isApple", isApple);
+    console.log("isSafari", isSafari);
+    isApple ? toast.error("isApple") : toast.error("not isApple");
+    isSafari ? toast.error("isSafari") : toast.error("not isSafari");
+
+    // 判断条件：在苹果系统上且使用谷歌浏览器
+    if (isApple && isSafari) {
+      console.log("在苹果系统上使用safari浏览器");
+      toast.error("Please use Safari browser");
+    } else {
+      console.log("其他");
+      toast.error("其他");
+    }
+  };
+  useEffect(() => {
+    showPwaNativeNotificationFunc();
+    // showSafariBrowserNotificationFunc();
+  }, []);
 
   const [inviteCode, setInviteCode] = useState<string>(
     localStorage.getItem("inviteCode") || ""
