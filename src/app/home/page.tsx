@@ -74,18 +74,22 @@ const Home: React.FC<homeProps> = (props) => {
   const router = useRouter();
   const { userinfo } = useSelector((state: any) => state.user);
 
-  let [pageNum, setPageNum] = useState(1);
+  let [pageMap, setPageMap] = useState({
+    pageNum: 1,
+  });
+  console.log("11111111111111111", pageMap.pageNum);
   const [queryKey, setQueryKey] = useState("");
 
   //获取首次渲染的数据
   const datalist = async (type?: string) => {
     const isInit = type === "refresh";
-    isInit && (pageNum = 1);
+    isInit && (pageMap.pageNum = 1);
     const param: _selfParamsProps = {
-      pageNum: pageNum,
+      pageNum: pageMap.pageNum,
       pageSize: 10,
       queryKey,
     };
+    console.log(param);
     isMySpace
       ? (param.joinedType = nowTab)
       : (param.isTop = nowTab === "TOP" ? true : false);
@@ -100,8 +104,8 @@ const Home: React.FC<homeProps> = (props) => {
       });
       const newList = [...(isInit ? [] : data), ...(pageList ? pageList : [])];
       setData(newList);
-      pageNum++;
       setHasMore(newList.length >= count ? false : pageList?.length > 0);
+      pageMap.pageNum++;
     });
   };
 

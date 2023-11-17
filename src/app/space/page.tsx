@@ -204,7 +204,7 @@ const Space: React.FC<Iprops> = (props) => {
     if (!verfiyForm()) return;
     if (personalBalance > 0.0001) {
       const param = {
-        cohost: selectedPeopleList.map((item) => item.twitterUid),
+        cohost: selectedPeopleList.map((item) => item.twitterUidStr),
         maxSeatNumber: Number(formMap.maxSeatNumber),
         spaceBeginTime: formMap.spaceBeginTime,
         biddingEndTtime: formMap.biddingEndTime,
@@ -250,7 +250,7 @@ const Space: React.FC<Iprops> = (props) => {
     console.log(item, userinfo.twitterName);
     item.forEach((i) => {
       const index = selectedPeopleList.findIndex((item) => {
-        return item.twitterUid === i.twitterUid;
+        return item.twitterUidStr === i.twitterUidStr;
       });
       if (index === -1 && i.twitterScreenName !== userinfo.twitterScreenName) {
         selectedPeopleList.push(i);
@@ -329,12 +329,12 @@ const Space: React.FC<Iprops> = (props) => {
               }
             >
               <CoHostList
-                CoHostUserDelete={(twitterUid) => {
+                CoHostUserDelete={(twitterUidStr) => {
                   console.log("CoHostUserEdit");
                   // 如果是详情页，不允许删除
                   if (detailId) return;
                   const index = selectedPeopleList.findIndex(
-                    (item) => item.twitterUid === twitterUid
+                    (item) => item.twitterUidStr === twitterUidStr
                   );
                   selectedPeopleList.splice(index, 1);
                   setSelectedPeopleList([...selectedPeopleList]);
@@ -521,7 +521,7 @@ const CoHostList: React.FC<ICoHostList> = ({ CoHostUserDelete, list }) => {
                 className={styles.decreate}
                 alt=""
                 onClick={() => {
-                  CoHostUserDelete(item?.twitterUid);
+                  CoHostUserDelete(item?.twitterUidStr);
                 }}
               ></Image>
             </div>

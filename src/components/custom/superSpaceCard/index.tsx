@@ -147,4 +147,4 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
   );
 };
 
-export default SuperSpaceCard;
+export default React.memo(SuperSpaceCard);

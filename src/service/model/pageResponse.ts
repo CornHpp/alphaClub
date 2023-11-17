@@ -36,4 +36,5 @@ type UserInfoType = {
   twitterScreenName: string;
   twitterUid: string | number;
   walletAddress: string;
+  twitterUidStr: string;
 };
