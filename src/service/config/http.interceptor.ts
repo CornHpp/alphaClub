@@ -16,7 +16,7 @@ export const service = axios.create({
     // process.env.NODE_ENV === "development"
     //   ? "/api/"
     //   : process.env.NEXT_PUBLIC_APP_URL,
-    process.env.NODE_ENV !== "development"
+    process.env.NODE_ENV === "development"
       ? "/api/"
       : process.env.NEXT_PUBLIC_APP_URL,
   // 超时
