@@ -1,0 +1,10 @@
+.loginFrame {
+  position: relative;
+  width: 100%;
+  height: calc(100vh);
+}
+@supports (-webkit-touch-callout: none) {
+  .loginFrame {
+    height: -webkit-fill-available;
+  }
+}

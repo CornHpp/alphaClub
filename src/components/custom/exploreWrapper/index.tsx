@@ -52,9 +52,8 @@ export const ExploreWrapper = (props: ExploreWrapperProps) => {
         style={{
           width: "100vw",
           maxWidth: "430px",
-          height: "100%",
+          height: "80%",
           margin: "0 auto",
-          position: "relative",
         }}
       >
         <div style={{ height: "15px" }}></div>
@@ -65,31 +64,7 @@ export const ExploreWrapper = (props: ExploreWrapperProps) => {
         >
           airdrop
         </NavBar>
-        <div
-          style={{
-            display: "flex",
-            position: "relative",
-            height: "45px",
-            padding: "15px",
-          }}
-        >
-          <div
-            style={{
-              fontWeight: "600",
-              lineHeight: "18px",
-              textAlign: "left",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              position: "absolute",
-              transform: "translate(-50%, -50%)",
-              top: "50%",
-              left: "50%",
-              display: "none",
-            }}
-          >
-            {props.Title}
-          </div>
-        </div>
+
         {props.children}
         <div
           style={{

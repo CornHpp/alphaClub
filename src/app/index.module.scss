@@ -8,6 +8,7 @@
 @media (min-width: 431px) {
   .container {
     height: calc(100vh - 40px) !important;
+    height: calc(var(--vh, 1vh) * 100 - 40px) !important;
     .header,
     .tabsList {
       background: none !important;
@@ -60,9 +61,17 @@
   }
 }
 
+@supports (-webkit-touch-callout: none) {
+  .container {
+    height: -webkit-fill-available;
+  }
+}
+
 .container {
   background-color: var(--pageBackground);
   height: 100vh;
+  // height: -webkit-fill-available;
+
   // width: 100%;
 
   :global {
@@ -88,6 +97,8 @@
     background-color: #fff;
     height: 3.75rem;
     align-items: center;
+    flex-shrink: 0;
+
     .tabs {
       width: 5.71rem;
       height: 2.14rem;
@@ -112,6 +123,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 0.5rem 0 1rem;
+    flex-shrink: 0;
     .ethButton {
       display: flex;
       flex-shrink: 0;
@@ -123,6 +135,12 @@
       }
     }
   }
+  @supports (-webkit-touch-callout: none) {
+    .cardList {
+      height: -webkit-fill-available;
+    }
+  }
+
   .cardList {
     flex: 1;
     overflow-y: scroll;

@@ -10,6 +10,12 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Alpha",
   description: "Alpha",
+  appleWebApp: {
+    capable: true,
+    startupImage: "../assets/images/iconMeta.png",
+    title: "AlphaClub",
+    statusBarStyle: "default",
+  },
 };
 
 export const viewport: Viewport = {

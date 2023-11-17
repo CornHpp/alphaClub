@@ -2,16 +2,11 @@ import CirclePNG from "./circle.png";
 import EthLogoPNG from "./ethlogo.png";
 import LogoPNG from "@/assets/images/logo.png";
 import Image from "next/image";
+import styles from "./index.module.scss";
 
 export const LoginFrame = () => {
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-        height: "calc(100vh - 250px)",
-      }}
-    >
+    <div className={styles.loginFrame}>
       <Image
         style={{
           position: "absolute",

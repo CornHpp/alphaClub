@@ -1,9 +1,12 @@
 .loginBox {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
   margin-top: auto;
   opacity: 1;
   border-radius: 35px 35px 0px 0px;
-  position: relative;
   background-color: #fff;
+  width: 100%;
   .loginSubBox {
     position: relative;
     align-items: center;

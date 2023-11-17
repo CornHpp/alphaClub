@@ -49,7 +49,7 @@ const Rewards = () => {
       </div>
       <div
         style={{
-          position: "absolute",
+          position: "fixed",
           right: 0,
           top: "23%",
         }}
