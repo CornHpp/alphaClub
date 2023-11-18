@@ -149,7 +149,8 @@ const Home: React.FC<homeProps> = (props) => {
   };
 
   return (
-    <div className={styles.container}>
+    // Add id for floating space injection
+    <div className={styles.container} id="space-root">
       <div className="maxWidth flex flex-col h-full relative">
         <div className={styles.header}>
           {showIcon ? (
@@ -242,8 +243,8 @@ const Home: React.FC<homeProps> = (props) => {
                         router.push("/space/" + item.sid);
                       }}
                       className={styles.superSpace}
-                      // isOnGoingSpace={true}
-                      isOnGoingSpace={isUserSpace && isSpaceReadyToOpen}
+                      isOnGoingSpace={true}
+                      // isOnGoingSpace={isUserSpace && isSpaceReadyToOpen}
                     ></SuperSpaceCard>
                   </div>
                 );

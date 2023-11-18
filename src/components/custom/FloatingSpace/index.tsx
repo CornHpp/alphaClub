@@ -340,6 +340,14 @@ export default function FloatingSpace({
 
   const [maskOpacity, setMaskOpacity] = useState(0.2)
 
+  const spcaeRoot = document.body.querySelector("#space-root")
+
+  if (!spcaeRoot) {
+    throw new Error(
+      "Please use a container as a portal for floating panel injection!",
+    )
+  }
+
   return (
     <>
       {React.isValidElement(triggerNode) ? (
@@ -497,7 +505,7 @@ export default function FloatingSpace({
                 </div>
               </div>
             </FloatingPanel>,
-            document.body,
+            spcaeRoot,
           )}
         </>
       )}
