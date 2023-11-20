@@ -1,29 +1,25 @@
-"use client";
+"use client"
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import ReactDOM from "react-dom";
-import { useSelector } from "react-redux";
-import Image from "next/image";
-import { usePathname, useSearchParams } from "next/navigation";
-import { AudioMutedOutline, AudioOutline } from "antd-mobile-icons";
-import { FloatingPanel, Loading, Mask } from "antd-mobile";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import ReactDOM from "react-dom"
+import { useSelector } from "react-redux"
+import Image from "next/image"
+import { usePathname, useSearchParams } from "next/navigation"
+import { AudioMutedOutline, AudioOutline } from "antd-mobile-icons"
+import { FloatingPanel, Loading, Mask } from "antd-mobile"
+import dynamic from "next/dynamic"
+
 import {
   AzureCommunicationTokenCredential,
   CommunicationUserIdentifier,
-} from "@azure/communication-common";
+} from "@azure/communication-common"
 import {
   Call,
   Features,
   RaisedHand,
   RaisedHandListener,
   RemoteParticipant,
-} from "@azure/communication-calling";
+} from "@azure/communication-calling"
 import {
   useAzureCommunicationCallAdapter,
   AzureCommunicationCallAdapterArgs,
@@ -31,33 +27,34 @@ import {
   IsMutedChangedListener,
   CallAdapterState,
   CommonCallAdapter,
-} from "@azure/communication-react";
+} from "@azure/communication-react"
 
-import { RootState } from "@/redux/type";
-import { UserStateType } from "@/redux/features/userSlice";
+import { RootState } from "@/redux/type"
+import { UserStateType } from "@/redux/features/userSlice"
 import {
   RoomResponse,
   RoomUser,
   requestRoomUsers,
   requestUserRoomInfo,
-} from "@/service/roomService";
-import { cn } from "@/lib/utils";
+} from "@/service/roomService"
+import { cn } from "@/lib/utils"
 
-import { SpaceAvatar } from "./SpaceAvatar";
-import toaster from "../Toast/Toast";
-import CloseImage from "../../../assets/images/close.png";
-import { Space, useSpace } from "./SpaceProvider";
+// import { SpaceAvatar } from "./SpaceAvatar";
+const SpaceAvatar = dynamic(() => import("./SpaceAvatar"), { ssr: false })
+import toaster from "../Toast/Toast"
+import CloseImage from "../../../assets/images/close.png"
+import { Space, useSpace } from "./SpaceProvider"
 
 export interface FloatingSpaceProps {
-  triggerNode?: React.ReactNode;
+  triggerNode?: React.ReactNode
   space: {
-    sid: number;
-    title?: string;
-  };
-  onSpaceOpened?: () => void;
+    sid: number
+    title?: string
+  }
+  onSpaceOpened?: () => void
 }
 
-const anchors = [60 + 100, window.innerHeight * 0.9];
+const anchors = [60 + 100, window.innerHeight * 0.9]
 
 export default function FloatingSpace({
   space,
@@ -65,9 +62,9 @@ export default function FloatingSpace({
   const { handleCloseSpace, handleMutedChange, handleRaiseHand, ...data } =
     useAzureCommunicationService(space, {
       onError(e) {
-        toaster.error(e.message);
+        toaster.error(e.message)
       },
-    });
+    })
 
   const {
     audiences,
@@ -81,46 +78,46 @@ export default function FloatingSpace({
     spotlightFeature,
     raisedHands,
     adapter,
-  } = data;
+  } = data
 
-  const [maskOpacity, setMaskOpacity] = useState(0.2);
+  const [maskOpacity, setMaskOpacity] = useState(0.2)
 
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const routeRef = useRef(`${pathname}?${searchParams}`);
-  const { setCurrentSpace } = useSpace();
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const routeRef = useRef(`${pathname}?${searchParams}`)
+  const { setCurrentSpace } = useSpace()
   const disposeAdapter = useCallback((): void => {
-    adapter?.dispose();
-    setCurrentSpace(undefined);
-  }, [adapter, setCurrentSpace]);
+    adapter?.dispose()
+    setCurrentSpace(undefined)
+  }, [adapter, setCurrentSpace])
 
   useEffect(() => {
-    window.addEventListener("beforeunload", disposeAdapter);
+    window.addEventListener("beforeunload", disposeAdapter)
     return () => {
-      window.removeEventListener("beforeunload", disposeAdapter);
-    };
-  }, [adapter, disposeAdapter]);
+      window.removeEventListener("beforeunload", disposeAdapter)
+    }
+  }, [adapter, disposeAdapter])
 
   // Dispose on route changed
   // TODO: We should have a global space, otherwise, we have to mask the footer to make router unchangable
   useEffect(() => {
-    const url = `${pathname}?${searchParams}`;
+    const url = `${pathname}?${searchParams}`
     if (routeRef.current === url) {
-      return;
+      return
     }
-    routeRef.current = url;
-    disposeAdapter();
-  }, [disposeAdapter, pathname, searchParams]);
+    routeRef.current = url
+    disposeAdapter()
+  }, [disposeAdapter, pathname, searchParams])
 
-  const spcaeRoot = document.body.querySelector("#__space_root");
+  const spcaeRoot = document.body.querySelector("#__space_root")
   if (!spcaeRoot) {
     throw new Error(
       `Please use a container with id="__space_root" as a portal for floating panel injection!`
-    );
+    )
   }
 
   if (!adapter) {
-    return null;
+    return null
   }
 
   return (
@@ -138,7 +135,7 @@ export default function FloatingSpace({
           onHeightChange={(height) => {
             requestAnimationFrame(() =>
               setMaskOpacity(height / (window.innerHeight * 0.9))
-            );
+            )
           }}
         >
           <div className="max-w-md mx-auto px-8">
@@ -190,11 +187,11 @@ export default function FloatingSpace({
                         if (action === "mute") {
                           return spotlightFeature?.stopSpotlight([
                             { communicationUserId: x.identity },
-                          ]);
+                          ])
                         }
                         spotlightFeature?.startSpotlight([
                           { communicationUserId: x.identity },
-                        ]);
+                        ])
                       }}
                     />
                   ))}
@@ -217,11 +214,11 @@ export default function FloatingSpace({
                         if (action === "mute") {
                           return spotlightFeature?.stopSpotlight([
                             { communicationUserId: x.identity },
-                          ]);
+                          ])
                         }
                         spotlightFeature?.startSpotlight([
                           { communicationUserId: x.identity },
-                        ]);
+                        ])
                       }}
                     />
                   ))}
@@ -260,7 +257,7 @@ export default function FloatingSpace({
         spcaeRoot
       )}
     </>
-  );
+  )
 }
 
 export const isParticipantHandRaised = (
@@ -268,48 +265,48 @@ export const isParticipantHandRaised = (
   raisedHandState?: RaisedHand[]
 ) => {
   if (!participantId || !raisedHandState || !raisedHandState?.length) {
-    return false;
+    return false
   }
   const hand = raisedHandState.find(
     (element) =>
       (element.identifier as CommunicationUserIdentifier)
         .communicationUserId === participantId.communicationUserId
-  );
-  return !!hand;
-};
+  )
+  return !!hand
+}
 
 export type JoinedUser = RoomUser & {
-  isMuted?: RemoteParticipant["isMuted"];
-  isSpeaking?: RemoteParticipant["isSpeaking"];
-  isSpeakable?: boolean;
-};
+  isMuted?: RemoteParticipant["isMuted"]
+  isSpeaking?: RemoteParticipant["isSpeaking"]
+  isSpeakable?: boolean
+}
 
 function useAzureCommunicationService(
   space: Space,
   options?: {
-    onError?: (error: Error) => void;
-    afterCreate?: (callAdapter: CallAdapter) => Promise<CallAdapter>;
+    onError?: (error: Error) => void
+    afterCreate?: (callAdapter: CallAdapter) => Promise<CallAdapter>
     beforeDispose?:
       | ((adapter: CallAdapter) => Promise<void>)
-      | ((adapter: CallAdapter) => void);
+      | ((adapter: CallAdapter) => void)
   }
 ) {
-  const { setCurrentSpace, setIsLoadingSpace } = useSpace();
-  const [room, setRoom] = useState<RoomResponse>();
+  const { setCurrentSpace, setIsLoadingSpace } = useSpace()
+  const [room, setRoom] = useState<RoomResponse>()
 
   useEffect(() => {
-    (async () => {
-      setIsLoadingSpace(true);
+    ;(async () => {
+      setIsLoadingSpace(true)
       try {
-        const room = await requestUserRoomInfo(space.sid).then((x) => x.result);
-        setRoom(room);
+        const room = await requestUserRoomInfo(space.sid).then((x) => x.result)
+        setRoom(room)
       } catch (error) {
-        console.log("🚀 ~ file: index.tsx:300 ~ ; ~ error:", error);
-        setCurrentSpace(undefined);
-        setIsLoadingSpace(false);
+        console.log("🚀 ~ file: index.tsx:300 ~ ; ~ error:", error)
+        setCurrentSpace(undefined)
+        setIsLoadingSpace(false)
       }
-    })();
-  }, [setCurrentSpace, setIsLoadingSpace, space.sid]);
+    })()
+  }, [setCurrentSpace, setIsLoadingSpace, space.sid])
 
   const tokenCredential = useMemo(() => {
     try {
@@ -317,22 +314,22 @@ function useAzureCommunicationService(
         token: room?.token,
         refreshProactively: true,
         async tokenRefresher() {
-          return requestUserRoomInfo(space.sid).then((x) => x.result.token);
+          return requestUserRoomInfo(space.sid).then((x) => x.result.token)
         },
-      });
+      })
       // FIXME: This catch didn't work cause of Azure doesn't catch the error
     } catch (e) {
-      console.log("🚀 ~ file: index.tsx:289 ~ tokenCredential ~ e:", e);
+      console.log("🚀 ~ file: index.tsx:289 ~ tokenCredential ~ e:", e)
       if (
         (e as Error).message.includes(
           "The token returned from the tokenRefresher is expired"
         )
       ) {
-        setCurrentSpace(undefined);
-        setIsLoadingSpace(false);
+        setCurrentSpace(undefined)
+        setIsLoadingSpace(false)
       }
     }
-  }, [room?.token, setCurrentSpace, setIsLoadingSpace, space.sid]);
+  }, [room?.token, setCurrentSpace, setIsLoadingSpace, space.sid])
 
   const adapterArgs = useMemo<Partial<AzureCommunicationCallAdapterArgs>>(
     () => ({
@@ -343,117 +340,117 @@ function useAzureCommunicationService(
       userId: room ? { communicationUserId: room?.identity } : undefined,
     }),
     [room, space.title, tokenCredential]
-  );
-  const callIdRef = useRef<string>();
+  )
+  const callIdRef = useRef<string>()
   const subscribeAdapterEvents = useCallback(
     (adapter: CommonCallAdapter) => {
       adapter.on("error", (e) => {
         // Error is already acted upon by the Call composite, but the surrounding application could
         // add top-level error handling logic here (e.g. reporting telemetry).
-        console.log("Adapter error event:", e);
-        options?.onError?.(e);
-      });
+        console.log("Adapter error event:", e)
+        options?.onError?.(e)
+      })
       adapter.onStateChange((state: CallAdapterState) => {
         if (state?.call?.id && callIdRef.current !== state?.call?.id) {
-          callIdRef.current = state?.call?.id;
-          console.log(`Call Id: ${callIdRef.current}`);
+          callIdRef.current = state?.call?.id
+          console.log(`Call Id: ${callIdRef.current}`)
         }
-      });
+      })
     },
     [options]
-  );
+  )
 
   const afterCallAdapterCreate = useCallback(
     async (adapter: CallAdapter): Promise<CallAdapter> => {
-      subscribeAdapterEvents(adapter);
-      return adapter;
+      subscribeAdapterEvents(adapter)
+      return adapter
     },
     [subscribeAdapterEvents]
-  );
+  )
   const adapter = useAzureCommunicationCallAdapter(
     adapterArgs,
     async (x) => {
-      setIsLoadingSpace(false);
-      afterCallAdapterCreate(x);
-      return (await options?.afterCreate?.(x)) ?? x;
+      setIsLoadingSpace(false)
+      afterCallAdapterCreate(x)
+      return (await options?.afterCreate?.(x)) ?? x
     },
     async (x) => {
-      await options?.beforeDispose?.(x);
+      await options?.beforeDispose?.(x)
     }
-  );
-  const callRef = useRef<Call>();
-  const call = callRef.current;
-  const raiseHandFeature = call?.feature(Features.RaiseHand);
-  const spotlightFeature = call?.feature(Features.Spotlight);
+  )
+  const callRef = useRef<Call>()
+  const call = callRef.current
+  const raiseHandFeature = call?.feature(Features.RaiseHand)
+  const spotlightFeature = call?.feature(Features.Spotlight)
 
-  const { cameras, microphones } = adapter?.getState().devices ?? {};
-  const hasCameras = cameras && cameras.length > 0;
-  const hasMicrophones = microphones && microphones.length > 0;
-  const [raisedHands, setRaisedHands] = useState<RaisedHand[]>();
-  const [isMuted, setIsMuted] = useState(false);
+  const { cameras, microphones } = adapter?.getState().devices ?? {}
+  const hasCameras = cameras && cameras.length > 0
+  const hasMicrophones = microphones && microphones.length > 0
+  const [raisedHands, setRaisedHands] = useState<RaisedHand[]>()
+  const [isMuted, setIsMuted] = useState(false)
 
   const { userinfo } = useSelector<RootState, UserStateType>(
     (state) => state.user
-  );
+  )
 
-  const roomUsersRef = useRef<RoomUser[]>([]);
-  const [joinedUsers, setJoinedUsers] = useState<JoinedUser[]>([]);
+  const roomUsersRef = useRef<RoomUser[]>([])
+  const [joinedUsers, setJoinedUsers] = useState<JoinedUser[]>([])
   const presenter = joinedUsers.find((x) => {
-    return x.role === "Host";
-  });
+    return x.role === "Host"
+  })
   const currentUserInRoom = joinedUsers.find(
     (x) => x.twitterId === userinfo.twitterUid
-  );
-  const isHost = currentUserInRoom?.role === "Host";
-  const [isGivenSpeakPermission, setIsGivenSpeakPermission] = useState(false);
+  )
+  const isHost = currentUserInRoom?.role === "Host"
+  const [isGivenSpeakPermission, setIsGivenSpeakPermission] = useState(false)
   const isSpeakable: boolean = (() => {
     if (
       currentUserInRoom?.role === "Co-Host" ||
       currentUserInRoom?.role === "Host"
     ) {
-      return true;
+      return true
     }
 
     if (isGivenSpeakPermission) {
-      return true;
+      return true
     }
 
-    return false;
-  })();
-  const coHosts = joinedUsers?.filter((x) => x.role === "Co-Host");
-  const audiences = joinedUsers?.filter((x) => x.role === "Audience");
+    return false
+  })()
+  const coHosts = joinedUsers?.filter((x) => x.role === "Co-Host")
+  const audiences = joinedUsers?.filter((x) => x.role === "Audience")
 
   // Initialize device permission
   useEffect(() => {
     if (!adapter || !room) {
-      return;
+      return
     }
 
-    (async () => {
-      const constrain = { audio: true, video: false };
-      await adapter.askDevicePermission(constrain);
-      adapter.queryCameras();
-      adapter.queryMicrophones();
-      adapter.querySpeakers();
-    })();
-  }, [adapter, call, hasCameras, hasMicrophones, room, space.sid]);
+    ;(async () => {
+      const constrain = { audio: true, video: false }
+      await adapter.askDevicePermission(constrain)
+      adapter.queryCameras()
+      adapter.queryMicrophones()
+      adapter.querySpeakers()
+    })()
+  }, [adapter, call, hasCameras, hasMicrophones, room, space.sid])
 
   useEffect(() => {
     if (!adapter || !room?.identity) {
-      return;
+      return
     }
 
-    (async () => {
+    ;(async () => {
       if (!roomUsersRef.current.length) {
         await requestRoomUsers(space.sid).then((x) => {
           if (x.result) {
-            roomUsersRef.current = x.result;
+            roomUsersRef.current = x.result
           }
-        });
+        })
       }
 
-      const call = adapter.joinCall({ microphoneOn: false, cameraOn: false });
-      callRef.current = call;
+      const call = adapter.joinCall({ microphoneOn: false, cameraOn: false })
+      callRef.current = call
 
       // init room members
       handleNewJoinedParticipant({
@@ -461,113 +458,113 @@ function useAzureCommunicationService(
           communicationUserId: room.identity,
           kind: "communicationUser",
         },
-      });
+      })
       call?.remoteParticipants.forEach((x) => {
-        handleNewJoinedParticipant(x);
-      });
-    })();
-  }, [adapter, room?.identity, space.sid]);
+        handleNewJoinedParticipant(x)
+      })
+    })()
+  }, [adapter, room?.identity, space.sid])
 
   const handleNewJoinedParticipant = (
     participant: Partial<RemoteParticipant>
   ) => {
-    const { identifier } = participant;
-    const { communicationUserId } = identifier as CommunicationUserIdentifier;
+    const { identifier } = participant
+    const { communicationUserId } = identifier as CommunicationUserIdentifier
     const user: RoomUser | null =
       roomUsersRef.current?.find((x) => x.identity === communicationUserId) ??
-      null;
+      null
 
     participant.on?.("isMutedChanged", () =>
       setJoinedUsers((xs) => {
-        const oldUser = xs.find((x) => x.identity === user?.identity);
+        const oldUser = xs.find((x) => x.identity === user?.identity)
         if (!oldUser) {
-          return xs;
+          return xs
         }
-        const index = xs.findIndex((x) => x.identity === user?.identity)!;
+        const index = xs.findIndex((x) => x.identity === user?.identity)!
         const joinedUser = {
           ...oldUser,
           isMuted: participant.isMuted,
           isSpeaking: participant.isSpeaking,
-        };
-        return [...xs.slice(0, index), joinedUser, ...xs.slice(index + 1)];
+        }
+        return [...xs.slice(0, index), joinedUser, ...xs.slice(index + 1)]
       })
-    );
+    )
 
     participant.on?.("isSpeakingChanged", () =>
       setJoinedUsers((xs) => {
-        const oldUser = xs.find((x) => x.identity === user?.identity);
+        const oldUser = xs.find((x) => x.identity === user?.identity)
         if (!oldUser) {
-          return xs;
+          return xs
         }
-        const index = xs.findIndex((x) => x.identity === user?.identity)!;
+        const index = xs.findIndex((x) => x.identity === user?.identity)!
         const joinedUser = {
           ...oldUser,
           isMuted: participant.isMuted,
           isSpeaking: participant.isSpeaking,
-        };
-        return [...xs.slice(0, index), joinedUser, ...xs.slice(index + 1)];
+        }
+        return [...xs.slice(0, index), joinedUser, ...xs.slice(index + 1)]
       })
-    );
+    )
 
     if (user) {
       const joinedUser: JoinedUser = {
         ...user,
         isMuted: participant.isMuted,
         isSpeaking: participant.isSpeaking,
-      };
-      setJoinedUsers((xs) => [...xs, joinedUser]);
+      }
+      setJoinedUsers((xs) => [...xs, joinedUser])
     }
-  };
+  }
 
   const handleLeavedParticipant = useCallback(
     (participant: Partial<RemoteParticipant>) => {
-      const { identifier } = participant;
-      const { communicationUserId } = identifier as CommunicationUserIdentifier;
+      const { identifier } = participant
+      const { communicationUserId } = identifier as CommunicationUserIdentifier
       setJoinedUsers((xs) =>
         xs.filter((x) => x.identity !== communicationUserId)
-      );
+      )
     },
     []
-  );
+  )
 
   const handleMutedChange = useCallback(async () => {
     if (!call) {
-      return;
+      return
     }
     if (call.isMuted) {
-      await call.unmute();
+      await call.unmute()
     } else {
-      await call.mute();
+      await call.mute()
     }
-    setIsMuted(call.isMuted);
-  }, [call]);
+    setIsMuted(call.isMuted)
+  }, [call])
 
   const handleRaiseHand = useCallback(() => {
     if (!room) {
-      return;
+      return
     }
     const isHandRaised = isParticipantHandRaised(
       { communicationUserId: room.identity },
       raisedHands
-    );
+    )
     if (isHandRaised) {
-      return raiseHandFeature?.lowerHand();
+      return raiseHandFeature?.lowerHand()
     }
-    return raiseHandFeature?.raiseHand();
-  }, [raiseHandFeature, raisedHands, room]);
+    return raiseHandFeature?.raiseHand()
+  }, [raiseHandFeature, raisedHands, room])
 
-  const [isClosingSpace, setIsClosingSpace] = useState(false);
+  const [isClosingSpace, setIsClosingSpace] = useState(false)
   const handleCloseSpace = useCallback(() => {
     try {
-      setIsClosingSpace(true);
-      spotlightFeature?.dispose();
-      raiseHandFeature?.dispose();
-      adapter?.dispose();
+      setIsClosingSpace(true)
+      spotlightFeature?.dispose()
+      raiseHandFeature?.dispose()
+      adapter?.dispose()
     } finally {
-      setCurrentSpace(undefined);
-      setIsClosingSpace(false);
+      setCurrentSpace(undefined)
+      setIsClosingSpace(false)
     }
-  }, [adapter, raiseHandFeature, setCurrentSpace, spotlightFeature]);
+  }, [adapter, raiseHandFeature, setCurrentSpace, spotlightFeature])
 
   useEffect(() => {
     if (
@@ -577,58 +574,58 @@ function useAzureCommunicationService(
       !currentUserInRoom ||
       !adapter
     ) {
-      return;
+      return
     }
 
-    setIsMuted(!!adapter.getState().call?.isMuted);
+    setIsMuted(!!adapter.getState().call?.isMuted)
     const handleMutedChanged: IsMutedChangedListener = ({ isMuted }) =>
-      setIsMuted(isMuted);
-    adapter.on("isMutedChanged", handleMutedChanged);
+      setIsMuted(isMuted)
+    adapter.on("isMutedChanged", handleMutedChanged)
     adapter.on("participantsJoined", ({ joined }) => {
-      joined.forEach(handleNewJoinedParticipant);
-    });
+      joined.forEach(handleNewJoinedParticipant)
+    })
     adapter.on("callIdChanged", ({ callId }) => {
-      adapter.getState();
-    });
+      adapter.getState()
+    })
     adapter.on("participantsLeft", ({ removed }) => {
-      removed.forEach(handleLeavedParticipant);
-    });
+      removed.forEach(handleLeavedParticipant)
+    })
 
     const handleHandChanged: RaisedHandListener = () => {
-      setRaisedHands(raiseHandFeature.getRaisedHands());
-    };
-    raiseHandFeature.on("raisedHandEvent", handleHandChanged);
-    raiseHandFeature.on("loweredHandEvent", handleHandChanged);
+      setRaisedHands(raiseHandFeature.getRaisedHands())
+    }
+    raiseHandFeature.on("raisedHandEvent", handleHandChanged)
+    raiseHandFeature.on("loweredHandEvent", handleHandChanged)
     spotlightFeature.on("spotlightChanged", (e) => {
       e.added.forEach((p) => {
         if (currentUserInRoom.role !== "Audience") {
-          return;
+          return
         }
 
         if (
           (p.identifier as CommunicationUserIdentifier).communicationUserId ===
           currentUserInRoom.identity
         ) {
-          setIsGivenSpeakPermission(true);
+          setIsGivenSpeakPermission(true)
         }
-      });
+      })
 
       e.removed.forEach(async (p) => {
         if (currentUserInRoom.role !== "Audience") {
-          return;
+          return
         }
 
         if (
           (p.identifier as CommunicationUserIdentifier).communicationUserId ===
           currentUserInRoom.identity
         ) {
-          setIsGivenSpeakPermission(false);
+          setIsGivenSpeakPermission(false)
           if (!call.isMuted) {
-            await call.mute();
+            await call.mute()
           }
         }
-      });
-    });
+      })
+    })
   }, [
     adapter,
     call,
@@ -639,7 +636,7 @@ function useAzureCommunicationService(
     room,
     space.sid,
     spotlightFeature,
-  ]);
+  ])
 
   const data = useMemo(
     () => ({
@@ -672,7 +669,7 @@ function useAzureCommunicationService(
       spotlightFeature,
       adapter,
     ]
-  );
+  )
 
   const actions = useMemo(
     () => ({
@@ -681,10 +678,10 @@ function useAzureCommunicationService(
       handleCloseSpace,
     }),
     [handleCloseSpace, handleMutedChange, handleRaiseHand]
-  );
+  )
 
   return {
     ...data,
     ...actions,
-  };
+  }
 }

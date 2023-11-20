@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import SuperSpaceCard from "@/components/custom/superSpaceCard";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import headerImg from "@/assets/images/home/headerImg.png";
+// import headerImg from "@/assets/images/home/headerImg.png";
 import { SearchOutline } from "antd-mobile-icons";
 import SearchInput from "@/components/custom/searchInput";
 import { useRouter } from "next/navigation";
