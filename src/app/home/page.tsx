@@ -4,7 +4,7 @@ import styles from "./index.module.scss";
 import SuperSpaceCard from "@/components/custom/superSpaceCard";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-// import headerImg from "@/assets/images/home/headerImg.png";
+import headerImg from "@/assets/images/home/headerImg.png";
 import { SearchOutline } from "antd-mobile-icons";
 import SearchInput from "@/components/custom/searchInput";
 import { useRouter } from "next/navigation";
@@ -59,7 +59,7 @@ type _selfParamsProps = {
   joinedType?: string;
 };
 
-const Home: React.FC<homeProps> = (props) => {
+const Home: React.FC<homeProps> = props => {
   const { isMySpace } = props;
 
   const tabsList = isMySpace ? mySpaceTabsList : HometabsList;
@@ -93,7 +93,7 @@ const Home: React.FC<homeProps> = (props) => {
     isMySpace
       ? (param.joinedType = nowTab)
       : (param.isTop = nowTab === "TOP" ? true : false);
-    return getListFunction(param).then((res) => {
+    return getListFunction(param).then(res => {
       let { pageList = [], count = 0 } = res.result;
       pageList?.forEach((item: any) => {
         if (nowTab == "created") {
@@ -114,7 +114,7 @@ const Home: React.FC<homeProps> = (props) => {
   const [hasMore, setHasMore] = useState(true);
 
   const getBalanceFunction = useCallback(() => {
-    getBalance().then((res) => {
+    getBalance().then(res => {
       setWalletBalance(res.result);
     });
   }, []);
@@ -135,7 +135,7 @@ const Home: React.FC<homeProps> = (props) => {
       bodyClassName: styles.dialogBody,
       content: dialogText,
       onConfirm: async () => {
-        spaceCohostDecide({ sid: sid, flag: val }).then((res) => {
+        spaceCohostDecide({ sid: sid, flag: val }).then(res => {
           console.log(res);
           datalist("refresh");
         });
@@ -150,7 +150,10 @@ const Home: React.FC<homeProps> = (props) => {
 
   return (
     // Add id for floating space injection
-    <div className={styles.container} id="space-root">
+    <div
+      className={styles.container}
+      id="space-root"
+    >
       <div className="maxWidth flex flex-col h-full relative">
         <div className={styles.header}>
           {showIcon ? (
@@ -176,7 +179,7 @@ const Home: React.FC<homeProps> = (props) => {
 
           <div
             className={styles.ethButton}
-            onClick={(e) => {
+            onClick={e => {
               console.log("click ethButton");
               e.stopPropagation();
               router.push("/earning");
@@ -221,7 +224,7 @@ const Home: React.FC<homeProps> = (props) => {
         <div className={styles.cardList}>
           <PullToRefresh
             onRefresh={() => datalist("refresh")}
-            renderText={(status) => {
+            renderText={status => {
               return <div>{statusRecord[status]}</div>;
             }}
           >
@@ -234,7 +237,10 @@ const Home: React.FC<homeProps> = (props) => {
                 const isUserSpace = !!isMySpace;
 
                 return (
-                  <div key={index + "s"} className={`w-full ${styles.wFull}`}>
+                  <div
+                    key={index + "s"}
+                    className={`w-full ${styles.wFull}`}
+                  >
                     <SuperSpaceCard
                       onClickDecide={onClickDecideSpace}
                       item={item}
@@ -257,7 +263,10 @@ const Home: React.FC<homeProps> = (props) => {
             </div>
           </PullToRefresh>
           {/* 上拉刷新操作 */}
-          <InfiniteScroll loadMore={() => datalist()} hasMore={hasMore}>
+          <InfiniteScroll
+            loadMore={() => datalist()}
+            hasMore={hasMore}
+          >
             -- no more --
           </InfiniteScroll>
         </div>
