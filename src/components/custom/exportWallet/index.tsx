@@ -34,10 +34,12 @@ const ExportWallet: React.FC<Props> = (props) => {
     // lock = false;
   };
   useEffect(() => {
-    exportWallet().then((res) => {
-      setPrivateKey(res);
-    });
-  }, []);
+    if (showWallet && !privateKey) {
+      exportWallet().then((res) => {
+        setPrivateKey(res);
+      });
+    }
+  }, [showWallet, privateKey]);
   return (
     <div className={styles.container}>
       <Popup

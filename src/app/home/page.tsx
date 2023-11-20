@@ -243,8 +243,13 @@ const Home: React.FC<homeProps> = (props) => {
                         router.push("/space/" + item.sid);
                       }}
                       className={styles.superSpace}
-                      isOnGoingSpace={true}
-                      // isOnGoingSpace={isUserSpace && isSpaceReadyToOpen}
+                      isOnGoingSpace={
+                        isUserSpace &&
+                        isSpaceReadyToOpen &&
+                        item.role != "default" &&
+                        item.role != "cohost:selecting" &&
+                        item.role != "cohost:no"
+                      }
                     ></SuperSpaceCard>
                   </div>
                 );

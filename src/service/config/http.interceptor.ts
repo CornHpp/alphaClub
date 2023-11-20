@@ -102,7 +102,7 @@ service.interceptors.response.use(
     if (status == 401) {
       setTimeout(() => {
         localStorage.removeItem("token");
-        // location.href = `${location.origin}/`;
+        location.href = `${location.origin}/`;
       }, 1000);
     }
     return Promise.reject(error);

@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import styles from "./index.module.scss";
 import deposit from "@/assets/images/earning/deposit.png";
 import withdraw from "@/assets/images/earning/withdraw.png";
@@ -14,46 +14,29 @@ import { getBalance, getMyEarned } from "@/service/userService";
 
 import { NavBar } from "antd-mobile";
 import { useRouter } from "next/navigation";
+import CountUpViewEarn from "./countUpViewEarn";
+import CountUpViewBalance from "./countUpViewBalance";
 
 const EarningPage = () => {
-  const [lastEarned, setLastEarned] = React.useState(0);
   const [nowRank, setNowRank] = React.useState(0);
-
-  const [lastBalance, setLastBalance] = React.useState(0);
 
   const [showDeposit, setDeposit] = React.useState(false);
 
   const [showWithdraw, setShowWithdraw] = React.useState(false);
 
   const [showWallet, setShowWallet] = React.useState(false);
+  const [lastBalance, setLastBalance] = React.useState(0);
 
-  const [decimals, setDecimals] = React.useState(0);
-  console.log("decimals", lastEarned);
+  const router = useRouter();
 
   const getBalanceFunction = async () => {
     const res = await getBalance();
-    console.log("getBalanceFunction", res.result);
-    const result = String(res.result);
-    const index = result.indexOf(".");
-    let decimals = result.length - index - 1;
-    console.log("decimals", decimals);
-    setDecimals(decimals > 5 ? 5 : decimals);
     setLastBalance(Number(res.result));
   };
 
-  const getMyEarnedFunction = async () => {
-    getMyEarned().then((res) => {
-      console.log("getMyEarned", res);
-      setLastEarned(Number(res.result));
-    });
-  };
-
   useEffect(() => {
-    getMyEarnedFunction();
     getBalanceFunction();
   }, []);
-
-  const router = useRouter();
 
   const handleClick = useCallback(() => {
     setDeposit((prevDeposit) => !prevDeposit);
@@ -73,15 +56,14 @@ const EarningPage = () => {
         <div className="text-xl">You have earned</div>
         {/* <div className={styles.rank}>Rank:top5%</div> */}
         <div className="text-4xl mt-3">
-          {/* <Countdown title="Countdown" value={lastRank}  /> */}
-
-          <MemoCountUP
+          <CountUpViewEarn></CountUpViewEarn>
+          {/* <MemoCountUP
             decimals={decimals}
             start={0}
-            end={lastEarned}
+            end={useLastEarned}
             duration={2.75}
             separator=","
-          ></MemoCountUP>
+          ></MemoCountUP> */}
 
           <span className="text-lg"> ETH</span>
         </div>
@@ -91,13 +73,8 @@ const EarningPage = () => {
         <div className={styles.leftBalance}>
           <div className="text-base">Balance</div>
           <div className="text-xl  mt-2">
-            <MemoCountUP
-              start={0}
-              end={lastBalance}
-              duration={2.75}
-              decimals={decimals}
-              separator=","
-            ></MemoCountUP>
+            <CountUpViewBalance></CountUpViewBalance>
+
             <span className="text-base"> ETH</span>
           </div>
         </div>
