@@ -77,7 +77,6 @@ const Home: React.FC<homeProps> = props => {
   let [pageMap, setPageMap] = useState({
     pageNum: 1,
   });
-  console.log("11111111111111111", pageMap.pageNum);
   const [queryKey, setQueryKey] = useState("");
 
   //获取首次渲染的数据

@@ -1,3 +1,4 @@
+"use client";
 import dynamic from "next/dynamic";
 import {
   PropsWithChildren,
@@ -34,11 +35,7 @@ export function SpaceProvder({ children }: PropsWithChildren) {
       isLoadingSpace,
       setIsLoadingSpace,
     }),
-    [currentSpace, isLoadingSpace]
-  );
-  console.log(
-    "🚀 ~ file: SpaceProvider.tsx:36 ~ SpaceProvder ~ currentSpace:",
-    currentSpace
+    [currentSpace, isLoadingSpace],
   );
 
   return (
@@ -54,7 +51,7 @@ export const useSpace = () => {
 
   if (!space) {
     throw new Error(
-      "No SpaceProvider context found, please add provider to your application!"
+      "No SpaceProvider context found, please add provider to your application!",
     );
   }
 

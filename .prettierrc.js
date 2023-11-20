@@ -11,7 +11,7 @@ module.exports = {
   jsxSingleQuote: false, // jsx 不使用单引号，而使用双引号
   trailingComma: "all", // 末尾需要有逗号
   jsxBracketSameLine: false, // jsx 标签的反尖括号需要换行
-  arrowParens: "avoid", // 单参数的箭头函数参数不需要括号
+  arrowParens: "always", // 单参数的箭头函数参数不需要括号
   requirePragma: false, // 不需要写文件开头的 @prettier
   insertPragma: false, // 不需要自动在文件开头插入 @prettier
   proseWrap: "preserve", // 当超出print width（上面有这个参数）时就折行

@@ -41,7 +41,7 @@ const Login: React.FC = () => {
 
   const showSafariBrowserNotificationFunc = () => {
     const showSafariNatification = localStorage.getItem(
-      "isShowSafariNatification"
+      "isShowSafariNatification",
     );
 
     const userAgent = navigator.userAgent;
@@ -72,7 +72,7 @@ const Login: React.FC = () => {
   }, []);
 
   const [inviteCode, setInviteCode] = useState<string>(
-    localStorage.getItem("inviteCode") || ""
+    localStorage.getItem("inviteCode") || "",
   );
 
   // get personal info from the server cache to redux store
@@ -94,7 +94,7 @@ const Login: React.FC = () => {
   }, []);
 
   const getUserInfoFunction = useCallback(() => {
-    getUserInfo().then((res) => {
+    getUserInfo().then(res => {
       console.log(res);
       if (res.code == "200") {
         dispatch(setUserInfo(res.result));
@@ -116,7 +116,7 @@ const Login: React.FC = () => {
       .then(async (res: any) => {
         if (res) {
           localStorage.setItem("token", res.result);
-          getUserInfo().then((res) => {
+          getUserInfo().then(res => {
             console.log(res);
             dispatch(setUserInfo(res.result));
             router.push("/home");
@@ -171,7 +171,7 @@ const Login: React.FC = () => {
           className={styles.input}
           placeholder="New users need get an invite code to Start!"
           value={inviteCode}
-          onChange={(e) => {
+          onChange={e => {
             setInviteCode(e.target.value);
             localStorage.setItem("inviteCode", e.target.value);
           }}
