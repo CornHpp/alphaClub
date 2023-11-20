@@ -1,39 +1,42 @@
-"use client";
-import dynamic from "next/dynamic";
-import React from "react";
-import styles from "./index.module.scss";
-import headerImg from "@/assets/images/home/headerImg.png";
-import dollorSimple from "@/assets/images/home/dollorSimple.png";
-import timepiece from "@/assets/images/home/timepiece.png";
-import sofa from "@/assets/images/home/sofa.png";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-// import FloatingSpace from "../FloatingSpace";
-const FloatingSpace = dynamic(() => import("../FloatingSpace"), { ssr: false });
-import { useRouter } from "next/navigation";
-import { formatDateCheers } from "@/lib/utils";
+"use client"
+import React from "react"
+import styles from "./index.module.scss"
+import headerImg from "@/assets/images/home/headerImg.png"
+import dollorSimple from "@/assets/images/home/dollorSimple.png"
+import timepiece from "@/assets/images/home/timepiece.png"
+import sofa from "@/assets/images/home/sofa.png"
+import Image from "next/image"
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
+import { formatDateCheers } from "@/lib/utils"
+import { useSpace } from "../FloatingSpace/SpaceProvider"
 
 interface SuperSpaceCardProps {
-  title?: string;
-  description?: string;
-  className?: string;
-  onClick?: () => void;
-  item: allSpaceResponse;
-  isOnGoingSpace?: boolean;
-  onClickDecide: (sid: number, val: number) => void;
+  title?: string
+  description?: string
+  className?: string
+  onClick?: () => void
+  item: allSpaceResponse
+  isOnGoingSpace?: boolean
+  onClickDecide: (sid: number, val: number) => void
 }
 
 const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
-  title,
-  description,
   className,
   onClick,
   item,
   isOnGoingSpace,
   onClickDecide,
 }) => {
-  const router = useRouter();
-  const [isOpeningSpace, setIsOpeningSpace] = React.useState(false);
+  const router = useRouter()
+  const { setCurrentSpace, isLoadingSpace, currentSpace } = useSpace()
+  const handleJoinSpace = () => {
+    if (currentSpace) {
+      return
+    }
+    setCurrentSpace({ sid: item.sid, title: item.title })
+  }
+
   return (
     <div className={[styles.superSpaceCard, className].join(" ")}>
       <header className={styles.topCard}>
@@ -70,22 +73,14 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
         </div>
 
         {isOnGoingSpace ? (
-          <FloatingSpace
-            triggerNode={
-              <Button
-                className={styles.buttonPosition}
-                isLoading={isOpeningSpace}
-                onClick={() => setIsOpeningSpace(true)}
-                disabled={isOpeningSpace}
-              >
-                Join
-              </Button>
-            }
-            space={{ sid: item.sid, title: title ?? item.title }}
-            onSpaceOpened={() => setIsOpeningSpace(false)}
-            // isOpeningSpace={isOpeningSpace}
-            // onOpeningSpace={(x) => setIsOpeningSpace(x)}
-          />
+          <Button
+            className={styles.buttonPosition}
+            isLoading={isLoadingSpace}
+            disabled={isLoadingSpace || !!currentSpace}
+            onClick={handleJoinSpace}
+          >
+            Join
+          </Button>
         ) : (
           <div>
             {/* <Button className={styles.buttonPosition} onClick={onClick}>
@@ -99,7 +94,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
                 showBorderShodow={false}
                 className={styles.buttonPosition}
                 onClick={() => {
-                  router.push(`/space/${item.sid}`);
+                  router.push(`/space/${item.sid}`)
                 }}
                 backgroundColor="rgba(255, 228, 120, 1)"
               >
@@ -121,7 +116,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
                 backgroundColor="rgba(255, 228, 120, 1)"
                 className={styles.buttonPosition}
                 onClick={() => {
-                  onClickDecide(item.sid, 1);
+                  onClickDecide(item.sid, 1)
                 }}
                 showBorderShodow={false}
               >
@@ -133,7 +128,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
                 backgroundColor="rgba(243, 243, 243, 1)"
                 className={styles.buttonDeclinePosition}
                 onClick={() => {
-                  onClickDecide(item.sid, 0);
+                  onClickDecide(item.sid, 0)
                 }}
                 showBorderShodow={false}
               >
@@ -144,7 +139,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default React.memo(SuperSpaceCard);
+export default React.memo(SuperSpaceCard)
