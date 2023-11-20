@@ -30,7 +30,7 @@ export const ExploreWrapper = (props: ExploreWrapperProps) => {
         style={{
           position: "absolute",
           left: "1rem",
-          bottom: "20rem",
+          bottom: "7rem",
           zIndex: 1,
         }}
         alt=""
@@ -52,8 +52,9 @@ export const ExploreWrapper = (props: ExploreWrapperProps) => {
         style={{
           width: "100vw",
           maxWidth: "430px",
-          height: "80%",
           margin: "0 auto",
+          position: "relative",
+          height: "100vh",
         }}
       >
         <div style={{ height: "15px" }}></div>

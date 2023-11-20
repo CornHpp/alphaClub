@@ -15,11 +15,11 @@ export type Space = {
 };
 
 type SpaceInterface = {
-  currentSpace?: Space
-  setCurrentSpace: (sppace?: Space) => void
-  isLoadingSpace: boolean
-  setIsLoadingSpace: (x: boolean) => void
-}
+  currentSpace?: Space;
+  setCurrentSpace: (sppace?: Space) => void;
+  isLoadingSpace: boolean;
+  setIsLoadingSpace: (x: boolean) => void;
+};
 
 const SpaceContext = createContext<SpaceInterface | undefined>(undefined);
 
