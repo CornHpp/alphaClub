@@ -93,7 +93,7 @@ const Login: React.FC = () => {
       console.log(res);
       if (res.code == "200") {
         dispatch(setUserInfo(res.result));
-        router.push("/verifyCode");
+        router.push("/home");
       }
     });
   }, [dispatch, router]);
@@ -113,7 +113,11 @@ const Login: React.FC = () => {
           getUserInfo().then((res) => {
             console.log(res);
             dispatch(setUserInfo(res.result));
-            router.push("/home");
+            if (res.result.bindInviteCode) {
+              router.push("/home");
+            } else {
+              router.push("/verifyCode");
+            }
           });
         } else {
           // todo: route to /root, reset the params. other wise will infinity fail.

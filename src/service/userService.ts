@@ -117,3 +117,11 @@ export const getInviteCode = (): Promise<
   const url = "/secret/invite/get";
   return request.get<ResponseBaseType<inviteCodeType[]>>(url, {});
 };
+
+// 绑定邀请码
+export const bindInviteCode = (
+  inviteCode: string,
+): Promise<ResponseBaseType<any>> => {
+  const url = "/open/bind/invitecode";
+  return request.post<ResponseBaseType<any>>(url, { inviteCode });
+};

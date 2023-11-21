@@ -4,46 +4,28 @@ import AuthPagesWrapper from "@/components/custom/AuthPagesWrapper/AuthPagesWrap
 import { useState, useCallback, useEffect } from "react";
 import { LoginFrame } from "@/components/custom/LoginFrame/LoginFrame";
 import styles from "./index.module.scss";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import Button from "@/components/ui/button";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import twitterIcon from "@/assets/images/login/x.png";
+import { bindInviteCode } from "@/service/userService";
 
 const Login: React.FC = () => {
   const router = useRouter();
 
-  const [inviteCode, setInviteCode] = useState<string>(
-    localStorage.getItem("inviteCode") || "",
-  );
-  // get personal info from the server cache to redux store
-  const dispatch = useDispatch();
-  const getQueryParams = useCallback((): any => {
-    if (typeof window === "undefined") {
-      return;
-    }
-    const urlParams: any = new URLSearchParams(window.location.search);
-    const paramsObj: { [key: string]: string } = {};
-
-    for (const [key, value] of urlParams.entries()) {
-      paramsObj[key] = value;
-    }
-    return paramsObj;
-  }, []);
-
-  const params = getQueryParams();
+  const [inviteCode, setInviteCode] = useState<string>("");
 
   const clickSubmitLogin = () => {
-    if (!params.oauth_token || !params.oauth_verifier) {
-      toast.error("Please login with twitter first");
-      return;
-    }
     if (!inviteCode) {
       toast.error("Please enter invite code");
       return;
     }
+
+    bindInviteCode(inviteCode).then((res) => {
+      router.push("/home");
+    });
   };
 
   return (
@@ -57,7 +39,6 @@ const Login: React.FC = () => {
           value={inviteCode}
           onChange={(e) => {
             setInviteCode(e.target.value);
-            localStorage.setItem("inviteCode", e.target.value);
           }}
         />
 

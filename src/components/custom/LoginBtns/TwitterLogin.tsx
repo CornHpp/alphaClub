@@ -13,13 +13,7 @@ interface TwitterLoginProps {
 
 export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
   const { isAgree } = props;
-  const router = useRouter();
-
   const handleLogin = async () => {
-    router.push("/verifyCode");
-
-    return;
-
     if (!isAgree) {
       console.log("isAgree", isAgree);
       toast.error("Please agree to the User agreement and Privacy Policy");
