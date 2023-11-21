@@ -19,6 +19,7 @@ import SearchView from "@/components/custom/searchView";
 import { getBalance } from "@/service/userService";
 import { Dialog } from "antd-mobile";
 import { useSelector } from "react-redux";
+import SpacePopup from "@/components/custom/spacePopup";
 
 import {
   createSpace,
@@ -102,6 +103,8 @@ const Space: React.FC<Iprops> = (props) => {
 
   const [isFloatingSpaceOpen, setIsFloatingSpaceOpen] = React.useState(false);
 
+  const [showSpacePopup, setShowSpacePopup] = React.useState(false);
+
   const [showSelectSearchView, setShowSelectSearchView] = React.useState(false);
 
   const [personalBalance, setPersonalBalance] = React.useState(0);
@@ -134,7 +137,7 @@ const Space: React.FC<Iprops> = (props) => {
       console.log(status);
       setIsExistDetailByUserInfo(status);
     },
-    [userinfo.twitterScreenName]
+    [userinfo.twitterScreenName],
   );
 
   const getSpaceDetailFunc = useCallback(() => {
@@ -210,12 +213,19 @@ const Space: React.FC<Iprops> = (props) => {
         biddingEndTtime: formMap.biddingEndTime,
         title: formMap.title,
       };
-      createSpace(param).then((res) => {
-        console.log(res);
-        router.push("/myspace");
-        // setOrder(res.result);
-        // setShowOrderMessage(true);
-      });
+      createSpace(param)
+        .then((res) => {
+          console.log(res);
+          router.push("/myspace");
+          // setOrder(res.result);
+          // setShowOrderMessage(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.request.status === 500) {
+            Toast.error("Network interruption, please try again");
+          }
+        });
     } else {
       Dialog.confirm({
         getContainer: () => document.getElementById("root") as HTMLElement,
@@ -266,15 +276,25 @@ const Space: React.FC<Iprops> = (props) => {
       web3Sid: Number(formMap.web3Sid),
       price: Number(formMap.BidPrice),
     };
-    spaceBidding(data).then((res) => {
-      console.log(res);
-      if (res.message === "success") {
-        setShowStealSeatButton(false);
-        setShowOrderMessage(false);
-        router.push(`/buySuccess`);
-        // getSpaceDetailFunc();
-      }
-    });
+    spaceBidding(data)
+      .then((res) => {
+        console.log(res);
+        if (res.message === "success") {
+          setShowStealSeatButton(false);
+          setShowOrderMessage(false);
+          router.push(`/buySuccess`);
+
+          setShowSpacePopup(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.request.status === 500) {
+          Toast.error("Price has changed, retriving new price.");
+          getSpaceDetailFunc();
+          setShowOrderMessage(false);
+        }
+      });
   };
 
   return (
@@ -334,7 +354,7 @@ const Space: React.FC<Iprops> = (props) => {
                   // 如果是详情页，不允许删除
                   if (detailId) return;
                   const index = selectedPeopleList.findIndex(
-                    (item) => item.twitterUidStr === twitterUidStr
+                    (item) => item.twitterUidStr === twitterUidStr,
                   );
                   selectedPeopleList.splice(index, 1);
                   setSelectedPeopleList([...selectedPeopleList]);
@@ -488,6 +508,12 @@ const Space: React.FC<Iprops> = (props) => {
           }}
           sellOrbuy={showOrderMessage}
         ></OrderMessage>
+        <SpacePopup
+          show={showSpacePopup}
+          onClose={() => {
+            setShowSpacePopup(false);
+          }}
+        ></SpacePopup>
       </div>
     </div>
   );
@@ -574,7 +600,13 @@ const CoHostAdd: React.FC<coHostAddType> = (props) => {
 const speceTime = (img: StaticImageData, title: string) => {
   return (
     <div className="flex items-center text-sm">
-      <Image width={21} height={20} className="mr-2" src={img} alt=""></Image>
+      <Image
+        width={21}
+        height={20}
+        className="mr-2"
+        src={img}
+        alt=""
+      ></Image>
       {title}
     </div>
   );
@@ -598,7 +630,10 @@ const PeopleList: React.FC<IPeopleList> = ({ list }) => {
     <div className={styles.peopleListBox}>
       {list.map((item, index) => {
         return (
-          <div key={index + "a"} className={styles.peopleItem}>
+          <div
+            key={index + "a"}
+            className={styles.peopleItem}
+          >
             <Image
               className={styles.setImgSize}
               src={item?.imageUrl ? item?.imageUrl : emptySeat}

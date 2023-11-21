@@ -59,16 +59,31 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
           </div>
           <div className={styles.twitterName}>@{item?.twitterScreenName}</div>
           <div className={styles.text}>
-            <Image width={21} height={21} src={sofa} alt=""></Image>
+            <Image
+              width={21}
+              height={21}
+              src={sofa}
+              alt=""
+            ></Image>
             Space Seat Limit: {item?.maxSeatNumber}
           </div>
           <div className={styles.text}>
-            <Image width={21} height={21} src={timepiece} alt=""></Image>
-            Space Beginning Time:{formatDateCheers(item?.spaceBeginTime)}
+            <Image
+              width={21}
+              height={21}
+              src={dollorSimple}
+              alt=""
+            ></Image>
+            Bidding End Time：{formatDateCheers(item?.biddingEndTtime)}
           </div>
           <div className={styles.text}>
-            <Image width={21} height={21} src={dollorSimple} alt=""></Image>
-            Bidding End Time：{formatDateCheers(item?.biddingEndTtime)}
+            <Image
+              width={21}
+              height={21}
+              src={timepiece}
+              alt=""
+            ></Image>
+            Space Beginning Time:{formatDateCheers(item?.spaceBeginTime)}
           </div>
         </div>
 

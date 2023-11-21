@@ -26,7 +26,7 @@ service.interceptors.request.use(
     if (config.custom && config.custom.loading === true) {
       if (config.url == "Auth/twitterlogin?") {
         showFullScreenLoading(
-          "Just a moment, it is a little slow to log in for the first time"
+          "Just a moment, it is a little slow to log in for the first time",
         );
       } else {
         showFullScreenLoading();
@@ -41,7 +41,7 @@ service.interceptors.request.use(
   },
   (error) => {
     Promise.reject(error);
-  }
+  },
 );
 
 // 响应拦截器
@@ -66,7 +66,7 @@ service.interceptors.response.use(
     if (code != 200) {
       console.error(`[${res.config.url}]: ` + msg);
       toast.warning(msg);
-      return Promise.reject("error");
+      return Promise.reject(res);
     }
     return res.data;
   },
@@ -106,7 +106,7 @@ service.interceptors.response.use(
       }, 1000);
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default service;

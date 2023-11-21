@@ -6,13 +6,20 @@ import styles from "./index.module.scss";
 import xTwitter from "@/assets/images/login/x.png";
 import toast from "@/components/custom/Toast/Toast";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 interface TwitterLoginProps {
   isAgree: boolean;
 }
 
 export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
   const { isAgree } = props;
+  const router = useRouter();
+
   const handleLogin = async () => {
+    router.push("/verifyCode");
+
+    return;
+
     if (!isAgree) {
       console.log("isAgree", isAgree);
       toast.error("Please agree to the User agreement and Privacy Policy");

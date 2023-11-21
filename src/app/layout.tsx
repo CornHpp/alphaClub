@@ -7,12 +7,12 @@ import "../styles/globals.css";
 export const metadata: Metadata = {
   title: "Alpha",
   description: "Alpha",
-  appleWebApp: {
-    capable: true,
-    startupImage: "../assets/images/iconMeta.png",
-    title: "AlphaClub",
-    statusBarStyle: "default",
-  },
+  // appleWebApp: {
+  //   capable: true,
+  //   startupImage: "../assets/images/iconMeta.png",
+  //   title: "AlphaClub",
+  //   statusBarStyle: "default",
+  // },
 };
 
 export const viewport: Viewport = {
@@ -28,7 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+    >
       <body className="layout">
         <AppLayout>{children}</AppLayout>
       </body>

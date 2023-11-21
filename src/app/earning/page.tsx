@@ -80,8 +80,16 @@ const EarningPage = () => {
         </div>
 
         <div className="flex">
-          <div className="flex flex-col items-center" onClick={handleClick}>
-            <Image width={68} height={68} src={deposit} alt=""></Image>
+          <div
+            className="flex flex-col items-center"
+            onClick={handleClick}
+          >
+            <Image
+              width={68}
+              height={68}
+              src={deposit}
+              alt=""
+            ></Image>
             Deposit
           </div>
           {/* <div
@@ -100,7 +108,12 @@ const EarningPage = () => {
               setShowWallet(true);
             }}
           >
-            <Image width={68} height={68} src={exportIcon} alt=""></Image>
+            <Image
+              width={68}
+              height={68}
+              src={exportIcon}
+              alt=""
+            ></Image>
             Export
           </div>
         </div>
@@ -112,6 +125,8 @@ const EarningPage = () => {
         }}
         visible={showDeposit}
         setVisible={() => {
+          getBalanceFunction();
+
           setDeposit(false);
         }}
         balanceNumber={lastBalance}

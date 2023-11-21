@@ -1,0 +1,16 @@
+{
+  "name": "AlphaClub",
+  "short_name": "AlphaClub",
+  "description": "AlphaClub",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}

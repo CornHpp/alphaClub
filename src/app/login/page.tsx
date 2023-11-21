@@ -11,10 +11,9 @@ import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/redux/features/userSlice";
 import { useRouter } from "next/navigation";
 
-import { Input } from "@/components/ui/input";
+import twitterIcon from "@/assets/images/login/x.png";
 
 import { getUserInfo } from "@/service/userService";
-import Button from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { BackGround } from "@/components/custom/pwaNotification";
 import pwaIcon from "@/assets/images/logoColorful.png";
@@ -71,10 +70,6 @@ const Login: React.FC = () => {
     // showSafariBrowserNotificationFunc();
   }, []);
 
-  const [inviteCode, setInviteCode] = useState<string>(
-    localStorage.getItem("inviteCode") || "",
-  );
-
   // get personal info from the server cache to redux store
   const dispatch = useDispatch();
 
@@ -94,11 +89,11 @@ const Login: React.FC = () => {
   }, []);
 
   const getUserInfoFunction = useCallback(() => {
-    getUserInfo().then(res => {
+    getUserInfo().then((res) => {
       console.log(res);
       if (res.code == "200") {
         dispatch(setUserInfo(res.result));
-        router.push("/home");
+        router.push("/verifyCode");
       }
     });
   }, [dispatch, router]);
@@ -111,16 +106,14 @@ const Login: React.FC = () => {
     verifyTwitterToken({
       oauth_token: params.oauth_token,
       oauth_verifier: params.oauth_verifier,
-      inviteCode: localStorage.getItem("inviteCode") || "",
     } as infoType)
       .then(async (res: any) => {
         if (res) {
           localStorage.setItem("token", res.result);
-          getUserInfo().then(res => {
+          getUserInfo().then((res) => {
             console.log(res);
             dispatch(setUserInfo(res.result));
             router.push("/home");
-            localStorage.removeItem("inviteCode");
           });
         } else {
           // todo: route to /root, reset the params. other wise will infinity fail.
@@ -146,18 +139,6 @@ const Login: React.FC = () => {
     getUserInfoFunction,
   ]);
 
-  const clickSubmitLogin = () => {
-    if (!params.oauth_token || !params.oauth_verifier) {
-      toast.error("Please login with twitter first");
-      return;
-    }
-    if (!inviteCode) {
-      toast.error("Please enter invite code");
-      return;
-    }
-    validateTwitterToken();
-  };
-
   const handleAgreeCheck = () => {
     setIsAgree(!isAgree);
   };
@@ -166,28 +147,9 @@ const Login: React.FC = () => {
     <AuthPagesWrapper>
       <LoginFrame></LoginFrame>
       <div className={styles.loginBox}>
-        <Input
-          type="text"
-          className={styles.input}
-          placeholder="New users need get an invite code to Start!"
-          value={inviteCode}
-          onChange={e => {
-            setInviteCode(e.target.value);
-            localStorage.setItem("inviteCode", e.target.value);
-          }}
-        />
         <div className={styles.loginSubBox}>
           <TwitterLogin isAgree={isAgree}></TwitterLogin>
         </div>
-
-        {/* <Button
-          className={styles.submit}
-          showBorderShodow={false}
-          height="2.5rem"
-          onClick={clickSubmitLogin}
-        >
-          Login
-        </Button> */}
 
         <div className={styles.buttonBox}>
           <Checkbox
@@ -203,6 +165,16 @@ const Login: React.FC = () => {
             <span className={styles.userAgreement}>《User agreement》</span> &{" "}
             <span className={styles.userAgreement}>《Privacy Policy》</span>
           </div>
+        </div>
+
+        <div className={styles.twitterName}>
+          <Image
+            src={twitterIcon}
+            alt=""
+            width={12}
+            height={12}
+          ></Image>
+          <div>@tryalpha_club</div>
         </div>
       </div>
 
