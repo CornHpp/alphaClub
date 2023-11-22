@@ -119,18 +119,20 @@ const EarningPage = () => {
         </div>
       </div>
 
-      <DepositView
-        successTransfer={() => {
-          getBalanceFunction();
-        }}
-        visible={showDeposit}
-        setVisible={() => {
-          getBalanceFunction();
+      {showDeposit && (
+        <DepositView
+          successTransfer={() => {
+            getBalanceFunction();
+          }}
+          visible={showDeposit}
+          setVisible={() => {
+            getBalanceFunction();
 
-          setDeposit(false);
-        }}
-        balanceNumber={lastBalance}
-      ></DepositView>
+            setDeposit(false);
+          }}
+          balanceNumber={lastBalance}
+        ></DepositView>
+      )}
 
       <WithdrawETH
         hideWithDraw={() => {

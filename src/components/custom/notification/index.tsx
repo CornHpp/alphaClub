@@ -7,15 +7,12 @@ import Image from "next/image";
 interface IProps {
   show: boolean;
   hideShow: () => void;
+  clickMakeTwitter: () => void;
   children: React.ReactNode;
 }
 
 export const Notification: React.FC<IProps> = (props) => {
-  const { show, hideShow, children } = props;
-  const clickComfirm = () => {
-    console.log("clickComfirm");
-    hideShow();
-  };
+  const { show, hideShow, children, clickMakeTwitter } = props;
 
   return show ? (
     <div className={styles.comingSoonBox}>
@@ -28,7 +25,10 @@ export const Notification: React.FC<IProps> = (props) => {
           alt=""
         />
         <div className={styles.commingSoonText}>{children}</div>
-        <div className={styles.comfirm} onClick={clickComfirm}>
+        <div
+          className={styles.comfirm}
+          onClick={clickMakeTwitter}
+        >
           Comfirm
         </div>
         <div

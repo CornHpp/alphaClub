@@ -9,7 +9,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { setIsMobile } from "@/redux/features/userSlice";
 import { spaceCheckStatus } from "@/service/userService";
 import Notification from "@/components/custom/notification";
+import { sendTwitter } from "@/service/space";
 
+import Toast from "@/components/custom/Toast/Toast";
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [showNotification, setShowNotification] = React.useState(false);
 
@@ -56,6 +58,15 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  const clickMakeTwitter = () => {
+    const str = `My seat was stolen at ${detailMap.newOwner}, lost my alpha :( but earned ${detailMap.money} ETH, come join us @tryalpha_club, where winner Chads unite. `;
+    sendTwitter(str).then((res) => {
+      console.log(res);
+      Toast.success("Twitter sent successfully");
+      setShowNotification(false);
+    });
+  };
+
   return (
     <Providers>
       <div className="hidden md:block">
@@ -67,6 +78,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       </div>
       <ToastContainer />
       <Notification
+        clickMakeTwitter={clickMakeTwitter}
         show={showNotification}
         hideShow={() => {
           setShowNotification(false);

@@ -26,6 +26,7 @@ import {
   getSpaceDetail,
   spaceBidding,
   getSpaceOrderByspaceId,
+  sendTwitter,
 } from "@/service/space";
 import Toast from "@/components/custom/Toast/Toast";
 import {
@@ -297,6 +298,15 @@ const Space: React.FC<Iprops> = (props) => {
       });
   };
 
+  const clickMakeTwitter = () => {
+    const str = `I've just got my seat at ${formMap.title} , come and join the room, either earn ETH, or earn alpha! There's something for everyone to win @tryalpha_club`;
+    sendTwitter(str).then((res) => {
+      console.log(res);
+      Toast.success("Twitter sent successfully");
+      setShowSpacePopup(false);
+    });
+  };
+
   return (
     <div className={styles.container}>
       <div className="pcWidth">
@@ -509,6 +519,13 @@ const Space: React.FC<Iprops> = (props) => {
           sellOrbuy={showOrderMessage}
         ></OrderMessage>
         <SpacePopup
+          makeTwitter={() => {
+            clickMakeTwitter();
+          }}
+          whom={currentHostMap.twitterScreenName}
+          spaceTitle={formMap.title}
+          price={formMap.BidPrice}
+          title={"success"}
           show={showSpacePopup}
           onClose={() => {
             setShowSpacePopup(false);
