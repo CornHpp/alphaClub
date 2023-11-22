@@ -43,36 +43,26 @@ const Login: React.FC = () => {
     }
   };
 
+  const [showSafariNotification, setShowSafariNotification] = useState(false);
+
   const showSafariBrowserNotificationFunc = () => {
-    const showSafariNatification = localStorage.getItem(
-      "isShowSafariNatification",
-    );
+    const isMobileSafari = () => {
+      const userAgent = navigator.userAgent;
+      return (
+        /iPhone|iPad|iPod/.test(userAgent) &&
+        /AppleWebKit/.test(userAgent) &&
+        !/CriOS/.test(userAgent)
+      );
+    };
 
-    const userAgent = navigator.userAgent;
-    const vendor = navigator.vendor;
-    // 判断是否在苹果系统上
-    const isApple = /Mac|iPhone|iPad|iPod/.test(userAgent);
-
-    // 判断是否使用safari浏览器
-    const isSafari = /Safari/.test(userAgent) && /Apple Computer/.test(vendor);
-
-    console.log("isApple", isApple);
-    console.log("isSafari", isSafari);
-    isApple ? toast.error("isApple") : toast.error("not isApple");
-    isSafari ? toast.error("isSafari") : toast.error("not isSafari");
-
-    // 判断条件：在苹果系统上且使用谷歌浏览器
-    if (isApple && isSafari) {
-      console.log("在苹果系统上使用safari浏览器");
-      toast.error("Please use Safari browser");
-    } else {
-      console.log("其他");
-      toast.error("其他");
+    // 如果不是safari浏览器，提示使用safari浏览器
+    if (!isMobileSafari()) {
+      setShowSafariNotification(true);
     }
   };
   useEffect(() => {
     showPwaNativeNotificationFunc();
-    // showSafariBrowserNotificationFunc();
+    showSafariBrowserNotificationFunc();
   }, []);
 
   // get personal info from the server cache to redux store
@@ -210,6 +200,27 @@ const Login: React.FC = () => {
             In your Safari browser menu, tap the Share icon and choose{" "}
             <span>Add to Home Screen</span> in the options.Then open the Alpha
             app on your home screen.
+          </div>
+        </div>
+      </BackGround>
+
+      <BackGround
+        show={showSafariNotification}
+        hideShow={() => {
+          setShowSafariNotification(false);
+        }}
+      >
+        <div className={styles.pwaContent}>
+          <Image
+            unoptimized
+            src={pwaIcon}
+            height={375}
+            width={225}
+            alt="pwaIcon"
+          ></Image>
+          <div className={styles.titleContent}>Please use safari browser</div>
+          <div className={styles.contentDetail}>
+            safari can better support pwa
           </div>
         </div>
       </BackGround>
