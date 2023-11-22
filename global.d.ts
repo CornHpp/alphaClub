@@ -4,3 +4,4 @@ declare module "*.module.less" {
 }
 declare module "*.less";
 declare module "*.png";
+declare module "vconsole";
