@@ -27,13 +27,18 @@ const Login: React.FC = () => {
   const [BackGroundShow, setBackGroundShow] = useState(false);
 
   const showPwaNativeNotificationFunc = () => {
-    const isShowPwaNotification = localStorage.getItem("isShowPwaNotification");
-    const actualWidth =
-      document.documentElement.clientWidth || document.body.clientWidth; // 实际宽度
-    if (actualWidth < 431) {
-      if (!isShowPwaNotification) {
-        setBackGroundShow(true);
-        localStorage.setItem("isShowPwaNotification", "true");
+    if (window.matchMedia("(display-mode: fullscreen)").matches) {
+    } else {
+      const isShowPwaNotification = localStorage.getItem(
+        "isShowPwaNotification",
+      );
+      const actualWidth =
+        document.documentElement.clientWidth || document.body.clientWidth; // 实际宽度
+      if (actualWidth < 431) {
+        if (!isShowPwaNotification) {
+          setBackGroundShow(true);
+          localStorage.setItem("isShowPwaNotification", "true");
+        }
       }
     }
   };

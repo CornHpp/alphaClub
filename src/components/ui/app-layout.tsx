@@ -12,11 +12,12 @@ import Notification from "@/components/custom/notification";
 import { sendTwitter } from "@/service/space";
 
 import Toast from "@/components/custom/Toast/Toast";
-import VConsole from "vconsole";
 
-if (typeof window !== "undefined") {
-  new VConsole();
-}
+// import VConsole from "vconsole";
+
+// if (typeof window !== "undefined") {
+//   new VConsole();
+// }
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [showNotification, setShowNotification] = React.useState(false);

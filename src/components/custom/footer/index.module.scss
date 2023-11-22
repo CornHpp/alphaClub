@@ -4,11 +4,10 @@
   bottom: 0px;
   width: 100%;
   background-color: #fff;
-  height: 3.75rem;
-  display: flex;
-  align-items: center;
+  height: 4.75rem;
+  padding-top: 3px;
   z-index: 3;
-
+  border-top: 1px solid var(--border);
   :global {
     .adm-tab-bar {
       width: 100%;

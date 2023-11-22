@@ -225,9 +225,7 @@ const Space: React.FC<Iprops> = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          if (err.request.status === 500) {
-            setNowShowPopupCurrent(2);
-          }
+          // setNowShowPopupCurrent(2);
         });
     } else {
       Dialog.confirm({
@@ -295,7 +293,7 @@ const Space: React.FC<Iprops> = (props) => {
           setShowOrderMessage(false);
         } else {
           setShowSpacePopup(true);
-          setNowShowPopupCurrent(2);
+          // setNowShowPopupCurrent(2);
           setShowOrderMessage(false);
         }
       });
