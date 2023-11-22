@@ -16,8 +16,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   const [showNotification, setShowNotification] = React.useState(false);
 
   const [detailMap, setDetailMap] = React.useState({
-    newOwner: "owner",
+    host: "owner",
     money: "0",
+    title: "title",
   });
   useEffect(() => {
     let timer = setInterval(() => {
@@ -27,10 +28,11 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
       spaceCheckStatus().then((res) => {
         if (res.result.length > 0) {
           setShowNotification(true);
-          const { newOwner, money } = JSON.parse(res.result[0]);
+          const { host, money, title } = JSON.parse(res.result[0]);
           setDetailMap({
-            newOwner,
+            host,
             money,
+            title,
           });
         }
       });
@@ -59,7 +61,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   const clickMakeTwitter = () => {
-    const str = `My seat was stolen at ${detailMap.newOwner}, lost my alpha :( but earned ${detailMap.money} ETH, come join us @tryalpha_club, where winner Chads unite. `;
+    const str = `My seat was stolen at ${detailMap.title}, lost my alpha :( but earned ${detailMap.money} ETH, come join us @tryalpha_club, where winner Chads unite. `;
     sendTwitter(str).then((res) => {
       console.log(res);
       Toast.success("Twitter sent successfully");
@@ -85,7 +87,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         }}
       >
         <div>
-          Your place at What is next for RGB hosted by {detailMap.newOwner} has
+          Your place at {detailMap.title} for {detailMap.host} hosted by has
           been outbid by others. You earned{" "}
           <span style={{ color: "red" }}>{detailMap.money}</span> ETH. Check
           your balance!

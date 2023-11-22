@@ -22,6 +22,7 @@ type allSpaceResponse = {
   spaceBeginTime: number;
   title: string;
   price: number;
+  priceStr: string;
   twitterName: string;
   twitterScreenName: string;
   twitterUid: string;

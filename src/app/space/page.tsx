@@ -53,10 +53,8 @@ interface Iprops {
 }
 
 const getBiddingTime = (time: string) => {
-  console.log(time);
   const biddingTime = new Date(time).getTime() - 1 * 60 * 60 * 1000;
   const biddingDate = new Date(biddingTime);
-  console.log(biddingTime, "biddingTime");
   const [year, month, date, hour, minute] = [
     biddingDate.getFullYear(),
     biddingDate.getMonth() + 1,
@@ -74,7 +72,6 @@ const Space: React.FC<Iprops> = (props) => {
   const initialBeginTimeValue = getInitialDefaultValue();
   const initialBeginTime = `${initialBeginTimeValue.year}-${initialBeginTimeValue.month}-${initialBeginTimeValue.date} ${initialBeginTimeValue.hour}:${initialBeginTimeValue.minute}:00`;
   const biddingEndTime = getBiddingTime(initialBeginTime);
-  console.log(biddingEndTime);
   const [formMap, setFormMap] = useState({
     title: "",
     coHost: [],
@@ -94,7 +91,9 @@ const Space: React.FC<Iprops> = (props) => {
     twitterScreenName: detailId ? "" : userinfo.twitterScreenName,
   });
 
-  const [order, setOrder] = useState();
+  const [order, setOrder] = useState({
+    biddingPrice: 0,
+  });
   const [showOrderMessage, setShowOrderMessage] = useState<boolean>(false);
 
   const [showStealSeatButton, setShowStealSeatButton] = useState<boolean>(true);
@@ -105,6 +104,7 @@ const Space: React.FC<Iprops> = (props) => {
   const [isFloatingSpaceOpen, setIsFloatingSpaceOpen] = React.useState(false);
 
   const [showSpacePopup, setShowSpacePopup] = React.useState(false);
+  const [nowShowPopupCurrent, setNowShowPopupCurrent] = useState<number>(1); // 1: create success 2:create/bidding error 3:steal success
 
   const [showSelectSearchView, setShowSelectSearchView] = React.useState(false);
 
@@ -148,7 +148,7 @@ const Space: React.FC<Iprops> = (props) => {
         ...res.result,
         // Hard fix for backend typo
         biddingEndTime: res.result.biddingEndTtime ?? res.result.biddingEndTime,
-        BidPrice: res.result.price,
+        BidPrice: res.result.priceStr,
       });
       setCurrentHostMap({
         twitterName: res.result.host.twitterName,
@@ -217,14 +217,16 @@ const Space: React.FC<Iprops> = (props) => {
       createSpace(param)
         .then((res) => {
           console.log(res);
-          router.push("/myspace");
+          setNowShowPopupCurrent(1);
+          setShowSpacePopup(true);
+          // router.push("/myspace");
           // setOrder(res.result);
           // setShowOrderMessage(true);
         })
         .catch((err) => {
           console.log(err);
           if (err.request.status === 500) {
-            Toast.error("Network interruption, please try again");
+            setNowShowPopupCurrent(2);
           }
         });
     } else {
@@ -275,33 +277,42 @@ const Space: React.FC<Iprops> = (props) => {
     console.log("clickCompleteStealSeat");
     const data = {
       web3Sid: Number(formMap.web3Sid),
-      price: Number(formMap.BidPrice),
+      price: Number(order.biddingPrice),
     };
     spaceBidding(data)
       .then((res) => {
         console.log(res);
-        if (res.message === "success") {
-          setShowStealSeatButton(false);
-          setShowOrderMessage(false);
-          router.push(`/buySuccess`);
-
-          setShowSpacePopup(true);
-        }
+        setShowStealSeatButton(false);
+        setShowOrderMessage(false);
+        setNowShowPopupCurrent(3);
+        setShowSpacePopup(true);
       })
       .catch((err) => {
         console.log(err);
-        if (err.request.status === 500) {
+        if (err.data.code == "90001") {
           Toast.error("Price has changed, retriving new price.");
           getSpaceDetailFunc();
+          setShowOrderMessage(false);
+        } else {
+          setShowSpacePopup(true);
+          setNowShowPopupCurrent(2);
           setShowOrderMessage(false);
         }
       });
   };
 
   const clickMakeTwitter = () => {
-    const str = `I've just got my seat at ${formMap.title} , come and join the room, either earn ETH, or earn alpha! There's something for everyone to win @tryalpha_club`;
+    let str = `I have just got my seat at ${formMap.title}, come and join the room, either earn ETH, or earn alpha! There's something for everyone to win @tryalpha_club`;
+    if (nowShowPopupCurrent == 1 || nowShowPopupCurrent == 2) {
+      str = `I will be hosting a space in alpha club, ${formMap.title}, come and join my space, lets bid to earn and enjoy the space.`;
+    }
+
     sendTwitter(str).then((res) => {
       console.log(res);
+      // 如果是创建成功的弹窗，跳转到我的空间页面
+      if (nowShowPopupCurrent == 1) {
+        router.push("/myspace");
+      }
       Toast.success("Twitter sent successfully");
       setShowSpacePopup(false);
     });
@@ -311,6 +322,7 @@ const Space: React.FC<Iprops> = (props) => {
     <div className={styles.container}>
       <div className="pcWidth">
         <NavBar
+          className={styles.navBar}
           onBack={() => {
             router.back();
           }}
@@ -514,7 +526,6 @@ const Space: React.FC<Iprops> = (props) => {
           transaction={order}
           hideSellOrbuy={() => {
             setShowOrderMessage(false);
-            // getPersonalDetail();
           }}
           sellOrbuy={showOrderMessage}
         ></OrderMessage>
@@ -522,15 +533,37 @@ const Space: React.FC<Iprops> = (props) => {
           makeTwitter={() => {
             clickMakeTwitter();
           }}
-          whom={currentHostMap.twitterScreenName}
-          spaceTitle={formMap.title}
-          price={formMap.BidPrice}
           title={"success"}
           show={showSpacePopup}
           onClose={() => {
+            if (nowShowPopupCurrent == 1) {
+              router.push("/myspace");
+            }
             setShowSpacePopup(false);
           }}
-        ></SpacePopup>
+        >
+          {nowShowPopupCurrent == 1 && (
+            <div>
+              You just created your space, you will earn the first{" "}
+              <span> {formMap.maxSeatNumber}</span> people&apos;s seat price
+              7.5% from every transaction. Come join us @tryalpha_club and share
+              your space on twitter!
+            </div>
+          )}
+          {nowShowPopupCurrent == 2 && (
+            <div>
+              Blockchain is currently busy, please wait for a while and come
+              back to check your space
+            </div>
+          )}
+          {nowShowPopupCurrent == 3 && (
+            <div>
+              You have stolen {currentHostMap.twitterScreenName} Seat at What is
+              next for {formMap.title} Keep ittill the end or earn{" "}
+              <span> {formMap.BidPrice}</span> ETH when your seat gets taken...
+            </div>
+          )}
+        </SpacePopup>
       </div>
     </div>
   );

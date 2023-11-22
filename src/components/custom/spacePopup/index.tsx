@@ -6,10 +6,8 @@ interface SpacePopupProps {
   show: boolean;
   onClose: () => void;
   title?: string;
-  price: string | number;
-  spaceTitle: string;
-  whom: string;
   makeTwitter: () => void;
+  children?: React.ReactNode;
 }
 
 const SpacePopup: React.FC<SpacePopupProps> = (props) => {
@@ -17,10 +15,9 @@ const SpacePopup: React.FC<SpacePopupProps> = (props) => {
     show,
     onClose,
     title = "success",
-    price,
-    spaceTitle,
-    whom,
+
     makeTwitter,
+    children,
   } = props;
   return (
     <Mask
@@ -29,11 +26,7 @@ const SpacePopup: React.FC<SpacePopupProps> = (props) => {
     >
       <div className={styles.overlayContent}>
         <div className={styles.topTitle}>{title}</div>
-        <div className={styles.text}>
-          You have stolen {whom} Seat at What is next for {spaceTitle} Keep it
-          till the end or earn <span>{price}</span> ETH when your seat gets
-          taken...
-        </div>
+        <div className={styles.text}>{children}</div>
         <div
           className={styles.button}
           onClick={makeTwitter}

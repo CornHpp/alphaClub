@@ -41,7 +41,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
     <div className={[styles.superSpaceCard, className].join(" ")}>
       <header className={styles.topCard}>
         <div className={styles.SupersapceText}>{item.title}</div>
-        <div className={styles.ethColor}>{item.price} ETH</div>
+        <div className={styles.ethColor}>{item.priceStr} ETH</div>
       </header>
       <div className={styles.content}>
         <div className={styles.leftHeaderImg}>

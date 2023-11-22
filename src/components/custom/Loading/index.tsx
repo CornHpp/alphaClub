@@ -1,3 +1,4 @@
+import { DotLoading } from "antd-mobile";
 import styles from "./index.module.scss";
 
 interface Props {
@@ -8,13 +9,7 @@ const Loading: React.FC<Props> = (props) => {
   return (
     <div className={styles.blackBackground}>
       <div className={styles.loadingWrap}>
-        {/* <CircularProgress
-          sx={{
-            color: "#FED335",
-            width: "50px !important",
-            height: "50px !important",
-          }}
-        /> */}
+        <DotLoading color="white" />
         <span className={styles.loadingText}>{loadingText}</span>
       </div>
     </div>

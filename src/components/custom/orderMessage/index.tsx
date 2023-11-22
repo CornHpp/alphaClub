@@ -34,45 +34,6 @@ export const OrderMessage: React.FC<PopupBottomProps> = (props) => {
   // 获取transtion message
   const getTransactionMessage = async () => {
     props.completeStealSeat();
-
-    return;
-    if (!transaction || transaction.error) {
-      toast.error("Get order failed: " + transaction.errorMessage);
-      return;
-    }
-
-    hideSellOrbuy();
-    setShowErrorMessage(true);
-    setIsLoading(true);
-    setTransactionMsg(null);
-    if (transaction.action == "buy") {
-      buyShares(transaction.toId, transaction.amount, transaction.price)
-        .then((res) => {
-          console.log("res", res);
-          setTransactionMsg(res);
-          if (res.error || res.status == "0") {
-            toast.error("Transaction failed");
-          } else {
-            toast.success("Transaction success");
-          }
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    } else {
-      sellShares(transaction.toId, 1)
-        .then((res) => {
-          setTransactionMsg(res);
-          if (res.error || res.status == "0") {
-            toast.error("Transaction failed");
-          } else {
-            toast.success("Transaction success");
-          }
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
   };
 
   return (
@@ -100,12 +61,17 @@ export const OrderMessage: React.FC<PopupBottomProps> = (props) => {
         <div className={styles.buyOrSellPopup}>
           {/* <div className={styles.title}>Cheers to {transaction?.toDisplayName}!</div> */}
           <div className={styles.logoImg}>
-            <Image width={88} height={88} src={logoColorful} alt="" />
+            <Image
+              width={146}
+              height={88}
+              src={logoColorful}
+              alt=""
+            />
           </div>
           <div className={styles.cheerText}>
-            Cheer {transaction?.amount} time
+            {/* Cheer {transaction?.amount} time
             {transaction?.amount == 1 ? null : "s"} for{" "}
-            {transaction?.toDisplayName}
+            {transaction?.toDisplayName} */}
           </div>
           <div className={styles.table}>
             <div

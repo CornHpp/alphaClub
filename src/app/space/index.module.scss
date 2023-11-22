@@ -3,6 +3,12 @@
   min-height: calc(100vh - 40px);
   min-height: -webkit-fill-available;
   width: 100%;
+  .navBar {
+    position: sticky !important;
+    top: 0px;
+    z-index: 1001;
+    background-color: var(--pageBackground);
+  }
   .formBox {
     padding: 0.625rem;
     padding-bottom: 7rem;
