@@ -46,23 +46,32 @@ const Login: React.FC = () => {
   const [showSafariNotification, setShowSafariNotification] = useState(false);
 
   const showSafariBrowserNotificationFunc = () => {
-    const isMobileSafari = () => {
+    const isMobile = () => {
       const userAgent = navigator.userAgent;
-      return (
-        /iPhone|iPad|iPod/.test(userAgent) &&
-        /AppleWebKit/.test(userAgent) &&
-        !/CriOS/.test(userAgent)
-      );
+      return /iPhone|iPad|iPod/.test(userAgent);
     };
 
-    // 如果不是safari浏览器，提示使用safari浏览器
-    if (!isMobileSafari()) {
+    const Chrome = () => {
+      return /Chrome/.test(navigator.userAgent);
+    };
+
+    console.log("isMobileSafari", isMobile());
+    console.log("isSafari", Chrome());
+    if (isMobile()) {
+      toast("isMobile");
+    }
+    if (Chrome()) {
+      toast("Chrome");
+    }
+
+    // 如果是手机，并且不是safari浏览器，提示使用safari浏览器
+    if (isMobile() && !Chrome()) {
       setShowSafariNotification(true);
     }
   };
   useEffect(() => {
     showPwaNativeNotificationFunc();
-    showSafariBrowserNotificationFunc();
+    // showSafariBrowserNotificationFunc();
   }, []);
 
   // get personal info from the server cache to redux store
@@ -220,7 +229,7 @@ const Login: React.FC = () => {
           ></Image>
           <div className={styles.titleContent}>Please use safari browser</div>
           <div className={styles.contentDetail}>
-            safari can better support pwa
+            safari can better support bookmark
           </div>
         </div>
       </BackGround>

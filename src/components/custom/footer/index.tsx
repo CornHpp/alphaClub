@@ -47,7 +47,11 @@ const Footer: React.FC = () => {
         className={styles.tabBarWrap}
       >
         {tabList.map((item) => (
-          <TabBar.Item key={item.route} icon={item.icon} title={item.name} />
+          <TabBar.Item
+            key={item.route}
+            icon={item.icon}
+            title={item.name}
+          />
         ))}
       </TabBar>
     </div>
@@ -57,7 +61,13 @@ export default Footer;
 
 function formatIcon(name: string, icon: any) {
   return (
-    <Image unoptimized src={icon} alt={name} width={26} height={27}></Image>
+    <Image
+      unoptimized
+      src={icon}
+      alt={name}
+      width={26}
+      height={27}
+    ></Image>
   );
 }
 
@@ -72,7 +82,7 @@ export const tabList = [
   {
     id: 2,
     icon: (active: boolean) =>
-      active ? formatIcon("Chat", AirdropActive) : formatIcon("Chat", Airdrop),
+      active ? formatIcon("Chat", mySpaceActive) : formatIcon("Chat", mySpaces),
     name: "myspace",
     route: "/myspace",
   },
@@ -80,8 +90,8 @@ export const tabList = [
     id: 3,
     icon: (active: boolean) =>
       active
-        ? formatIcon("airdrop", mySpaceActive)
-        : formatIcon("airdrop", mySpaces),
+        ? formatIcon("airdrop", AirdropActive)
+        : formatIcon("airdrop", Airdrop),
     name: "airdrop",
     route: "/airdrop",
   },

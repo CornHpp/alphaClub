@@ -54,7 +54,7 @@ const ExportWallet: React.FC<Props> = (props) => {
       >
         <div className={styles.popupBox}>
           <div className={styles.title}>
-            <div className={styles.Transfer}>Transfer</div>
+            <div className={styles.Transfer}>Export</div>
             <div className={styles.walletMessage}>
               <MailOutline className={styles.walletIcon} />
               {filterString(userinfo?.walletAddress || "")}
@@ -83,7 +83,11 @@ const ExportWallet: React.FC<Props> = (props) => {
             </div>
           </div>
           <div className={styles.copyKeybutton}>
-            <Button className={styles.button} onClick={clickCopy} id="copy">
+            <Button
+              className={styles.button}
+              onClick={clickCopy}
+              id="copy"
+            >
               <TextOutline className={styles.leftCopy}></TextOutline>
               Copy Key
             </Button>

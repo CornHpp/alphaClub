@@ -73,7 +73,14 @@ const LeftBar: React.FC = () => {
 export default LeftBar;
 
 function formatIcon(name: string, icon: any) {
-  return <Image width={26} height={27} src={icon} alt={name}></Image>;
+  return (
+    <Image
+      width={26}
+      height={27}
+      src={icon}
+      alt={name}
+    ></Image>
+  );
 }
 
 export const tabList = [
@@ -87,7 +94,7 @@ export const tabList = [
   {
     id: 2,
     icon: (active: boolean) =>
-      active ? formatIcon("Chat", AirdropActive) : formatIcon("Chat", Airdrop),
+      active ? formatIcon("Chat", mySpaceActive) : formatIcon("Chat", mySpaces),
     name: "myspace",
     route: "/myspace",
   },
@@ -95,8 +102,8 @@ export const tabList = [
     id: 3,
     icon: (active: boolean) =>
       active
-        ? formatIcon("airdrop", mySpaceActive)
-        : formatIcon("airdrop", mySpaces),
+        ? formatIcon("airdrop", AirdropActive)
+        : formatIcon("airdrop", Airdrop),
     name: "airdrop",
     route: "/airdrop",
   },

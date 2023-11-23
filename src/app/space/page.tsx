@@ -219,9 +219,6 @@ const Space: React.FC<Iprops> = (props) => {
           console.log(res);
           setNowShowPopupCurrent(1);
           setShowSpacePopup(true);
-          // router.push("/myspace");
-          // setOrder(res.result);
-          // setShowOrderMessage(true);
         })
         .catch((err) => {
           console.log(err);
@@ -292,7 +289,7 @@ const Space: React.FC<Iprops> = (props) => {
           getSpaceDetailFunc();
           setShowOrderMessage(false);
         } else {
-          setShowSpacePopup(true);
+          // setShowSpacePopup(true);
           // setNowShowPopupCurrent(2);
           setShowOrderMessage(false);
         }
@@ -302,7 +299,7 @@ const Space: React.FC<Iprops> = (props) => {
   const clickMakeTwitter = () => {
     let str = `I have just got my seat at ${formMap.title}, come and join the room, either earn ETH, or earn alpha! There's something for everyone to win @tryalpha_club`;
     if (nowShowPopupCurrent == 1 || nowShowPopupCurrent == 2) {
-      str = `I will be hosting a space in alpha club, ${formMap.title}, come and join my space, lets bid to earn and enjoy the space.`;
+      str = `I will be hosting a space in alpha club, ${formMap.title}, come and join my space, lets bid to earn and enjoy the space. #AlphaClub #SlidingBids`;
     }
 
     sendTwitter(str).then((res) => {

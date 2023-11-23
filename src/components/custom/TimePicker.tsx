@@ -41,7 +41,7 @@ const generateStrNumberArray = ({
 const getPickerSelections = (
   hourLimit: number,
   nowDate?: Date,
-  givenTime?: number
+  givenTime?: number,
 ) => {
   // filter conditions
   const givenDate = givenTime ? new Date(givenTime) : undefined;
@@ -126,7 +126,7 @@ export function TimePicker({
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const { year, month, date, hour, minute } = pickerValue;
   const time = new Date(
-    `${year}-${month}-${date} ${hour}:${minute}:00`
+    `${year}-${month}-${date} ${hour}:${minute}:00`,
   ).getTime();
   const selections = getPickerSelections(hourLimit ?? 1, startingTime, time);
   const { isMobile } = useSelector<RootState, UserStateType>((x) => x.user);
@@ -145,7 +145,6 @@ export function TimePicker({
         visible={isPickerVisible}
         onMaskClick={() => setIsPickerVisible(false)}
         bodyStyle={{
-          height: "60vh",
           borderTopLeftRadius: "20px",
           borderTopRightRadius: "20px",
         }}
@@ -157,7 +156,10 @@ export function TimePicker({
             className="absolute right-4"
             onClick={() => setIsPickerVisible(false)}
           >
-            <CloseOutline className="w-6 h-6" strokeWidth={3} />
+            <CloseOutline
+              className="w-6 h-6"
+              strokeWidth={3}
+            />
           </button>
         </div>
 
@@ -178,15 +180,21 @@ export function TimePicker({
           wheelMode="normal"
         >
           {Object.keys(selections).map((name: string) => (
-            <Picker.Column name={name} key={name}>
+            <Picker.Column
+              name={name}
+              key={name}
+            >
               {selections[name as keyof typeof selections].map((option) => (
-                <Picker.Item key={option} value={option}>
+                <Picker.Item
+                  key={option}
+                  value={option}
+                >
                   <span
                     className={cn(
                       "text-base",
                       pickerValue[name as keyof typeof selections] === option
                         ? "text-black"
-                        : "text-gray-400"
+                        : "text-gray-400",
                     )}
                   >
                     {option}
@@ -197,7 +205,7 @@ export function TimePicker({
           ))}
         </Picker>
 
-        <div className="px-4 pt-6 pb-4">
+        <div className="px-4 pt-6 pb-4 pb-12">
           <Button
             height="42px"
             onClick={() => {
