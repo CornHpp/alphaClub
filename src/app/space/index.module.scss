@@ -5,9 +5,10 @@
   width: 100%;
   .navBar {
     position: sticky !important;
-    top: 0px;
-    z-index: 104;
-    background-color: var(--pageBackground);
+    top: 0;
+    z-index: 200;
+    background-color: #fff;
+    border-bottom: 1px solid var(--border);
   }
   .formBox {
     padding: 0.625rem;
@@ -42,7 +43,7 @@
     position: relative;
     z-index: 102;
     .setZindex {
-      z-index: 110;
+      z-index: 103;
     }
     .searchView {
       position: absolute;
