@@ -18,6 +18,7 @@ import { parseEther } from "viem";
 import { getBalance } from "@/service/userService";
 import { toast } from "react-toastify";
 import CopyIcon from "@/assets/images/earning/copy.png";
+import toaster from "../Toast/Toast";
 
 interface walletMapType {
   address: string;
@@ -120,7 +121,10 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
                     disabled={isLoading}
                   />
                   <Button
-                    onClick={() => sendTransactionAsync?.()}
+                    onClick={() =>{
+                      sendTransactionAsync?.()
+                      toaster.info("Please goto your wallet to confirm the transaction.")
+                    }}
                     isLoading={isLoading}
                     height="32px"
                   >
