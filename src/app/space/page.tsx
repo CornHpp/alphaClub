@@ -542,7 +542,7 @@ const Space: React.FC<Iprops> = (props) => {
           {nowShowPopupCurrent == 1 && (
             <div>
               You just created your space, you will earn the first{" "}
-              <span> {formMap.maxSeatNumber}</span> people&apos;s seat price
+              <span> {formMap.maxSeatNumber}</span> people&apos;s seat price +{" "}
               7.5% from every transaction. Come join us @tryalpha_club and share
               your space on twitter!
             </div>
@@ -555,8 +555,8 @@ const Space: React.FC<Iprops> = (props) => {
           )}
           {nowShowPopupCurrent == 3 && (
             <div>
-              You have stolen {currentHostMap.twitterScreenName} Seat at What is
-              next for {formMap.title} Keep ittill the end or earn{" "}
+              You have stolen {currentHostMap.twitterScreenName} Seat, What is
+              next for {"\""}{formMap.title}{"\""} Keep ittill the end or earn{" "}
               <span> {formMap.BidPrice}</span> ETH when your seat gets taken...
             </div>
           )}

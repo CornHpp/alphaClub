@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Provider as ReduxProvider } from "react-redux";
 
 import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
-import { arbitrum, mainnet } from "viem/chains";
+import { arbitrum, baseGoerli, mainnet } from "viem/chains";
 import { WagmiConfig, Config } from "wagmi";
 
 import { store } from "@/redux";
@@ -18,7 +18,7 @@ const wagmiMetadata = {
   url: "https://web3modal.com",
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
-const chains = [mainnet, arbitrum];
+const chains = [baseGoerli];
 const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
