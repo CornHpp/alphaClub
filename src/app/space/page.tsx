@@ -34,6 +34,7 @@ import {
   getInitialDefaultValue,
   getNumberOfDaysInMonth,
 } from "@/components/custom/TimePicker";
+import { addHoursToTime } from "@/lib/utils";
 
 const parseTimeValue = (timeString: string) => {
   const [_, year, month, date, hour, minute] =
@@ -428,6 +429,7 @@ const Space: React.FC<Iprops> = (props) => {
                   setFormMap({
                     ...formMap,
                     biddingEndTime: timeValue,
+                    spaceBeginTime: addHoursToTime(timeValue, 1),
                   });
                 }}
                 disabled={detailId ? true : false}
