@@ -202,23 +202,24 @@ html {
 @media (max-width: 430px) {
 }
 
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* 隐藏滚动条轨道 */
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+/* 隐藏滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  display: none;
+}
+
 /* pc */
 @media (min-width: 431px) {
-  /* 隐藏滚动条 */
-  ::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
-
-  /* 隐藏滚动条轨道 */
-  ::-webkit-scrollbar-track {
-    display: none;
-  }
-
-  /* 隐藏滚动条滑块 */
-  ::-webkit-scrollbar-thumb {
-    display: none;
-  }
   .layout {
     display: flex;
     background-color: var(--pageBackground);

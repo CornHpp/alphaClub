@@ -14,6 +14,7 @@ import { PullStatus } from "antd-mobile/es/components/pull-to-refresh";
 import { getAllSpace, getMySpace, spaceCohostDecide } from "@/service/space";
 import { getBalance } from "@/service/userService";
 import { useSelector } from "react-redux";
+import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -240,22 +241,41 @@ const Home: React.FC<homeProps> = (props) => {
                     key={index + "s"}
                     className={`w-full ${styles.wFull}`}
                   >
-                    <SuperSpaceCard
-                      onClickDecide={onClickDecideSpace}
-                      item={item}
-                      onClick={() => {
-                        console.log(item.sid);
-                        router.push("/space/" + item.sid);
-                      }}
-                      className={styles.superSpace}
-                      isOnGoingSpace={
-                        isUserSpace &&
-                        isSpaceReadyToOpen &&
-                        item.role != "default" &&
-                        item.role != "cohost:selecting" &&
-                        item.role != "cohost:no"
-                      }
-                    ></SuperSpaceCard>
+                    {isMySpace ? (
+                      <SuperSpaceCard
+                        onClickDecide={onClickDecideSpace}
+                        item={item}
+                        onClick={() => {
+                          console.log(item.sid);
+                          router.push("/space/" + item.sid);
+                        }}
+                        className={styles.superSpace}
+                        isOnGoingSpace={
+                          isUserSpace &&
+                          isSpaceReadyToOpen &&
+                          item.role != "default" &&
+                          item.role != "cohost:selecting" &&
+                          item.role != "cohost:no"
+                        }
+                      ></SuperSpaceCard>
+                    ) : (
+                      <SuperSpaceHomeCard
+                        onClickDecide={onClickDecideSpace}
+                        item={item}
+                        onClick={() => {
+                          console.log(item.sid);
+                          router.push("/space/" + item.sid);
+                        }}
+                        className={styles.superSpace}
+                        isOnGoingSpace={
+                          isUserSpace &&
+                          isSpaceReadyToOpen &&
+                          item.role != "default" &&
+                          item.role != "cohost:selecting" &&
+                          item.role != "cohost:no"
+                        }
+                      ></SuperSpaceHomeCard>
+                    )}
                   </div>
                 );
               })}

@@ -16,10 +16,10 @@ type ResponseBaseType<T> = {
 };
 
 type allSpaceResponse = {
-  biddingEndTtime: number;
+  biddingEndTtime: string;
   imageUrl: string;
   maxSeatNumber: number;
-  spaceBeginTime: number;
+  spaceBeginTime: string;
   title: string;
   price: number;
   priceStr: string;

@@ -163,3 +163,23 @@ export function addHoursToTime(inputTime: string, hoursToAdd: number) {
 
   return formatDate(inputDate, "yyyy-MM-dd hh:mm:ss");
 }
+
+// 计算时间差值
+export function getTimeRemaining(targetDate: string) {
+  const now = new Date();
+  const target = new Date(targetDate);
+
+  // 计算时间差值（以毫秒为单位）
+  const timeDifference = Number(target) - Number(now);
+
+  // 计算小时、分钟
+  const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+
+  // 格式化为字符串
+  const formattedTime = `${hours > 0 ? hours : 0} hours ${
+    minutes > 0 ? minutes : 0
+  } mins`;
+
+  return formattedTime;
+}
