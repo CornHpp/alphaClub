@@ -556,8 +556,10 @@ const Space: React.FC<Iprops> = (props) => {
           {nowShowPopupCurrent == 3 && (
             <div>
               You have stolen {currentHostMap.twitterScreenName} Seat, What is
-              next for {"\""}{formMap.title}{"\""} Keep ittill the end or earn{" "}
-              <span> {formMap.BidPrice}</span> ETH when your seat gets taken...
+              next for {'"'}
+              {formMap.title}
+              {'"'} Keep ittill the end or earn <span> {formMap.BidPrice}</span>{" "}
+              ETH when your seat gets taken...
             </div>
           )}
         </SpacePopup>
@@ -681,14 +683,30 @@ const PeopleList: React.FC<IPeopleList> = ({ list }) => {
             key={index + "a"}
             className={styles.peopleItem}
           >
-            <Image
-              className={styles.setImgSize}
-              src={item?.imageUrl ? item?.imageUrl : emptySeat}
-              alt=""
-              width={40}
-              height={40}
-              style={{ borderRadius: "50%" }}
-            />
+            {index == arrowImageIndex ? (
+              <div className={styles.lightRing}>
+                <div className={styles.secondLinghtRing}>
+                  <Image
+                    className={`${styles.setImgSize} ${styles.peopleImgActive}`}
+                    src={item?.imageUrl ? item?.imageUrl : emptySeat}
+                    alt=""
+                    width={40}
+                    height={40}
+                    style={{ borderRadius: "50%" }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <Image
+                className={`${styles.setImgSize}`}
+                src={item?.imageUrl ? item?.imageUrl : emptySeat}
+                alt=""
+                width={40}
+                height={40}
+                style={{ borderRadius: "50%" }}
+              />
+            )}
+
             {index == arrowImageIndex && (
               <Image
                 width={22}

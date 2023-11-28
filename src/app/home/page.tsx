@@ -95,13 +95,32 @@ const Home: React.FC<homeProps> = (props) => {
       : (param.isTop = nowTab === "TOP" ? true : false);
     return getListFunction(param).then((res) => {
       let { pageList = [], count = 0 } = res.result;
-      pageList?.forEach((item: any) => {
-        if (nowTab == "created") {
-          item.role = "created";
-        } else if (nowTab == "joined") {
-          item.role = "joined";
-        }
-      });
+      if (isMySpace) {
+        pageList?.forEach((item: any) => {
+          if (nowTab == "created") {
+            item.role = "created";
+          } else if (nowTab == "joined") {
+            item.role = "joined";
+          }
+        });
+      } else {
+        pageList = pageList.map((item: any) => {
+          if (
+            item.role == "joined" ||
+            item.role == "created" ||
+            item.role == "cohost:yes" ||
+            item.role == "default"
+          ) {
+            if (nowTab == "created") {
+              item.role = "created";
+            } else if (nowTab == "joined") {
+              item.role = "joined";
+            }
+            return item;
+          }
+        });
+      }
+
       const newList = [...(isInit ? [] : data), ...(pageList ? pageList : [])];
       setData(newList);
       setHasMore(newList.length >= count ? false : pageList?.length > 0);
@@ -186,7 +205,7 @@ const Home: React.FC<homeProps> = (props) => {
             }}
           >
             <Button
-              backgroundColor="var(--sconedBorder)"
+              background="var(--sconedBorder)"
               textColor="var(--textColor)"
               showBorderShodow={false}
             >
@@ -197,7 +216,10 @@ const Home: React.FC<homeProps> = (props) => {
                 height={40}
                 alt=""
               />
-              {walletBalance.toFixed(5)} ETH <RightOutline />
+              <span style={{ lineHeight: 0 }}>
+                {walletBalance.toFixed(5)} ETH
+              </span>
+              <RightOutline />
             </Button>
           </div>
         </div>

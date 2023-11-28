@@ -64,7 +64,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               onClick={() => {
                 router.push(`/space/${item.sid}`);
               }}
-              backgroundColor="rgba(255, 228, 120, 1)"
+              background="rgba(255, 228, 120, 1)"
             >
               Space Detail
             </Button>
@@ -74,7 +74,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               showBorderShodow={false}
               className={styles.button}
               onClick={onClick}
-              backgroundColor="rgba(255, 228, 120, 1)"
+              background="rgba(255, 228, 120, 1)"
               width="59"
               height="19"
             >

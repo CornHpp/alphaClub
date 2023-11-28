@@ -121,9 +121,11 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
                     disabled={isLoading}
                   />
                   <Button
-                    onClick={() =>{
-                      sendTransactionAsync?.()
-                      toaster.info("Please goto your wallet to confirm the transaction.")
+                    onClick={() => {
+                      sendTransactionAsync?.();
+                      toaster.info(
+                        "Please goto your wallet to confirm the transaction.",
+                      );
                     }}
                     isLoading={isLoading}
                     height="32px"
@@ -157,7 +159,7 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
               <Button
                 onClick={clickCopy}
                 textColor={"rgba(0, 0, 0, 1)"}
-                backgroundColor={"rgba(254, 211, 53, 1)"}
+                background={"rgba(254, 211, 53, 1)"}
                 width="100%"
                 height="3.1rem"
                 className="font-bold relative"
@@ -179,7 +181,7 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
                 <Button
                   width={"50%"}
                   textColor={"rgba(0, 0, 0, 1)"}
-                  backgroundColor={"rgba(254, 211, 53, 1)"}
+                  background={"rgba(254, 211, 53, 1)"}
                 >
                   <div className="flex item-center">
                     <Image

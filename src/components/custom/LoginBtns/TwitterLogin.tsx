@@ -30,7 +30,7 @@ export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
   return (
     <Button
       onClick={handleLogin}
-      backgroundColor="var(--tabTextColorActive)"
+      background="var(--tabTextColorActive)"
       textColor="var(--TextColorBlack)"
       showBorderShodow={false}
       width="100%"

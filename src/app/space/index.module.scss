@@ -80,17 +80,33 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     .peopleItem {
       margin: 0 1rem 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
       .setImgSize {
         width: 3rem;
         height: 3rem;
       }
+      .lightRing {
+        border: 5px solid rgba(250, 209, 47, 0.1);
+        border-radius: 50%;
+      }
+      .secondLinghtRing {
+        border: 5px solid rgba(250, 209, 47, 0.2);
+        border-radius: 50%;
+      }
+      .peopleImgActive {
+        border: 1px solid rgba(250, 209, 46, 1);
+      }
       .arrowIcon {
-        margin-top: 0.8rem;
+        position: absolute;
+        bottom: -30px;
+        left: 24px;
+
         animation: float 1.2s ease-in-out infinite;
       }
     }

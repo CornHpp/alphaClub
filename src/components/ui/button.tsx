@@ -11,12 +11,15 @@ interface ButtonProps {
   width?: string;
   height?: string;
   backgroundColor?: string;
+  background?: string;
+
   textColor?: string;
   showBorderShodow?: boolean;
   maxWidth?: string;
   isLoading?: boolean;
   id?: string;
   disabled?: boolean;
+  border?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -26,10 +29,12 @@ export const Button: React.FC<ButtonProps> = ({
   width,
   height,
   backgroundColor,
+  background,
   textColor,
   showBorderShodow = true,
   maxWidth,
   isLoading,
+  border,
   id,
   disabled,
 }) => {
@@ -40,7 +45,7 @@ export const Button: React.FC<ButtonProps> = ({
         styles.button,
         className,
         showBorderShodow ? styles.showShowColor : "",
-        disabled && "bg-gray-500!"
+        disabled && "bg-gray-500!",
       )}
       onClick={() => !disabled && onClick?.()}
       style={{
@@ -49,6 +54,8 @@ export const Button: React.FC<ButtonProps> = ({
         backgroundColor: backgroundColor,
         color: textColor,
         maxWidth: maxWidth,
+        border: border,
+        background: background,
       }}
     >
       {isLoading ? <Loading /> : children}
