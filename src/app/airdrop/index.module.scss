@@ -1,98 +1,74 @@
 .exploreContainer {
-  padding: 40px 1rem 0;
+  padding: 10px 0;
   width: 100vw;
   height: calc(100vh);
   min-height: -webkit-fill-available;
-
-  background: var(--primary-text-gray-color2);
+  background: url("~@/assets/images/airdrop/baseBackgroud.png") no-repeat left
+    center / cover;
+  background-size: auto 100%; /* 或者 auto auto，根据实际需求 */
   box-sizing: border-box;
-  :global {
-    .css-ykm2jt {
-      padding-left: 0 !important;
-    }
-  }
+  .navBar {
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    vertical-align: top;
 
-  .topPersonalDetails {
-    height: 6rem;
-    border-radius: 0.815rem;
-    background-color: #fff;
-    display: flex;
-    align-items: center;
-    padding: 0 1.25rem;
-    justify-content: space-between;
-    .qrCode {
-      width: 5.1rem;
-      height: 5.1rem;
-      border-radius: 1rem;
-      background-color: var(--primary-text-yellow-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-  .redpocket2 {
-    width: 40px;
-  }
-}
-
-.rewardstext {
-  display: flex;
-  color: #fff;
-  width: 96%;
-  height: 100%;
-  background-color: rgba(254, 211, 53, 0.2);
-  border-radius: 12px;
-  padding: 1rem;
-  .rewardsPoints,
-  .rank {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-    & > div:first-child {
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
-    }
-    & > div:last-child {
-      font-size: 1rem;
-    }
-    .inViteCode {
-      width: 100%;
-      max-height: 175px;
-      overflow-y: auto;
-      .code {
+    :global {
+      .adm-nav-bar-title {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        font-size: 12px;
-        margin-top: 5px;
-        .used {
-          text-decoration: line-through;
-        }
-        img {
-          flex-shrink: 0;
-          width: 15px;
-          height: 15px;
-        }
       }
     }
   }
-}
-
-@media (min-width: 430px) {
-  .inViteCode {
-    max-height: 1000px !important;
+  .airdropTitle {
+    width: 90%;
+    margin: 33px auto 0;
+    line-height: 21.6px;
+    font-size: 18px;
+    color: #fff;
   }
-  .rewardstext {
-    width: 430px;
-    margin-left: 0 !important;
+  .inviteCodeContent {
+    width: 90%;
+    margin: 32px auto 0;
+    border: 1px solid #000;
+    padding: 28px 21px;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    height: 300px;
+    overflow-y: auto;
+    .inviteTitle {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .inviteCodeItem {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      font-size: 12px;
+      font-weight: 600;
+      .used {
+        text-decoration: line-through;
+      }
+    }
   }
-}
+  .rankContent {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.8);
 
-.minigamesText {
-  margin: 0 auto;
-  width: 90%;
-  text-align: center;
+    bottom: 90px;
+    width: 90%;
+    border: 1px solid #000;
+    border-radius: 12px;
+    height: 128px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }

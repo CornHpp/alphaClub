@@ -62,8 +62,9 @@ export const ExploreWrapper = (props: ExploreWrapperProps) => {
           onBack={() => {
             router.back();
           }}
+          className={styles.navBar}
         >
-          airdrop
+          AirDrop
         </NavBar>
 
         {props.children}
