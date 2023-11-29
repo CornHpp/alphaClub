@@ -7,28 +7,30 @@ import xTwitter from "@/assets/images/login/x.png";
 import toast from "@/components/custom/Toast/Toast";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { getTwitterLink } from "@/service/auth";
 interface TwitterLoginProps {
   isAgree: boolean;
 }
 
 export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
   const { isAgree } = props;
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!isAgree) {
       console.log("isAgree", isAgree);
       toast.error("Please agree to the User agreement and Privacy Policy");
       return;
     }
-
-    window.location.href =
-      process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
+    try {
+      window.location.href =
+        process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
+    } catch (error) {
+      console.error("Failed to fetch Twitter auth URL", error);
+    }
   };
 
   return (
     <Button
       onClick={handleLogin}
-      background="var(--tabTextColorActive)"
+      backgroundColor="var(--tabTextColorActive)"
       textColor="var(--TextColorBlack)"
       showBorderShodow={false}
       width="100%"
