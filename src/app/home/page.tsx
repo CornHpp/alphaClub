@@ -95,6 +95,7 @@ const Home: React.FC<homeProps> = (props) => {
       : (param.isTop = nowTab === "TOP" ? true : false);
     return getListFunction(param).then((res) => {
       let { pageList = [], count = 0 } = res.result;
+      console.log(pageList);
       if (isMySpace) {
         pageList?.forEach((item: any) => {
           if (nowTab == "created") {
@@ -104,24 +105,27 @@ const Home: React.FC<homeProps> = (props) => {
           }
         });
       } else {
-        pageList = pageList.map((item: any) => {
-          if (
-            item.role == "joined" ||
-            item.role == "created" ||
-            item.role == "cohost:yes" ||
-            item.role == "default"
-          ) {
-            if (nowTab == "created") {
-              item.role = "created";
-            } else if (nowTab == "joined") {
-              item.role = "joined";
+        if (pageList.length > 0) {
+          pageList = pageList.map((item: any) => {
+            if (
+              item.role == "joined" ||
+              item.role == "created" ||
+              item.role == "cohost:yes" ||
+              item.role == "default"
+            ) {
+              if (nowTab == "created") {
+                item.role = "created";
+              } else if (nowTab == "joined") {
+                item.role = "joined";
+              }
             }
             return item;
-          }
-        });
+          });
+        }
       }
 
       const newList = [...(isInit ? [] : data), ...(pageList ? pageList : [])];
+      console.log(newList);
       setData(newList);
       setHasMore(newList.length >= count ? false : pageList?.length > 0);
       pageMap.pageNum++;
@@ -224,7 +228,7 @@ const Home: React.FC<homeProps> = (props) => {
           </div>
         </div>
         <div className={styles.tabsList}>
-          {tabsList.map((item, index) => {
+          {tabsList?.map((item, index) => {
             return (
               <div
                 key={index + "q"}
@@ -252,55 +256,56 @@ const Home: React.FC<homeProps> = (props) => {
           >
             {/* 数据展示 */}
             <div className={`flex flex-wrap justify-between w-full`}>
-              {data.map((item, index) => {
-                const isSpaceReadyToOpen =
-                  new Date(item.spaceBeginTime).getTime() - Date.now() <=
-                  5 * 60 * 1000;
-                const isUserSpace = !!isMySpace;
+              {data.length > 0 &&
+                data.map((item, index) => {
+                  const isSpaceReadyToOpen =
+                    new Date(item?.spaceBeginTime).getTime() - Date.now() <=
+                    5 * 60 * 1000;
+                  const isUserSpace = !!isMySpace;
 
-                return (
-                  <div
-                    key={index + "s"}
-                    className={`w-full ${styles.wFull}`}
-                  >
-                    {isMySpace ? (
-                      <SuperSpaceCard
-                        onClickDecide={onClickDecideSpace}
-                        item={item}
-                        onClick={() => {
-                          console.log(item.sid);
-                          router.push("/space/" + item.sid);
-                        }}
-                        className={styles.superSpace}
-                        isOnGoingSpace={
-                          isUserSpace &&
-                          isSpaceReadyToOpen &&
-                          item.role != "default" &&
-                          item.role != "cohost:selecting" &&
-                          item.role != "cohost:no"
-                        }
-                      ></SuperSpaceCard>
-                    ) : (
-                      <SuperSpaceHomeCard
-                        onClickDecide={onClickDecideSpace}
-                        item={item}
-                        onClick={() => {
-                          console.log(item.sid);
-                          router.push("/space/" + item.sid);
-                        }}
-                        className={styles.superSpace}
-                        isOnGoingSpace={
-                          isUserSpace &&
-                          isSpaceReadyToOpen &&
-                          item.role != "default" &&
-                          item.role != "cohost:selecting" &&
-                          item.role != "cohost:no"
-                        }
-                      ></SuperSpaceHomeCard>
-                    )}
-                  </div>
-                );
-              })}
+                  return (
+                    <div
+                      key={index + "s"}
+                      className={`w-full ${styles.wFull}`}
+                    >
+                      {isMySpace ? (
+                        <SuperSpaceCard
+                          onClickDecide={onClickDecideSpace}
+                          item={item}
+                          onClick={() => {
+                            console.log(item.sid);
+                            router.push("/space/" + item.sid);
+                          }}
+                          className={styles.superSpace}
+                          isOnGoingSpace={
+                            isUserSpace &&
+                            isSpaceReadyToOpen &&
+                            item.role != "default" &&
+                            item.role != "cohost:selecting" &&
+                            item.role != "cohost:no"
+                          }
+                        ></SuperSpaceCard>
+                      ) : (
+                        <SuperSpaceHomeCard
+                          onClickDecide={onClickDecideSpace}
+                          item={item}
+                          onClick={() => {
+                            console.log(item.sid);
+                            router.push("/space/" + item.sid);
+                          }}
+                          className={styles.superSpace}
+                          isOnGoingSpace={
+                            isUserSpace &&
+                            isSpaceReadyToOpen &&
+                            item.role != "default" &&
+                            item.role != "cohost:selecting" &&
+                            item.role != "cohost:no"
+                          }
+                        ></SuperSpaceHomeCard>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           </PullToRefresh>
           {/* 上拉刷新操作 */}

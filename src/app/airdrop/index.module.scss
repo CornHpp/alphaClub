@@ -20,7 +20,14 @@
       .adm-nav-bar-title {
         display: flex;
         align-items: center;
+        width: 100%;
       }
+    }
+    .navBarTitle {
+      display: flex;
+    }
+    .moreBtn {
+      margin-left: 35px;
     }
   }
   .airdropTitle {
@@ -64,11 +71,18 @@
 
     bottom: 90px;
     width: 90%;
+    max-width: 1000px;
     border: 1px solid #000;
     border-radius: 12px;
     height: 128px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+}
+
+@media (min-width: 431px) {
+  .rankContent {
+    left: 53% !important;
   }
 }

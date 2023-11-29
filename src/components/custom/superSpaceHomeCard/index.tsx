@@ -58,7 +58,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
     <div className={[styles.superSpaceCard, className].join(" ")}>
       <header className={styles.topCard}>
         <div className={styles.SupersapceTextTitile}>
-          <span>{item.title}</span>
+          <span>{item?.title}</span>
         </div>
         <div className={styles.ethColor}>
           <div className={styles.moneyBox}>
@@ -68,17 +68,17 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               width={18}
               height={18}
             ></Image>
-            <span>{item.priceStr}</span>
+            <span>{item?.priceStr}</span>
           </div>
 
-          {(item.role == "joined" ||
-            item.role == "created" ||
-            item.role == "cohost:yes") && (
+          {(item?.role == "joined" ||
+            item?.role == "created" ||
+            item?.role == "cohost:yes") && (
             <Button
               showBorderShodow={false}
               className={styles.button}
               onClick={() => {
-                router.push(`/space/${item.sid}`);
+                router.push(`/space/${item?.sid}`);
               }}
               background="rgba(255, 228, 120, 1)"
             >

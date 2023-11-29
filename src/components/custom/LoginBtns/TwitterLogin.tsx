@@ -20,36 +20,11 @@ export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
       toast.error("Please agree to the User agreement and Privacy Policy");
       return;
     }
-    try {
-      await getTwitterLink().then((res) => {
-        var appOpened = false;
 
-        // 尝试打开Twitter应用的URL Scheme
-        window.location.href =
-          "twitter:oauth_token=" + res.result;
-
-        // 监听页面失去焦点事件
-        window.onblur = function () {
-          appOpened = true;
-        };
-
-        // 检查应用是否打开
-        setTimeout(function () {
-          if (!appOpened) {
-            // 应用未打开的逻辑
-            window.location.href =
-              "https://api.twitter.com/oauth/authorize?oauth_token=" +
-              res.result;
-          }
-        }, 750);
-      });
-      // window.location.href =
-      //   process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
-    } catch (error) {
-      console.error("Failed to fetch Twitter auth URL", error);
-    }
+    window.location.href =
+      process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
   };
-  
+
   return (
     <Button
       onClick={handleLogin}

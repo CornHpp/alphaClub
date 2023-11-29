@@ -92,16 +92,21 @@ const EarningPage = () => {
             ></Image>
             Deposit
           </div>
-          {/* <div
+          <div
             className="flex flex-col items-center"
             onClick={() => {
               console.log("openWithdraw");
               setShowWithdraw(true);
             }}
           >
-            <Image width={68} height={68} src={withdraw} alt=""></Image>
+            <Image
+              width={68}
+              height={68}
+              src={withdraw}
+              alt=""
+            ></Image>
             Withdraw
-          </div> */}
+          </div>
           <div
             className="flex flex-col items-center"
             onClick={() => {

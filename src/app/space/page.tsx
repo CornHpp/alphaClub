@@ -34,7 +34,7 @@ import {
   getInitialDefaultValue,
   getNumberOfDaysInMonth,
 } from "@/components/custom/TimePicker";
-import { addHoursToTime } from "@/lib/utils";
+import { addHoursToTime, formatDate, utcToLocal } from "@/lib/utils";
 
 const parseTimeValue = (timeString: string) => {
   const [_, year, month, date, hour, minute] =
@@ -54,6 +54,7 @@ interface Iprops {
 }
 
 const getBiddingTime = (time: string) => {
+  console.log(time);
   const biddingTime = new Date(time).getTime() - 1 * 60 * 60 * 1000;
   const biddingDate = new Date(biddingTime);
   const [year, month, date, hour, minute] = [
@@ -70,15 +71,17 @@ const getBiddingTime = (time: string) => {
 const Space: React.FC<Iprops> = (props) => {
   const { detailId } = props;
 
-  const initialBeginTimeValue = getInitialDefaultValue();
-  const initialBeginTime = `${initialBeginTimeValue.year}-${initialBeginTimeValue.month}-${initialBeginTimeValue.date} ${initialBeginTimeValue.hour}:${initialBeginTimeValue.minute}:00`;
-  const biddingEndTime = getBiddingTime(initialBeginTime);
+  const initialEndTimeValue = getInitialDefaultValue();
+  const biddingEndTime = `${initialEndTimeValue.year}-${initialEndTimeValue.month}-${initialEndTimeValue.date} ${initialEndTimeValue.hour}:${initialEndTimeValue.minute}:00`;
+  const initialBeginTimeValue = getInitialDefaultValue(biddingEndTime);
+  const biddingBeginTime = `${initialBeginTimeValue.year}-${initialBeginTimeValue.month}-${initialBeginTimeValue.date} ${initialBeginTimeValue.hour}:${initialBeginTimeValue.minute}:00`;
+
   const [formMap, setFormMap] = useState({
     title: "",
     coHost: [],
     spaceSeatLimit: "",
-    spaceBeginTime: initialBeginTime,
     biddingEndTime: biddingEndTime,
+    spaceBeginTime: biddingBeginTime,
     maxSeatNumber: "",
     auctionPrice: "",
     BidPrice: "",
@@ -211,8 +214,12 @@ const Space: React.FC<Iprops> = (props) => {
       const param = {
         cohost: selectedPeopleList.map((item) => item.twitterUidStr),
         maxSeatNumber: Number(formMap.maxSeatNumber),
-        spaceBeginTime: formMap.spaceBeginTime,
-        biddingEndTtime: formMap.biddingEndTime,
+        biddingEndTtime: utcToLocal(
+          new Date(formMap.biddingEndTime).toISOString(),
+        ),
+        spaceBeginTime: utcToLocal(
+          new Date(formMap.spaceBeginTime).toISOString(),
+        ),
         title: formMap.title,
       };
       createSpace(param)

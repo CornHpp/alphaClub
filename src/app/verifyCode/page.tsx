@@ -18,7 +18,7 @@ const Login: React.FC = () => {
 
   const [inviteCode, setInviteCode] = useState<string>("");
 
-  const [showRoundCard, setShowRoundCard] = useState<boolean>(true);
+  const [showRoundCard, setShowRoundCard] = useState<boolean>(false);
 
   const [points, setPoints] = useState<number>(0);
 

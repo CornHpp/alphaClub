@@ -11,14 +11,7 @@ interface SpacePopupProps {
 }
 
 const SpacePopup: React.FC<SpacePopupProps> = (props) => {
-  const {
-    show,
-    onClose,
-    title = "success",
-
-    makeTwitter,
-    children,
-  } = props;
+  const { show, onClose, title = "success", makeTwitter, children } = props;
   return (
     <Mask
       visible={show}

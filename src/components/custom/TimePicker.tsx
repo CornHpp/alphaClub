@@ -82,12 +82,15 @@ const getPickerSelections = (
 };
 
 // Returns a default begin time value base on now + 2h
-export const getInitialDefaultValue = () => {
-  const now = new Date();
+export const getInitialDefaultValue = (currentDate?: string) => {
+  const now = currentDate ? new Date(currentDate) : new Date();
   const year = now.getFullYear().toString().padStart(2, "0");
   const minute = "00";
-  const hour = (now.getHours() + 2).toString().padStart(2, "0");
-  const date = now.getDate().toString().padStart(2, "0");
+  let hour = (now.getHours() + 1).toString().padStart(2, "0");
+  hour = hour === "25" ? "00" : hour;
+  const date = (hour == "00" ? now.getDate() + 1 : now.getDate())
+    .toString()
+    .padStart(2, "0");
   // Month is 0 based
   const month = (now.getMonth() + 1).toString().padStart(2, "0");
 

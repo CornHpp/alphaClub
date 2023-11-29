@@ -105,10 +105,12 @@ export const formatBalanceNumber = (num: number, maxDecimals = 5) => {
  * @returns string
  */
 export const getCommonDate = (value: string | number | Date): Date => {
-  // safary浏览器里的new Date(参数时间格式只支持"/"分割)，故而此处转一下
+  // safari浏览器里的new Date(参数时间格式只支持"/"分割)，故而此处转一下
+  return new Date(value);
   if (typeof value === "string") {
     value = value.replace(/[^\d: ]/g, "/");
   }
+
   const date = new Date(value);
   return date;
 };
@@ -126,7 +128,7 @@ export const formatDate = (
   if (!value) {
     return "";
   }
-  const date = getCommonDate(value);
+  const date = new Date((value as string).split(".")[0]);
   const year = date.getFullYear();
   const month =
     date.getMonth() + 1 < 10
@@ -147,10 +149,12 @@ export const formatDate = (
     mm: minutes,
     ss: seconds,
   };
+  console.log(formatObj);
   const str = format.replace(/(yyyy|MM|dd|hh|mm|ss)/g, (match: string) => {
     const value = formatObj[match];
     return value || 0;
   });
+  console.log(str);
   return str;
 };
 
@@ -167,7 +171,11 @@ export function addHoursToTime(inputTime: string, hoursToAdd: number) {
 // 计算时间差值
 export function getTimeRemaining(targetDate: string) {
   const now = new Date();
-  const target = new Date(targetDate);
+
+  targetDate = targetDate?.split(" ").join("T").concat("Z");
+
+  const toUtcString = new Date(targetDate).toLocaleString();
+  const target = new Date(toUtcString);
 
   // 计算时间差值（以毫秒为单位）
   const timeDifference = Math.max(0, Number(target) - Number(now));
@@ -198,4 +206,11 @@ export function formatDateIsEnd(inputDateStr: string): string {
   const timeDifference = Number(target) - Number(now);
 
   return timeDifference > 0 ? inputDateStr : "end";
+}
+
+// utc时间转换为本地时间
+export function utcToLocal(time: string) {
+  const utcTime = formatDate(time, "yyyy-MM-dd hh:mm:ss");
+
+  return utcTime;
 }
