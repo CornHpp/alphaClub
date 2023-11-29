@@ -68,5 +68,8 @@
     "tailwindcss": "^3.3.0",
     "typescript": "^5",
     "vconsole": "^3.15.1"
+  },
+  "overrides": {
+    "node-gyp-build": "4.6.1"
   }
 }

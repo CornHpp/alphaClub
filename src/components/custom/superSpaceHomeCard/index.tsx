@@ -43,7 +43,9 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
   return (
     <div className={[styles.superSpaceCard, className].join(" ")}>
       <header className={styles.topCard}>
-        <div className={styles.SupersapceTextTitile}>{item.title}</div>
+        <div className={styles.SupersapceTextTitile}>
+          <span>{item.title}</span>
+        </div>
         <div className={styles.ethColor}>
           <div className={styles.moneyBox}>
             <Image
@@ -140,23 +142,49 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               alt=""
               width={15}
               height={15}
-              className={styles.hammerIcon}
+              className={`${styles.hammerIcon} mt-1.5`}
             ></Image>
             <div className={styles.TimeText}>
-              <span>{getTimeRemaining(item?.biddingEndTtime)}</span>
+              <div>
+                <span className="text-lg font-bold">
+                  {getTimeRemaining(item?.biddingEndTtime).hours}
+                </span>{" "}
+                H{" "}
+                <span className="text-lg font-bold">
+                  {getTimeRemaining(item?.biddingEndTtime).minutes}
+                </span>{" "}
+                M{" "}
+                <span className="text-lg font-bold">
+                  {getTimeRemaining(item?.biddingEndTtime).seconds}
+                </span>{" "}
+                S
+              </div>
               <div>Till Bidding Ends</div>
             </div>
           </div>
-          <div className={styles.BeginEnd}>
+          <div className={`${styles.BeginEnd} mt-1.5`}>
             <Image
               src={timepiece}
               alt=""
               width={21}
               height={21}
-              className={styles.timepiece}
+              className={`${styles.timepiece} mt-1.5`}
             ></Image>
             <div className={styles.TimeText}>
-              <span>{getTimeRemaining(item?.spaceBeginTime)}</span>
+              <div>
+                <span className="text-lg font-bold">
+                  {getTimeRemaining(item?.spaceBeginTime).hours}
+                </span>{" "}
+                H{" "}
+                <span className="text-lg font-bold">
+                  {getTimeRemaining(item?.spaceBeginTime).minutes}
+                </span>{" "}
+                M{" "}
+                <span className="text-lg font-bold">
+                  {getTimeRemaining(item?.spaceBeginTime).seconds}
+                </span>{" "}
+                S
+              </div>
               <div>Till Room Begins</div>
             </div>
           </div>

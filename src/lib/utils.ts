@@ -175,11 +175,26 @@ export function getTimeRemaining(targetDate: string) {
   // 计算小时、分钟
   const hours = Math.floor(timeDifference / (1000 * 60 * 60));
   const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
   // 格式化为字符串
   const formattedTime = `${hours > 0 ? hours : 0} hours ${
     minutes > 0 ? minutes : 0
   } mins`;
 
-  return formattedTime;
+  return {
+    hours: hours > 0 ? hours : 0,
+    minutes: minutes > 0 ? minutes : 0,
+    seconds: seconds > 0 ? seconds : 0,
+  };
+}
+
+export function formatDateIsEnd(inputDateStr: string): string {
+  const now = new Date();
+
+  const target = new Date(inputDateStr);
+
+  const timeDifference = Number(target) - Number(now);
+
+  return timeDifference > 0 ? inputDateStr : "end";
 }

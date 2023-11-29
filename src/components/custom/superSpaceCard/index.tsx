@@ -8,7 +8,7 @@ import sofa from "@/assets/images/home/sofa.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { formatDateCheers } from "@/lib/utils";
+import { formatDateIsEnd } from "@/lib/utils";
 import { useSpace } from "../FloatingSpace/SpaceProvider";
 
 interface SuperSpaceCardProps {
@@ -65,7 +65,8 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
               src={sofa}
               alt=""
             ></Image>
-            Space Seat Limit: {item?.maxSeatNumber}
+            Space Seat Limit:{" "}
+            <span className="text-black">{item?.maxSeatNumber}</span>
           </div>
           <div className={styles.text}>
             <Image
@@ -74,7 +75,10 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
               src={dollorSimple}
               alt=""
             ></Image>
-            Bidding End Time：{formatDateCheers(item?.biddingEndTtime)}
+            Bidding End Time:
+            <span className="text-black">
+              {formatDateIsEnd(item?.biddingEndTtime)}
+            </span>
           </div>
           <div className={styles.text}>
             <Image
@@ -83,11 +87,14 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
               src={timepiece}
               alt=""
             ></Image>
-            Space Beginning Time:{formatDateCheers(item?.spaceBeginTime)}
+            Space Beginning Time:
+            <span className="text-black">
+              {formatDateIsEnd(item?.spaceBeginTime)}
+            </span>
           </div>
         </div>
 
-        {isOnGoingSpace ? (
+        {isOnGoingSpace && item.seatStatus != -1 ? (
           <Button
             width="84px"
             className={styles.buttonPosition}
@@ -108,7 +115,8 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
 
             {(item.role == "joined" ||
               item.role == "created" ||
-              item.role == "cohost:yes") && (
+              item.role == "cohost:yes" ||
+              item.seatStatus == -1) && (
               <Button
                 showBorderShodow={false}
                 className={styles.buttonPosition}

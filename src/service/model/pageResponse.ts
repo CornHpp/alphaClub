@@ -21,6 +21,7 @@ type allSpaceResponse = {
   maxSeatNumber: number;
   spaceBeginTime: string;
   title: string;
+  seatStatus: number;
   price: number;
   priceStr: string;
   twitterName: string;

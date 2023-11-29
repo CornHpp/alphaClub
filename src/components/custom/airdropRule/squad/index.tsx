@@ -19,7 +19,9 @@ const Squad: React.FC<AirdropRuleProps> = (props) => {
   return (
     <div className={styles.content}>
       <div className={styles.leftContent}>
-        <div className={styles.title}>Squad:</div>
+        <div className={styles.title}>
+          <p>Squad:</p>
+        </div>
         <div className={styles.ruleContent}>
           <Image
             className={styles.rule2}
@@ -44,7 +46,9 @@ const Squad: React.FC<AirdropRuleProps> = (props) => {
             <div className={styles.rightProgress}></div>
           </div>
 
-          <div className="font-bold mt-4">ETH Bid Goal</div>
+          <div className="font-bold mt-4">
+            <p>ETH Bid Goal</p>
+          </div>
 
           <Image
             src={drowArrow}
@@ -80,13 +84,13 @@ const Squad: React.FC<AirdropRuleProps> = (props) => {
         </div>
 
         <div className="font-bold w-3/4 mx-auto text-center text-lg mt-20">
-          Your Squad
+          <p>Your Squad</p>
         </div>
         <div className="font-bold w-3/4 mx-auto text-center text-lg mt-28">
-          CompleteSquad Goal
+          <p>CompleteSquad Goal</p>
         </div>
         <div className="font-bold w-3/4 mx-auto text-center text-lg mt-28">
-          Free Pointsto Flip
+          <p>Free Pointsto Flip</p>
         </div>
       </div>
 
