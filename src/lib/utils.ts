@@ -107,12 +107,6 @@ export const formatBalanceNumber = (num: number, maxDecimals = 5) => {
 export const getCommonDate = (value: string | number | Date): Date => {
   // safari浏览器里的new Date(参数时间格式只支持"/"分割)，故而此处转一下
   return new Date(value);
-  if (typeof value === "string") {
-    value = value.replace(/[^\d: ]/g, "/");
-  }
-
-  const date = new Date(value);
-  return date;
 };
 
 /**
