@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import headerImg from "@/assets/images/home/headerImg.png";
 import dollorSimple from "@/assets/images/home/dollorSimple.png";
@@ -39,6 +39,20 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
     }
     setCurrentSpace({ sid: item.sid, title: item.title });
   };
+
+  const [biddingEndTime, setBiddingEndTime] = useState(
+    getTimeRemaining(item?.biddingEndTtime),
+  );
+
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      setBiddingEndTime(getTimeRemaining(item?.biddingEndTtime));
+    }, 1000);
+
+    return () => {
+      clearInterval(timerInterval);
+    };
+  }, [item]);
 
   return (
     <div className={[styles.superSpaceCard, className].join(" ")}>
@@ -147,15 +161,15 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
             <div className={styles.TimeText}>
               <div>
                 <span className="text-lg font-bold">
-                  {getTimeRemaining(item?.biddingEndTtime).hours}
+                  {biddingEndTime.hours}
                 </span>{" "}
                 H{" "}
                 <span className="text-lg font-bold">
-                  {getTimeRemaining(item?.biddingEndTtime).minutes}
+                  {biddingEndTime.minutes}
                 </span>{" "}
                 M{" "}
                 <span className="text-lg font-bold">
-                  {getTimeRemaining(item?.biddingEndTtime).seconds}
+                  {biddingEndTime.seconds}
                 </span>{" "}
                 S
               </div>

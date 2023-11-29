@@ -170,22 +170,23 @@ export function getTimeRemaining(targetDate: string) {
   const target = new Date(targetDate);
 
   // 计算时间差值（以毫秒为单位）
-  const timeDifference = Number(target) - Number(now);
+  const timeDifference = Math.max(0, Number(target) - Number(now));
 
   // 计算小时、分钟
-  const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-
-  // 格式化为字符串
-  const formattedTime = `${hours > 0 ? hours : 0} hours ${
-    minutes > 0 ? minutes : 0
-  } mins`;
+  const hours = Math.floor(timeDifference / (1000 * 60 * 60))
+    .toString()
+    .padStart(2, "0");
+  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60))
+    .toString()
+    .padStart(2, "0");
+  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000)
+    .toString()
+    .padStart(2, "0");
 
   return {
-    hours: hours > 0 ? hours : 0,
-    minutes: minutes > 0 ? minutes : 0,
-    seconds: seconds > 0 ? seconds : 0,
+    hours,
+    minutes,
+    seconds,
   };
 }
 

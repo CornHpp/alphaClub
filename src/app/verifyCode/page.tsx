@@ -11,11 +11,16 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import twitterIcon from "@/assets/images/login/x.png";
 import { bindInviteCode } from "@/service/userService";
+import RoundCard from "@/components/custom/roundCard";
 
 const Login: React.FC = () => {
   const router = useRouter();
 
   const [inviteCode, setInviteCode] = useState<string>("");
+
+  const [showRoundCard, setShowRoundCard] = useState<boolean>(true);
+
+  const [points, setPoints] = useState<number>(0);
 
   const clickSubmitLogin = () => {
     if (!inviteCode) {
@@ -24,7 +29,8 @@ const Login: React.FC = () => {
     }
 
     bindInviteCode(inviteCode).then((res) => {
-      router.push("/home");
+      setShowRoundCard(true);
+      setPoints(res.result);
     });
   };
 
@@ -63,6 +69,15 @@ const Login: React.FC = () => {
           <div>@tryalpha_club</div>
         </div>
       </div>
+
+      <RoundCard
+        show={showRoundCard}
+        points={points}
+        onClose={() => {
+          setShowRoundCard(false);
+          router.push("/home");
+        }}
+      ></RoundCard>
     </AuthPagesWrapper>
   );
 };

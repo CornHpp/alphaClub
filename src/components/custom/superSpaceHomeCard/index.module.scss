@@ -123,6 +123,7 @@
     .timeRemain {
       .biddingEnd {
         display: flex;
+        justify-content: space-between;
         .hammerIcon {
           width: 15px;
           height: 15px;
@@ -132,6 +133,8 @@
       .TimeText {
         span {
           white-space: nowrap;
+          min-width: 20px;
+          display: inline-block;
         }
       }
       .BeginEnd {
