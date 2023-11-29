@@ -122,7 +122,16 @@ export const formatDate = (
   if (!value) {
     return "";
   }
-  const date = new Date((value as string).split(".")[0]);
+  console.log("🚀 ~ file: utils.ts:123 ~ value:", value);
+
+  var date = new Date();
+
+  try {
+    date = new Date((value as string).split(".")[0]);
+  } catch (e) {
+    date = new Date(value);
+  }
+
   const year = date.getFullYear();
   const month =
     date.getMonth() + 1 < 10
@@ -165,11 +174,11 @@ export function addHoursToTime(inputTime: string, hoursToAdd: number) {
 // 计算时间差值
 export function getTimeRemaining(targetDate: string) {
   const now = new Date();
-
   targetDate = targetDate?.split(" ").join("T").concat("Z");
 
-  const toUtcString = new Date(targetDate).toLocaleString();
-  const target = new Date(toUtcString);
+  let toLocalDate = new Date(targetDate).toLocaleString("en-US", {});
+
+  const target = new Date(toLocalDate);
 
   // 计算时间差值（以毫秒为单位）
   const timeDifference = Math.max(0, Number(target) - Number(now));
@@ -192,14 +201,17 @@ export function getTimeRemaining(targetDate: string) {
   };
 }
 
-export function formatDateIsEnd(inputDateStr: string): string {
+export function formatDateIsEnd(
+  inputDateStr: string,
+  isSpace: boolean = false,
+): string {
   const now = new Date();
 
   const target = new Date(inputDateStr);
 
   const timeDifference = Number(target) - Number(now);
 
-  return timeDifference > 0 ? inputDateStr : "end";
+  return timeDifference > 0 ? inputDateStr : isSpace ? "Ready" : "Ended";
 }
 
 // utc时间转换为本地时间

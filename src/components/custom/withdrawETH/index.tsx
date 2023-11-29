@@ -42,7 +42,7 @@ const WithdrawETH: React.FC<Props> = (props) => {
       <div className={styles.overlayContent}>
         <div className={styles.title}>Withdraw ETH</div>
         <div className={styles.explain}>
-          Transfer Eth from your Alphaclub wallet to another wallet on Arbitrum
+          Transfer Eth from your Alphaclub wallet to another wallet on Base
         </div>
 
         <Input

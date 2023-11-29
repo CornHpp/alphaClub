@@ -89,7 +89,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
             ></Image>
             Space Beginning Time:
             <span className="text-black">
-              {formatDateIsEnd(item?.spaceBeginTime)}
+              {formatDateIsEnd(item?.spaceBeginTime, true)}
             </span>
           </div>
         </div>

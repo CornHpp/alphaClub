@@ -133,7 +133,6 @@ const Login: React.FC = () => {
   }, [params.oauth_token, params.oauth_verifier, router, dispatch]);
 
   useEffect(() => {
-    console.log("use effect");
     if (params.oauth_token && params.oauth_verifier) {
       validateTwitterToken();
     } else {
@@ -170,11 +169,12 @@ const Login: React.FC = () => {
           ></Checkbox>
 
           <div style={{ paddingLeft: "7px" }}>
+            {/*todo: 加一个agreement系统*/}
             <span className={styles.userAgreement}>《User agreement》</span> &{" "}
             <span className={styles.userAgreement}>《Privacy Policy》</span>
           </div>
         </div>
-
+        {/*todo: 这里按下去跳转到咱们的twitter*/}
         <div className={styles.twitterName}>
           <Image
             src={twitterIcon}

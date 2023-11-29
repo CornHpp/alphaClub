@@ -21,16 +21,16 @@ export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
       return;
     }
     try {
-      // window.location.href =
-      //   process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
-      await getTwitterLink().then((res) => {
-        if (res.code == 200) {
-          console.log("🚀 ~ file: TwitterLogin.tsx:29 ~ awaitgetTwitterLink ~ res.result:", res.result)
-          window.location.href = res.result;
-        } else {
-          toast.error(res.message);
-        }
-      });
+      window.location.href =
+        process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
+      // await getTwitterLink().then((res) => {
+      //   if (res.code == 200) {
+      //     console.log("🚀 ~ file: TwitterLogin.tsx:29 ~ awaitgetTwitterLink ~ res.result:", res.result)
+      //     window.location.href = res.result;
+      //   } else {
+      //     toast.error(res.message);
+      //   }
+      // });
     } catch (error) {
       console.error("Failed to fetch Twitter auth URL", error);
     }

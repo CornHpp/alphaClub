@@ -110,7 +110,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               alt=""
               className={styles.headerImg}
             />
-            <div className={styles.secondImage}>
+            {/* <div className={styles.secondImage}>
               <Image
                 width={40}
                 height={40}
@@ -126,12 +126,29 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
                 alt=""
                 className={styles.headerImg}
               />
-            </div>
+            </div> */}
           </div>
 
           <div className={styles.centerDetails}>
-            <div className={styles.twitterName}>
-              {item?.twitterName} <span>@{item?.twitterScreenName}</span>
+            <div
+              className={styles.twitterName}
+              style={{
+                fontSize: "14px",
+                fontWeight: "600",
+              }}
+            >
+              {item?.twitterName}
+            </div>
+            <div
+              className={styles.twitterName}
+              style={{
+                fontSize: "10px",
+                fontWeight: "200",
+                paddingLeft: 0,
+                marginLeft: 0,
+              }}
+            >
+              @{item?.twitterScreenName}
             </div>
             <div className={styles.sofa}>
               <Image
@@ -145,7 +162,9 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
                 {item?.maxSeatNumber}
               </span>
             </div>
-            <div>Avaliable Seats</div>
+            <div style={{ fontSize: "12px", fontWeight: "600" }}>
+              Avaliable Seats
+            </div>
           </div>
         </div>
 
