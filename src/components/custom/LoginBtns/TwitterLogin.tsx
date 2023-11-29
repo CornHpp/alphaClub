@@ -7,6 +7,7 @@ import xTwitter from "@/assets/images/login/x.png";
 import toast from "@/components/custom/Toast/Toast";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { getTwitterLink } from "@/service/auth";
 interface TwitterLoginProps {
   isAgree: boolean;
 }
@@ -20,8 +21,15 @@ export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
       return;
     }
     try {
-      window.location.href =
-        process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
+      // window.location.href =
+      //   process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
+      getTwitterLink().then((res) => {
+        if (res.code === 200) {
+          window.location.href = res.result;
+        } else {
+          toast.error(res.message);
+        }
+      });
     } catch (error) {
       console.error("Failed to fetch Twitter auth URL", error);
     }
