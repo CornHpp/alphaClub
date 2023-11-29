@@ -23,8 +23,8 @@ export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
     try {
       // window.location.href =
       //   process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
-      getTwitterLink().then((res) => {
-        if (res.code === 200) {
+      await getTwitterLink().then((res) => {
+        if (res.code == 200) {
           window.location.href = res.result;
         } else {
           toast.error(res.message);
