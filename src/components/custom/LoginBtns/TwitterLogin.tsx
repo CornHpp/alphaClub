@@ -14,7 +14,7 @@ interface TwitterLoginProps {
 
 export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
   const { isAgree } = props;
-  const handleLogin = async () => {
+  const handleLogin = () => {
     if (!isAgree) {
       console.log("isAgree", isAgree);
       toast.error("Please agree to the User agreement and Privacy Policy");
