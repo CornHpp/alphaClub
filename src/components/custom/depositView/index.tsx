@@ -124,7 +124,7 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
                     onClick={() => {
                       sendTransactionAsync?.();
                       toaster.info(
-                        "Please goto your wallet to confirm the transaction.",
+                        "Please go to your wallet to confirm the transaction.",
                       );
                     }}
                     isLoading={isLoading}

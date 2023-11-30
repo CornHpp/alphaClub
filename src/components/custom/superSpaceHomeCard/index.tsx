@@ -80,7 +80,8 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               onClick={() => {
                 router.push(`/space/${item?.sid}`);
               }}
-              background="rgba(255, 228, 120, 1)"
+              background="rgba(255, 242, 223, 1)"
+              border="1px solid rgba(151, 151, 151, 1)"
             >
               Space Detail
             </Button>

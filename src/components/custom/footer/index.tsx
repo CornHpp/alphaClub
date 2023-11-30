@@ -83,7 +83,7 @@ export const tabList = [
     id: 2,
     icon: (active: boolean) =>
       active ? formatIcon("Chat", mySpaceActive) : formatIcon("Chat", mySpaces),
-    name: "myspace",
+    name: "My Space",
     route: "/myspace",
   },
   {
@@ -92,7 +92,7 @@ export const tabList = [
       active
         ? formatIcon("airdrop", AirdropActive)
         : formatIcon("airdrop", Airdrop),
-    name: "airdrop",
+    name: "Airdrop",
     route: "/airdrop",
   },
 ];

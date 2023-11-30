@@ -15,11 +15,16 @@ interface RoundCardProps {
 const RoundCard: React.FC<RoundCardProps> = (props) => {
   const { show, onClose, points } = props;
 
+  const clickShadow = () => {
+    if (!isRound) return;
+    onClose();
+  };
+
   const [isRound, setIsRound] = React.useState(false);
   return (
     <Mask
       visible={show}
-      onMaskClick={onClose}
+      onMaskClick={clickShadow}
     >
       <div className={styles.overlayContent}>
         {!isRound ? (

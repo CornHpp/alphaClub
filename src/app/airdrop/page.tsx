@@ -80,16 +80,14 @@ const Rewards = () => {
             <div
               key={index + "q"}
               className={styles.inviteCodeItem}
+              onClick={() => {
+                copyInviteCode(item.inviteCode);
+              }}
             >
               <div className={item.invitedTwitterUid ? styles.used : ""}>
                 {item.inviteCode}
               </div>
-              <div
-                className={styles.copyIcon}
-                onClick={() => {
-                  copyInviteCode(item.inviteCode);
-                }}
-              >
+              <div className={styles.copyIcon}>
                 <Image
                   width={15}
                   height={15}

@@ -63,12 +63,21 @@ service.interceptors.response.use(
         hideFullScreenLoading();
       }
     }, 200);
+
     if (code == "90001") {
       return Promise.reject(res);
     }
 
     if (code != 200) {
       console.error(`[${res.config.url}]: ` + msg);
+
+      if (
+        res.config.url == "/secret/users/getLogin?" ||
+        res.config.url == "/secret/space/check/status?"
+      ) {
+        console.log("error");
+        return {};
+      }
       toast.warning(msg);
       return Promise.reject(res);
     }
@@ -82,8 +91,10 @@ service.interceptors.response.use(
       }
     }, 200);
 
-    console.log(error);
-    if (error.config.url == "/secret/users/getLogin?") {
+    if (
+      error.config.url == "/secret/users/getLogin?" ||
+      error.config.url == "/secret/space/check/status?"
+    ) {
       console.log("error");
 
       return {};

@@ -4,6 +4,7 @@ import CountUp from "react-countup";
 import { getBalance, getMyEarned } from "@/service/userService";
 
 // import styles from "./index.module.scss";
+let timer: any = null;
 
 const CountUpViewEarn = () => {
   const [decimals, setDecimals] = React.useState(0);
@@ -21,6 +22,13 @@ const CountUpViewEarn = () => {
 
   useEffect(() => {
     getBalanceFunction();
+
+    timer = setInterval(() => {
+      getBalanceFunction();
+    }, 5000);
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   return (

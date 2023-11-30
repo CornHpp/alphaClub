@@ -20,13 +20,20 @@ export const TwitterLogin: React.FC<TwitterLoginProps> = (props) => {
       toast.error("Please agree to the User agreement and Privacy Policy");
       return;
     }
+
     try {
       window.location.href =
         process.env.NEXT_PUBLIC_APP_URL + "/open/x/oauth/request_token";
       // await getTwitterLink().then((res) => {
       //   if (res.code == 200) {
-      //     console.log("🚀 ~ file: TwitterLogin.tsx:29 ~ awaitgetTwitterLink ~ res.result:", res.result)
-      //     window.location.href = res.result;
+      //     console.log(
+      //       "🚀 ~ file: TwitterLogin.tsx:29 ~ awaitgetTwitterLink ~ res.result:",
+      //       res.result,
+      //     );
+      //     window.location.href =
+      //       process.env.NEXT_PUBLIC_APP_URL +
+      //       "/open/x/oauth/request_token?=" +
+      //       res.result;
       //   } else {
       //     toast.error(res.message);
       //   }

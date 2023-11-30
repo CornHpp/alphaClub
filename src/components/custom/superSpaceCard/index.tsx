@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { formatDateIsEnd } from "@/lib/utils";
 import { useSpace } from "../FloatingSpace/SpaceProvider";
+import moneyIcon from "@/assets/images/home/moneyIcon.png";
 
 interface SuperSpaceCardProps {
   title?: string;
@@ -41,7 +42,17 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
     <div className={[styles.superSpaceCard, className].join(" ")}>
       <header className={styles.topCard}>
         <div className={styles.SupersapceText}>{item.title}</div>
-        <div className={styles.ethColor}>{item.priceStr} ETH</div>
+        <div className={styles.ethColor}>
+          <div className={styles.moneyBox}>
+            <Image
+              src={moneyIcon}
+              alt=""
+              width={18}
+              height={18}
+            ></Image>
+            <span>{item?.priceStr}</span>
+          </div>
+        </div>
       </header>
       <div className={styles.content}>
         <div className={styles.leftHeaderImg}>

@@ -21,6 +21,20 @@
       color: var(--textColor);
     }
   }
+  .moneyBox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+    span {
+      color: rgba(8, 25, 209, 1);
+      font-size: 14px;
+    }
+  }
   .titterName {
     width: 60%;
     overflow: hidden;
