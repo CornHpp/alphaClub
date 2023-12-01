@@ -125,8 +125,18 @@ const Rewards = () => {
           <div className={styles.button}>{mygroupScore} of 3 ETH</div>
 
           <div className={styles.progressBar}>
-            <div className={styles.leftProgress}></div>
-            <div className={styles.rightProgress}></div>
+            <div
+              style={{
+                width: (mygroupScore / 3) * 100 + "%",
+              }}
+              className={styles.leftProgress}
+            ></div>
+            <div
+              style={{
+                width: (3 - mygroupScore / 3) * 100 + "%",
+              }}
+              className={styles.rightProgress}
+            ></div>
           </div>
 
           <div className="font-bold mt-2">ETH Bid Goal</div>
