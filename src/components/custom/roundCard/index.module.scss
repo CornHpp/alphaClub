@@ -3,14 +3,27 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  flex-direction: column;
 
-  width: 253px;
-  height: 410px;
-  overflow: hidden;
-  background: url("~@/assets/images/login/card.png") no-repeat 100% 100%;
-  background-size: 100% 100%;
-  border-radius: 16px;
+  perspective: 1000px;
+
+  .card {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    overflow: hidden;
+    background: url("~@/assets/images/login/card.png") no-repeat 100% 100%;
+    background-size: 100% 100%;
+    border-radius: 16px;
+    width: 253px;
+    height: 410px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+  }
+  .card.clickRound {
+    transform: rotateY(-180deg);
+  }
+  .cardBack {
+    transform: rotateY(180deg);
+  }
 }

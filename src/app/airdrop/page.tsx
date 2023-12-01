@@ -1,14 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-
-import { ExploreWrapper } from "@/components/custom/exploreWrapper";
-import RewardsBackgroundImg from "@/assets/images/airdrop/rewardsBackground.png";
-import rewardsRank from "@/assets/images/airdrop/rewards.png";
 import styles from "./index.module.scss";
 import copyIcon from "@/assets/images/copyIcon.png";
 import { copyTextToClipboardSafari } from "@/lib/utils";
 import { NavBar } from "antd-mobile";
-import questionMarkIcon from "@/assets/images/airdrop/questionMarkIcon.png";
 
 import { useSelector } from "react-redux";
 import Image from "next/image";
@@ -17,6 +12,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import AirdropRule from "@/components/custom/airdropRule";
 import Button from "@/components/ui/button";
+import { getMyScore, getMyGroupScore } from "@/service/userService";
 
 const Rewards = () => {
   //   const { userinfo } = useSelector((state: any) => state.user);
@@ -24,12 +20,30 @@ const Rewards = () => {
 
   const [inviteCodeList, setInviteCodeList] = useState<inviteCodeType[]>([]);
 
+  const [ownerScore, setOwnerScore] = useState<number>(0);
+
+  const [mygroupScore, setGroupScore] = useState<number>(0);
+
+  const getMyScoreFunc = () => {
+    getMyScore().then((res) => {
+      setOwnerScore(res.result);
+    });
+  };
+
+  const getMyGroupScoreFunc = () => {
+    getMyGroupScore().then((res) => {
+      setGroupScore(res.result);
+    });
+  };
+
   useEffect(() => {
     getInviteCode().then((res) => {
       const { result } = res;
       console.log(result);
       setInviteCodeList(result);
     });
+    getMyScoreFunc();
+    getMyGroupScoreFunc();
   }, []);
 
   const copyInviteCode = (code: string) => {
@@ -103,18 +117,19 @@ const Rewards = () => {
       <div className={styles.rankContent}>
         <div className="flex items-center justify-center flex-1 flex-col">
           <div className="font-bold text-base">Your Points</div>
-          <div className="font-bold mt-2 text-2xl">TBA</div>
+          <div className="font-bold mt-2 text-2xl">{ownerScore}</div>
         </div>
         <div className="flex items-center justify-center flex-1 flex-col">
           <div className="font-bold text-base">Your rank</div>
-          {/* <Image
-            className="mt-2"
-            src={rewardsRank}
-            alt=""
-            width={100}
-            height={22}
-          ></Image> */}
-          TBA
+
+          <div className={styles.button}>{mygroupScore} of 3 ETH</div>
+
+          <div className={styles.progressBar}>
+            <div className={styles.leftProgress}></div>
+            <div className={styles.rightProgress}></div>
+          </div>
+
+          <div className="font-bold mt-2">ETH Bid Goal</div>
         </div>
       </div>
 

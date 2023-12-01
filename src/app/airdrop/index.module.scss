@@ -80,6 +80,34 @@
     justify-content: space-between;
   }
 }
+.button {
+  padding: 6px 20px;
+  border-radius: 30px;
+  background: rgba(133, 133, 133, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4%;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+.progressBar {
+  margin-top: 10px;
+  width: 100px;
+  height: 10px;
+  display: flex;
+  .leftProgress {
+    width: 70%;
+    height: 10px;
+    background-color: #000;
+  }
+  .rightProgress {
+    width: 30%;
+    height: 10px;
+    background-color: #ff8d1a;
+  }
+}
 
 @media (min-width: 431px) {
   .rankContent {

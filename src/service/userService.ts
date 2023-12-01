@@ -125,3 +125,13 @@ export const bindInviteCode = (
   const url = "/open/bind/invitecode";
   return request.post<ResponseBaseType<any>>(url, { inviteCode });
 };
+
+export const getMyScore = (): Promise<ResponseBaseType<any>> => {
+  const url = "score/myScore";
+  return request.get<ResponseBaseType<any>>(url);
+};
+
+export const getMyGroupScore = (): Promise<ResponseBaseType<any>> => {
+  const url = "score/mygroup/transaction/count";
+  return request.get<ResponseBaseType<any>>(url);
+};

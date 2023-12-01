@@ -562,11 +562,9 @@ const Space: React.FC<Iprops> = (props) => {
           )}
           {nowShowPopupCurrent == 3 && (
             <div>
-              You have stolen {currentHostMap.twitterScreenName} Seat, What is
-              next for {'"'}
-              {formMap.title}
-              {'"'} Keep ittill the end or earn <span> {formMap.BidPrice}</span>{" "}
-              ETH when your seat gets taken...
+              You have stolen {currentHostMap.twitterScreenName}&apos;s Seat,
+              keep it till the end,or earn <span> {formMap.BidPrice}</span> ETH
+              when your seat gets taken.
             </div>
           )}
         </SpacePopup>

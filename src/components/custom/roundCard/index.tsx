@@ -21,58 +21,72 @@ const RoundCard: React.FC<RoundCardProps> = (props) => {
   };
 
   const [isRound, setIsRound] = React.useState(false);
+  const [roundCardTimer, setRoundCardTimer] = React.useState<any>(null);
   return (
     <Mask
       visible={show}
       onMaskClick={clickShadow}
     >
       <div className={styles.overlayContent}>
-        {!isRound ? (
-          <div className="flex w-full flex-col items-center">
-            <Image
-              className="mt-12"
-              src={doubtIcon}
-              alt="doubt"
-              width={44}
-              height={44}
-            />
-            <div className="w-5/6 text-4xl text-center font-bold text-white mt-8">
-              How many social points are you worth?
-            </div>
-            <Image
-              className="mt-12"
-              src={rightArrow}
-              alt="doubt"
-              width={80}
-              height={30}
-              onClick={() => {
-                setIsRound(true);
-              }}
-            />
-          </div>
-        ) : (
-          <div className="flex w-full flex-col items-center">
-            <Image
-              className="mt-12"
-              src={doubtIcon}
-              alt="doubt"
-              width={44}
-              height={44}
-            />
-            <div className="w-5/6 text-4xl text-center font-bold text-white mt-16">
-              Congrats!
-            </div>
-
+        <div
+          className={`${styles.card} ${
+            roundCardTimer ? styles.clickRound : ""
+          }`}
+        >
+          {!isRound ? (
             <div
-              className="text-4xl text-center font-bold text-white mt-8 w-2/4"
-              style={{
-                color: "rgba(254, 215, 73, 1)",
-              }}
+              className={`flex w-full flex-col items-center ${styles.cardFront}`}
             >
-              + {points} Points
+              <Image
+                className="mt-12"
+                src={doubtIcon}
+                alt="doubt"
+                width={44}
+                height={44}
+              />
+              <div className="w-5/6 text-4xl text-center font-bold text-white mt-8">
+                Congrats!
+              </div>
+              <Image
+                className="mt-12"
+                src={rightArrow}
+                alt="doubt"
+                width={80}
+                height={30}
+                onClick={() => {
+                  setRoundCardTimer(true);
+                  setTimeout(() => {
+                    setIsRound(true);
+                  }, 100);
+                }}
+              />
             </div>
-          </div>
-        )}
+          ) : (
+            <div
+              className={`flex w-full flex-col items-center ${styles.cardBack}`}
+            >
+              <Image
+                className="mt-12"
+                src={doubtIcon}
+                alt="doubt"
+                width={44}
+                height={44}
+              />
+              <div className="w-5/6 text-4xl text-center font-bold text-white mt-6">
+                Bid or be bid on to claim points
+              </div>
+
+              <div
+                className="text-4xl text-center font-bold text-white mt-8 w-2/4"
+                style={{
+                  color: "rgba(254, 215, 73, 1)",
+                }}
+              >
+                + {points} Points
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </Mask>
   );
