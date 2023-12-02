@@ -45,7 +45,7 @@ const Rewards = () => {
           paddingLeft: "20px",
         }}
       >
-        Points are airdropped every week and will have future uses in Alpha
+        Points are the tickets to $ALPHA
       </div>
       <div
         style={{

@@ -24,7 +24,7 @@ const SpacePopup: React.FC<SpacePopupProps> = (props) => {
           className={styles.button}
           onClick={makeTwitter}
         >
-          Make a twitter
+          Make a tweet
         </div>
       </div>
     </Mask>

@@ -84,7 +84,7 @@ const Rewards = () => {
       </NavBar>
 
       <div className={styles.airdropTitle}>
-        Points are airdropped every week and will have future uses in cheers
+        Points are the tickets to $ALPHA
       </div>
       <div className={styles.inviteCodeContent}>
         <div className={styles.inviteTitle}>Invite a Friend</div>

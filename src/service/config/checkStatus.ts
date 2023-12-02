@@ -37,7 +37,7 @@ export const getErrorInfoByCodeStatus = (status: number): string => {
       content = "gateway timeout!";
       break;
     default:
-      content = "The system is abnormal. Contact the administrator!";
+      content = "Block Chain is currently busy, your request has already submit, please wait for a moment and refresh the app!";
   }
   return content;
 };
