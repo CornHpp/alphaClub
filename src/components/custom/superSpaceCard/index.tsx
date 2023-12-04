@@ -131,9 +131,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
               <Button
                 showBorderShodow={false}
                 className={styles.buttonPosition}
-                onClick={() => {
-                  router.push(`/space/${item.sid}`);
-                }}
+                onClick={onClick}
                 background="rgba(255, 242, 223, 1)"
                 border="1px solid rgba(151, 151, 151, 1)"
               >

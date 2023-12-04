@@ -15,6 +15,7 @@ import { getAllSpace, getMySpace, spaceCohostDecide } from "@/service/space";
 import { getBalance } from "@/service/userService";
 import { useSelector } from "react-redux";
 import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
+import Loading from "@/components/custom/Loading";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -72,6 +73,7 @@ const Home: React.FC<homeProps> = (props) => {
   const [showIcon, setShowIcon] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const [walletBalance, setWalletBalance] = useState(0);
+  const [showLoading, setShowLoading] = useState(false);
   const router = useRouter();
   const { userinfo } = useSelector((state: any) => state.user);
 
@@ -147,6 +149,7 @@ const Home: React.FC<homeProps> = (props) => {
   }, [getBalanceFunction]);
 
   const goCreateSpace = () => {
+    setShowLoading(true);
     router.push("/createSpace");
   };
 
@@ -203,8 +206,8 @@ const Home: React.FC<homeProps> = (props) => {
           <div
             className={styles.ethButton}
             onClick={(e) => {
-              console.log("click ethButton");
               e.stopPropagation();
+              setShowLoading(true);
               router.push("/earning");
             }}
           >
@@ -274,6 +277,7 @@ const Home: React.FC<homeProps> = (props) => {
                           item={item}
                           onClick={() => {
                             console.log(item.sid);
+                            setShowLoading(true);
                             router.push("/space/" + item.sid);
                           }}
                           className={styles.superSpace}
@@ -290,7 +294,8 @@ const Home: React.FC<homeProps> = (props) => {
                           onClickDecide={onClickDecideSpace}
                           item={item}
                           onClick={() => {
-                            console.log(item.sid);
+                            setShowLoading(true);
+
                             router.push("/space/" + item.sid);
                           }}
                           className={styles.superSpace}
@@ -331,6 +336,9 @@ const Home: React.FC<homeProps> = (props) => {
           </div>
         )}
       </div>
+
+      {/* next.js有编译的速度问题，加一个loading，来开启loading */}
+      {showLoading && <Loading></Loading>}
     </div>
   );
 };

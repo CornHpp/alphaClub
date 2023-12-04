@@ -10,6 +10,7 @@ import AirdropActive from "@/assets/images/footerBar/AirdropActive.png";
 import mySpaces from "@/assets/images/footerBar/mySpaces.png";
 import mySpaceActive from "@/assets/images/footerBar/mySpaceActive.png";
 import Image from "next/image";
+import Loading from "@/components/custom/Loading";
 
 // 应用底部展示tabBar的路由路径集合
 const showFooterTabBarPathList = [
@@ -21,19 +22,22 @@ const showFooterTabBarPathList = [
 
 const Footer: React.FC = () => {
   const [isShow, setIsShow] = useState(true);
-
+  const [showLoading, setShowLoading] = useState(false);
   const pathname = usePathname();
+
   const router = useRouter();
 
   useEffect(() => {
     const isShow = showFooterTabBarPathList.includes(pathname);
     setIsShow(isShow);
+    setShowLoading(false);
     setActiveKey(pathname);
   }, [pathname]);
 
   //   const navigate = useNavigate();
   const [activeKey, setActiveKey] = useState("/home");
   const onTabChange = (val: string) => {
+    setShowLoading(true);
     setActiveKey(val);
     router.push(val);
   };
@@ -54,6 +58,7 @@ const Footer: React.FC = () => {
           />
         ))}
       </TabBar>
+      {showLoading && <Loading />}
     </div>
   ) : null;
 };
