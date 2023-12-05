@@ -97,7 +97,11 @@ const Login: React.FC = () => {
       console.log(res);
       if (res.code == "200") {
         dispatch(setUserInfo(res.result));
-        router.push("/home");
+        if (res.result.bindInviteCode) {
+          router.push("/home");
+        } else {
+          router.push("/verifyCode");
+        }
       }
     });
   }, [dispatch, router]);
@@ -170,7 +174,9 @@ const Login: React.FC = () => {
 
           <div style={{ paddingLeft: "7px" }}>
             {/*todo: 加一个agreement系统*/}
-            <span className={styles.userAgreement}>《User agreement》</span> &{" "}
+            <span className={styles.userAgreement}>
+              《User agreement》
+            </span> &{" "}
             <span className={styles.userAgreement}>《Privacy Policy》</span>
           </div>
         </div>

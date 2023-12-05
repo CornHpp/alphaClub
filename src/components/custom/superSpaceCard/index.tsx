@@ -41,7 +41,10 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
   return (
     <div className={[styles.superSpaceCard, className].join(" ")}>
       <header className={styles.topCard}>
-        <div className={styles.SupersapceText}>{item.title}</div>
+        <div
+          dangerouslySetInnerHTML={{ __html: item.title }}
+          className={styles.SupersapceText}
+        ></div>
         <div className={styles.ethColor}>
           <div className={styles.moneyBox}>
             <Image
@@ -55,7 +58,12 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
         </div>
       </header>
       <div className={styles.content}>
-        <div className={styles.leftHeaderImg}>
+        <div
+          className={styles.leftHeaderImg}
+          onClick={() => {
+            window.open(`https://twitter.com/${item?.twitterScreenName}`);
+          }}
+        >
           <Image
             width={40}
             height={40}
@@ -145,7 +153,7 @@ const SuperSpaceCard: React.FC<SuperSpaceCardProps> = ({
                 onClick={onClick}
                 background="rgba(255, 228, 120, 1)"
               >
-                Bid a Place
+                Bid!
               </Button>
             )}
             {item.role == "cohost:selecting" && (

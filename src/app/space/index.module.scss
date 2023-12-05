@@ -1,7 +1,7 @@
 .container {
   background-color: var(--pageBackground);
-  min-height: calc(100vh - 40px);
   min-height: -webkit-fill-available;
+  min-height: calc(100vh - 40px);
   width: 100%;
   .navBar {
     position: sticky !important;
@@ -13,6 +13,9 @@
   .formBox {
     padding: 0.625rem;
     padding-bottom: 7rem;
+    .tickerInput {
+      width: 300px;
+    }
   }
   :global {
     .adm-input-element {

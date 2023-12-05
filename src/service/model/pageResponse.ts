@@ -27,8 +27,11 @@ type allSpaceResponse = {
   twitterName: string;
   twitterScreenName: string;
   twitterUid: string;
+  ticker: string;
+  cohost: Array<any>;
   sid: number;
   role: string;
+  spaceStatus: number;
 };
 
 type UserInfoType = {

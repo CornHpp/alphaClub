@@ -9,16 +9,21 @@ import sofa from "@/assets/images/home/sofa.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { formatDateCheers } from "@/lib/utils";
+import { formatDate, formatDateCheers } from "@/lib/utils";
 import { useSpace } from "../FloatingSpace/SpaceProvider";
 import moneyIcon from "@/assets/images/home/moneyIcon.png";
 import { getTimeRemaining } from "@/lib/utils";
+import tickerIcon from "@/assets/images/home/tickerIcon.png";
+import moreCoHost from "@/assets/images/home/moreCoHost.png";
+import HomeButtonList from "./homeButtonList";
+import MySpaceButtonList from "./mySpaceButtonList";
 
 interface SuperSpaceCardProps {
   title?: string;
+  isMySpace?: boolean;
   description?: string;
   className?: string;
-  onClick?: () => void;
+  onClick: () => void;
   item: allSpaceResponse;
   isOnGoingSpace?: boolean;
   onClickDecide: (sid: number, val: number) => void;
@@ -28,6 +33,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
   className,
   onClick,
   item,
+  isMySpace,
   isOnGoingSpace,
   onClickDecide,
 }) => {
@@ -58,7 +64,16 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
     <div className={[styles.superSpaceCard, className].join(" ")}>
       <header className={styles.topCard}>
         <div className={styles.SupersapceTextTitile}>
-          <span>{item?.title}</span>
+          <div className={styles.ticker}>
+            <Image
+              src={tickerIcon}
+              width={20}
+              height={20}
+              alt=""
+            ></Image>
+            Ticker($): {item?.ticker}
+          </div>
+          <p>item?.title</p>
         </div>
         <div className={styles.ethColor}>
           <div className={styles.moneyBox}>
@@ -71,36 +86,30 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
             <span>{item?.priceStr}</span>
           </div>
 
-          {(item?.role == "joined" ||
-            item?.role == "created" ||
-            item?.role == "cohost:yes") && (
-            <Button
-              showBorderShodow={false}
-              className={styles.button}
-              onClick={onClick}
-              background="rgba(255, 242, 223, 1)"
-              border="1px solid rgba(151, 151, 151, 1)"
-            >
-              Space Detail
-            </Button>
-          )}
-          {item.role == "default" && (
-            <Button
-              showBorderShodow={false}
-              className={styles.button}
-              onClick={onClick}
-              background="rgba(255, 228, 120, 1)"
-              width="59"
-              height="19"
-            >
-              Bid a Place
-            </Button>
+          {!isMySpace ? (
+            <HomeButtonList
+              onClickButton={onClick}
+              item={item}
+            ></HomeButtonList>
+          ) : (
+            <MySpaceButtonList
+              item={item}
+              onClickButton={onClick}
+              isOnGoingSpace={isOnGoingSpace}
+              onClickDecide={onClickDecide}
+              isLoadingSpace={isLoadingSpace}
+            ></MySpaceButtonList>
           )}
         </div>
       </header>
       <div className={styles.content}>
         <div className={styles.leftHeader}>
-          <div className={styles.headerImgBox}>
+          <div
+            className={styles.headerImgBox}
+            onClick={() => {
+              window.open(`https://twitter.com/${item?.twitterScreenName}`);
+            }}
+          >
             <Image
               width={40}
               height={40}
@@ -109,26 +118,47 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               alt=""
               className={styles.headerImg}
             />
-            {/* <div className={styles.secondImage}>
-              <Image
-                width={40}
-                height={40}
-                style={{ borderRadius: "50%" }}
-                src={item.imageUrl ? item.imageUrl : "headerImg"}
-                alt=""
-              />
-              <Image
-                width={40}
-                height={40}
-                style={{ borderRadius: "50%" }}
-                src={item.imageUrl ? item.imageUrl : "headerImg"}
-                alt=""
-                className={styles.headerImg}
-              />
-            </div> */}
+            {item?.cohost.length > 0 && (
+              <div className={styles.secondImage}>
+                {item.cohost.slice(0, 2).map((cohost) => {
+                  return (
+                    <Image
+                      key={cohost.twitterScreenName}
+                      width={40}
+                      height={40}
+                      style={{ borderRadius: "50%" }}
+                      src={cohost.imageUrl ? cohost.imageUrl : "headerImg"}
+                      alt=""
+                      className={styles.headerImg}
+                    />
+                  );
+                })}
+                {item.cohost.length > 2 && (
+                  <div className={styles.mocohost}>
+                    <Image
+                      width={24}
+                      height={24}
+                      style={{ borderRadius: "50%", marginLeft: "-3px" }}
+                      src={moreCoHost}
+                      alt=""
+                      className={styles.headerImg}
+                    />
+                    <div className={styles.moreNum}>
+                      +{item.cohost.length - 1}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className={styles.centerDetails}>
+            {isMySpace && (
+              <div className={styles.host}>
+                My Role: <span>Host</span>
+              </div>
+            )}
+
             <div
               className={styles.twitterName}
               style={{
@@ -137,18 +167,20 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               }}
             >
               {item?.twitterName}
+
+              <div
+                className={styles.twitterName}
+                style={{
+                  fontSize: "10px",
+                  fontWeight: "200",
+                  paddingLeft: 0,
+                  marginLeft: 0,
+                }}
+              >
+                @{item?.twitterScreenName}
+              </div>
             </div>
-            <div
-              className={styles.twitterName}
-              style={{
-                fontSize: "10px",
-                fontWeight: "200",
-                paddingLeft: 0,
-                marginLeft: 0,
-              }}
-            >
-              @{item?.twitterScreenName}
-            </div>
+
             <div className={styles.sofa}>
               <Image
                 src={sofa}
@@ -162,7 +194,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               </span>
             </div>
             <div style={{ fontSize: "12px", fontWeight: "600" }}>
-              Avaliable Seats
+              Total Seats
             </div>
           </div>
         </div>
@@ -186,10 +218,6 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
                   {biddingEndTime.minutes}
                 </span>{" "}
                 M{" "}
-                <span className="text-lg font-bold">
-                  {biddingEndTime.seconds}
-                </span>{" "}
-                S
               </div>
               <div>Till Bidding Ends</div>
             </div>
@@ -203,21 +231,12 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               className={`${styles.timepiece} mt-1.5`}
             ></Image>
             <div className={styles.TimeText}>
+              <div>Room Begins</div>
               <div>
-                <span className="text-lg font-bold">
-                  {getTimeRemaining(item?.spaceBeginTime).hours}
-                </span>{" "}
-                H{" "}
-                <span className="text-lg font-bold">
-                  {getTimeRemaining(item?.spaceBeginTime).minutes}
-                </span>{" "}
-                M{" "}
-                <span className="text-lg font-bold">
-                  {getTimeRemaining(item?.spaceBeginTime).seconds}
-                </span>{" "}
-                S
+                <span className="">
+                  {formatDate(item?.spaceBeginTime, "yyyy/MM/dd hh:mm")}
+                </span>
               </div>
-              <div>Till Room Begins</div>
             </div>
           </div>
         </div>

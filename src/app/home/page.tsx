@@ -16,6 +16,7 @@ import { getBalance } from "@/service/userService";
 import { useSelector } from "react-redux";
 import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
 import Loading from "@/components/custom/Loading";
+import vector from "@/assets/images/home/Vector.png";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -26,12 +27,12 @@ const statusRecord: Record<PullStatus, string> = {
 
 const HometabsList = [
   {
-    title: "TOP",
-    key: "TOP",
+    title: "Top",
+    key: "Top",
   },
   {
-    title: "NEW",
-    key: "NEW",
+    title: "New",
+    key: "New",
   },
 ];
 
@@ -67,7 +68,7 @@ const Home: React.FC<homeProps> = (props) => {
   const tabsList = isMySpace ? mySpaceTabsList : HometabsList;
 
   const getListFunction = isMySpace ? getMySpace : getAllSpace;
-  const currentTab = isMySpace ? "created" : "TOP";
+  const currentTab = isMySpace ? "created" : "Top";
 
   let [nowTab, setNowTab] = useState(currentTab);
   const [showIcon, setShowIcon] = useState(true);
@@ -94,12 +95,13 @@ const Home: React.FC<homeProps> = (props) => {
     console.log(param);
     isMySpace
       ? (param.joinedType = nowTab)
-      : (param.isTop = nowTab === "TOP" ? true : false);
+      : (param.isTop = nowTab === "Top" ? true : false);
     return getListFunction(param).then((res) => {
       let { pageList = [], count = 0 } = res.result;
       console.log(pageList);
       if (isMySpace) {
         pageList?.forEach((item: any) => {
+          item.title = item.title.replace(/#([^ ]+)/g, "<span>$&</span>");
           if (nowTab == "created") {
             item.role = "created";
           } else if (nowTab == "joined") {
@@ -109,6 +111,7 @@ const Home: React.FC<homeProps> = (props) => {
       } else {
         if (pageList.length > 0) {
           pageList = pageList.map((item: any) => {
+            item.title = item.title.replace(/#([^ ]+)/g, "<span>$&</span>");
             if (
               item.role == "joined" ||
               item.role == "created" ||
@@ -250,6 +253,7 @@ const Home: React.FC<homeProps> = (props) => {
             );
           })}
         </div>
+
         <div className={styles.cardList}>
           <PullToRefresh
             onRefresh={() => datalist("refresh")}
@@ -259,55 +263,40 @@ const Home: React.FC<homeProps> = (props) => {
           >
             {/* 数据展示 */}
             <div className={`flex flex-wrap justify-between w-full`}>
+              {!isMySpace && (
+                <div className={styles.natification}>
+                  <div className={styles.text}>
+                    Bid for a voice 🎙️ space below ,earn
+                    &nbsp;&nbsp;&nbsp;&nbsp; when you are kicked out, listen &
+                    earn alpha when you stay.
+                    <Image
+                      src={vector}
+                      alt=""
+                      width={11}
+                      className={styles.vector}
+                      height={18}
+                    ></Image>
+                  </div>
+                </div>
+              )}
               {data.length > 0 &&
                 data.map((item, index) => {
-                  const isSpaceReadyToOpen =
-                    new Date(item?.spaceBeginTime).getTime() - Date.now() <=
-                    5 * 60 * 1000;
-                  const isUserSpace = !!isMySpace;
-
                   return (
                     <div
                       key={index + "s"}
                       className={`w-full ${styles.wFull}`}
                     >
-                      {isMySpace ? (
-                        <SuperSpaceCard
-                          onClickDecide={onClickDecideSpace}
-                          item={item}
-                          onClick={() => {
-                            console.log(item.sid);
-                            setShowLoading(true);
-                            router.push("/space/" + item.sid);
-                          }}
-                          className={styles.superSpace}
-                          isOnGoingSpace={
-                            isUserSpace &&
-                            isSpaceReadyToOpen &&
-                            item.role != "default" &&
-                            item.role != "cohost:selecting" &&
-                            item.role != "cohost:no"
-                          }
-                        ></SuperSpaceCard>
-                      ) : (
-                        <SuperSpaceHomeCard
-                          onClickDecide={onClickDecideSpace}
-                          item={item}
-                          onClick={() => {
-                            setShowLoading(true);
-
-                            router.push("/space/" + item.sid);
-                          }}
-                          className={styles.superSpace}
-                          isOnGoingSpace={
-                            isUserSpace &&
-                            isSpaceReadyToOpen &&
-                            item.role != "default" &&
-                            item.role != "cohost:selecting" &&
-                            item.role != "cohost:no"
-                          }
-                        ></SuperSpaceHomeCard>
-                      )}
+                      <SuperSpaceHomeCard
+                        onClickDecide={onClickDecideSpace}
+                        item={item}
+                        isMySpace={isMySpace ? true : false}
+                        onClick={() => {
+                          setShowLoading(true);
+                          router.push("/space/" + item.sid);
+                        }}
+                        className={styles.superSpace}
+                        isOnGoingSpace={item.spaceStatus == 1}
+                      ></SuperSpaceHomeCard>
                     </div>
                   );
                 })}

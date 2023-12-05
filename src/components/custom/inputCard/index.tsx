@@ -7,14 +7,22 @@ interface IProps {
   rightChildren?: React.ReactNode | string;
   children?: React.ReactNode | string;
   className?: string;
+  titleColor?: string;
 }
 
 const AlphaCard: React.FC<IProps> = (props) => {
-  const { title, rightChildren, children, className } = props;
+  const { title, rightChildren, children, className, titleColor } = props;
   return (
     <div className={`${styles.baseCard} ${className}`}>
       <div className={styles.top}>
-        <div className={styles.title}>{title}</div>
+        <div
+          style={{
+            color: titleColor,
+          }}
+          className={styles.title}
+        >
+          {title}
+        </div>
         <div className={styles.rightFlex}>{rightChildren}</div>
       </div>
       <div className={styles.content}>{children}</div>

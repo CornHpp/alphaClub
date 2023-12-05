@@ -87,6 +87,7 @@ const Space: React.FC<Iprops> = (props) => {
     BidPrice: "",
     web3Sid: "",
     supplyCount: "",
+    ticker: "",
   });
 
   const { userinfo } = useSelector((state: any) => state.user);
@@ -191,6 +192,10 @@ const Space: React.FC<Iprops> = (props) => {
       Toast.error("Please enter a title");
       return false;
     }
+    if (!formMap.ticker) {
+      Toast.error("Please enter a ticker");
+      return false;
+    }
 
     if (!formMap.spaceBeginTime) {
       Toast.error("Please enter a space beginning time");
@@ -221,6 +226,7 @@ const Space: React.FC<Iprops> = (props) => {
           new Date(formMap.spaceBeginTime).toISOString(),
         ),
         title: formMap.title,
+        ticker: formMap.ticker,
       };
       createSpace(param)
         .then((res) => {
@@ -236,6 +242,7 @@ const Space: React.FC<Iprops> = (props) => {
       Dialog.confirm({
         getContainer: () => document.getElementById("root") as HTMLElement,
         bodyClassName: styles.dialogBody,
+
         content:
           "You must maintain a minimum balance of 0.0001 Eth in your account.",
         onConfirm: async () => {
@@ -305,9 +312,18 @@ const Space: React.FC<Iprops> = (props) => {
   };
 
   const clickMakeTwitter = () => {
-    let str = `I have just got my seat at ${formMap.title}\nCome and join the room, either earn ETH, or earn $ALPHA!! \nThere's something for everyone to win @tryalpha_club #AlphaClub`;
+    const alphaClubUrl = "https://tryalpha.club/space/" + detailId;
+    let str =
+      `I have just got my seat at << ${formMap.title} >>\nCome and join the room, either earn ETH, or earn $ALPHA!! \nThere's something for everyone to win @tryalpha_club #AlphaClub` +
+      "\n \n " +
+      `${alphaClubUrl}` +
+      "\n \n ";
     if (nowShowPopupCurrent == 1 || nowShowPopupCurrent == 2) {
-      str = `I will be hosting a space in alpha club, ${formMap.title}, come and join my space, lets bid to earn and enjoy the space. #AlphaClub #SlidingBids`;
+      str =
+        `I will be hosting a space in alpha club, ${formMap.title}, come and join my space, lets bid to earn and enjoy the space. #AlphaClub #SlidingBids` +
+        "\n \n " +
+        `${alphaClubUrl}` +
+        "\n \n ";
     }
 
     sendTwitter(str).then((res) => {
@@ -328,6 +344,7 @@ const Space: React.FC<Iprops> = (props) => {
           className={styles.navBar}
           onBack={() => {
             router.back();
+            router.push("/home");
           }}
         >
           Space
@@ -346,6 +363,25 @@ const Space: React.FC<Iprops> = (props) => {
                   });
                 }}
                 placeholder="Please enter a title"
+              />
+            }
+          ></AlphaCard>
+
+          <AlphaCard
+            title={"Ticker($)"}
+            titleColor={"rgba(0, 111, 255, 1)"}
+            rightChildren={
+              <Input
+                className={styles.tickerInput}
+                value={formMap?.ticker}
+                disabled={detailId ? true : false}
+                onChange={(value) => {
+                  setFormMap({
+                    ...formMap,
+                    ticker: value,
+                  });
+                }}
+                placeholder="What Coin are you talking about? E.g. Ordi"
               />
             }
           ></AlphaCard>
@@ -542,6 +578,9 @@ const Space: React.FC<Iprops> = (props) => {
           onClose={() => {
             if (nowShowPopupCurrent == 1) {
               router.push("/myspace");
+            }
+            if (nowShowPopupCurrent == 3) {
+              router.push("/home");
             }
             setShowSpacePopup(false);
           }}

@@ -122,7 +122,6 @@ export const formatDate = (
   if (!value) {
     return "";
   }
-  console.log("🚀 ~ file: utils.ts:123 ~ value:", value);
 
   var date = new Date();
 
@@ -152,12 +151,10 @@ export const formatDate = (
     mm: minutes,
     ss: seconds,
   };
-  console.log(formatObj);
   const str = format.replace(/(yyyy|MM|dd|hh|mm|ss)/g, (match: string) => {
     const value = formatObj[match];
     return value || 0;
   });
-  console.log(str);
   return str;
 };
 
