@@ -118,7 +118,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
               alt=""
               className={styles.headerImg}
             />
-            {item?.cohost.length > 0 && (
+            {item.cohost && item?.cohost.length > 0 && (
               <div className={styles.secondImage}>
                 {item.cohost.slice(0, 2).map((cohost) => {
                   return (
@@ -133,7 +133,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
                     />
                   );
                 })}
-                {item.cohost.length > 2 && (
+                {item.cohost && item.cohost.length > 2 && (
                   <div className={styles.mocohost}>
                     <Image
                       width={24}
