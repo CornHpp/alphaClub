@@ -73,7 +73,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
             ></Image>
             Ticker($): {item?.ticker}
           </div>
-          <p>item?.title</p>
+          <p>{item?.title}</p>
         </div>
         <div className={styles.ethColor}>
           <div className={styles.moneyBox}>
