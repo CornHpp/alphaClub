@@ -33,7 +33,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         return;
       }
       spaceCheckStatus().then((res) => {
-        if (res.result.length > 0) {
+        if (res?.result?.length > 0) {
           setShowNotification(true);
           const { host, money, title } = JSON.parse(res.result[0]);
           setDetailMap({

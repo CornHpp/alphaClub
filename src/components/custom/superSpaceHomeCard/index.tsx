@@ -9,7 +9,7 @@ import sofa from "@/assets/images/home/sofa.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { formatDate, formatDateCheers } from "@/lib/utils";
+import { formatDate, formatDateCheers, localToUtc } from "@/lib/utils";
 import { useSpace } from "../FloatingSpace/SpaceProvider";
 import moneyIcon from "@/assets/images/home/moneyIcon.png";
 import { getTimeRemaining } from "@/lib/utils";
@@ -233,9 +233,7 @@ const SuperSpaceHomeCard: React.FC<SuperSpaceCardProps> = ({
             <div className={styles.TimeText}>
               <div>Room Begins</div>
               <div>
-                <span className="">
-                  {formatDate(item?.spaceBeginTime, "yyyy/MM/dd hh:mm")}
-                </span>
+                <span className="">{localToUtc(item?.spaceBeginTime)}</span>
               </div>
             </div>
           </div>

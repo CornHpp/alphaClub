@@ -217,3 +217,14 @@ export function utcToLocal(time: string) {
 
   return utcTime;
 }
+
+// 本地时间转换为utc时间 在转成常用的格式
+
+export function localToUtc(time: string) {
+  time = time?.split(" ").join("T").concat("Z");
+
+  let toLocalDate = new Date(time).toLocaleString("en-US", {});
+
+  const target = new Date(toLocalDate);
+  return formatDate(target, "yyyy-MM-dd hh:mm:ss");
+}

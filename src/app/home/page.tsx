@@ -28,11 +28,15 @@ const statusRecord: Record<PullStatus, string> = {
 const HometabsList = [
   {
     title: "Top",
-    key: "Top",
+    key: "top",
   },
   {
     title: "New",
-    key: "New",
+    key: "new",
+  },
+  {
+    title: "Followes",
+    key: "followes",
   },
 ];
 
@@ -57,9 +61,9 @@ type homeProps = {
 type _selfParamsProps = {
   pageNum: number;
   pageSize: number;
-  isTop?: boolean;
+  orderBy?: string;
   queryKey?: string;
-  joinedType?: string;
+  type?: string;
 };
 
 const Home: React.FC<homeProps> = (props) => {
@@ -68,9 +72,8 @@ const Home: React.FC<homeProps> = (props) => {
   const tabsList = isMySpace ? mySpaceTabsList : HometabsList;
 
   const getListFunction = isMySpace ? getMySpace : getAllSpace;
-  const currentTab = isMySpace ? "created" : "Top";
 
-  let [nowTab, setNowTab] = useState(currentTab);
+  let [nowTab, setNowTab] = useState("top");
   const [showIcon, setShowIcon] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const [walletBalance, setWalletBalance] = useState(0);
@@ -80,61 +83,64 @@ const Home: React.FC<homeProps> = (props) => {
 
   let [pageMap, setPageMap] = useState({
     pageNum: 1,
+    type: "new",
   });
   const [queryKey, setQueryKey] = useState("");
 
   //获取首次渲染的数据
   const datalist = async (type?: string) => {
     const isInit = type === "refresh";
-    isInit && (pageMap.pageNum = 1);
+    if (isInit) {
+      pageMap.pageNum = 1;
+      pageMap.type = "new";
+    }
+
     const param: _selfParamsProps = {
       pageNum: pageMap.pageNum,
       pageSize: 10,
       queryKey,
     };
-    console.log(param);
-    isMySpace
-      ? (param.joinedType = nowTab)
-      : (param.isTop = nowTab === "Top" ? true : false);
+    isMySpace ? (param.type = pageMap.type) : (param.orderBy = nowTab);
+
     return getListFunction(param).then((res) => {
       let { pageList = [], count = 0 } = res.result;
-      console.log(pageList);
-      if (isMySpace) {
-        pageList?.forEach((item: any) => {
-          item.title = item.title.replace(/#([^ ]+)/g, "<span>$&</span>");
-          if (nowTab == "created") {
-            item.role = "created";
-          } else if (nowTab == "joined") {
-            item.role = "joined";
-          }
-        });
-      } else {
-        if (pageList.length > 0) {
-          pageList = pageList.map((item: any) => {
-            item.title = item.title.replace(/#([^ ]+)/g, "<span>$&</span>");
-            if (
-              item.role == "joined" ||
-              item.role == "created" ||
-              item.role == "cohost:yes" ||
-              item.role == "default"
-            ) {
-              if (nowTab == "created") {
-                item.role = "created";
-              } else if (nowTab == "joined") {
-                item.role = "joined";
-              }
-            }
-            return item;
-          });
-        }
-      }
+      pageList = filterPageList(pageList);
 
       const newList = [...(isInit ? [] : data), ...(pageList ? pageList : [])];
+
       console.log(newList);
       setData(newList);
       setHasMore(newList.length >= count ? false : pageList?.length > 0);
-      pageMap.pageNum++;
+      if (newList.length < 10) {
+        pageMap.pageNum = 1;
+        pageMap.type = "old";
+      } else {
+        pageMap.pageNum++;
+      }
     });
+  };
+
+  const filterPageList = (pageList: any) => {
+    if (!isMySpace) {
+      if (pageList.length > 0) {
+        pageList = pageList.map((item: any) => {
+          if (
+            item.role == "joined" ||
+            item.role == "created" ||
+            item.role == "cohost:yes" ||
+            item.role == "default"
+          ) {
+            if (nowTab == "created") {
+              item.role = "created";
+            } else if (nowTab == "joined") {
+              item.role = "joined";
+            }
+          }
+          return item;
+        });
+      }
+    }
+    return pageList;
   };
 
   //首次展示的数据
@@ -233,26 +239,28 @@ const Home: React.FC<homeProps> = (props) => {
             </Button>
           </div>
         </div>
-        <div className={styles.tabsList}>
-          {tabsList?.map((item, index) => {
-            return (
-              <div
-                key={index + "q"}
-                className={[
-                  nowTab == item.key ? styles.active : "",
-                  styles.tabs,
-                ].join(" ")}
-                onClick={() => {
-                  nowTab = item.key;
-                  datalist("refresh");
-                  setNowTab(item.key);
-                }}
-              >
-                {item.title}
-              </div>
-            );
-          })}
-        </div>
+        {!isMySpace && (
+          <div className={styles.tabsList}>
+            {tabsList?.map((item, index) => {
+              return (
+                <div
+                  key={index + "q"}
+                  className={[
+                    nowTab == item.key ? styles.active : "",
+                    styles.tabs,
+                  ].join(" ")}
+                  onClick={() => {
+                    nowTab = item.key;
+                    datalist("refresh");
+                    setNowTab(item.key);
+                  }}
+                >
+                  {item.title}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         <div className={styles.cardList}>
           <PullToRefresh
