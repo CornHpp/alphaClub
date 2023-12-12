@@ -26,7 +26,7 @@ const Rewards = () => {
 
   const getMyScoreFunc = () => {
     getMyScore().then((res) => {
-      setOwnerScore(res.result);
+      setOwnerScore(res.result.score);
     });
   };
 

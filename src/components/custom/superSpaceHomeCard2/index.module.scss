@@ -1,0 +1,39 @@
+.superSpaceCard {
+  width: 100%;
+  border-radius: 1rem;
+  max-width: 542px;
+  background-color: #fff;
+  padding: 15px 14px;
+  .titleBox {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    height: 35px;
+    padding: 0 11px;
+    background-color: #fafafaff;
+    border-radius: 12px;
+    font-weight: 600;
+    line-height: 35px;
+  }
+  .secondImage {
+    display: flex;
+    align-items: center;
+    .mocohost {
+      position: relative;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      .moreNum {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-71%, -50%);
+        z-index: 10;
+        color: #fff;
+        font-size: 12px;
+      }
+    }
+  }
+}

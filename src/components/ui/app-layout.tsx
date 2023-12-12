@@ -11,6 +11,16 @@ import { spaceCheckStatus } from "@/service/userService";
 import Notification from "@/components/custom/notification";
 import { sendTwitter } from "@/service/space";
 
+import { ApplicationInsights } from "@microsoft/applicationinsights-web";
+
+const key = process.env.NEXT_PUBLIC_APP_CONNECTION_KEY;
+const appInsights = new ApplicationInsights({
+  config: {
+    connectionString: key,
+  },
+});
+appInsights.loadAppInsights();
+appInsights.trackPageView();
 import Toast from "@/components/custom/Toast/Toast";
 
 // import VConsole from "vconsole";

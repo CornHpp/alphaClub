@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
 import Loading from "@/components/custom/Loading";
 import vector from "@/assets/images/home/Vector.png";
+import SuperSpaceHomeCard2 from "@/components/custom/superSpaceHomeCard2";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -35,8 +36,8 @@ const HometabsList = [
     key: "new",
   },
   {
-    title: "Followes",
-    key: "followes",
+    title: "Ending",
+    key: "endTime",
   },
 ];
 
@@ -104,6 +105,7 @@ const Home: React.FC<homeProps> = (props) => {
 
     return getListFunction(param).then((res) => {
       let { pageList = [], count = 0 } = res.result;
+      if (!pageList) pageList = [];
       pageList = filterPageList(pageList);
 
       const newList = [...(isInit ? [] : data), ...(pageList ? pageList : [])];
@@ -294,7 +296,7 @@ const Home: React.FC<homeProps> = (props) => {
                       key={index + "s"}
                       className={`w-full ${styles.wFull}`}
                     >
-                      <SuperSpaceHomeCard
+                      <SuperSpaceHomeCard2
                         onClickDecide={onClickDecideSpace}
                         item={item}
                         isMySpace={isMySpace ? true : false}
@@ -304,7 +306,7 @@ const Home: React.FC<homeProps> = (props) => {
                         }}
                         className={styles.superSpace}
                         isOnGoingSpace={item.spaceStatus == 1}
-                      ></SuperSpaceHomeCard>
+                      ></SuperSpaceHomeCard2>
                     </div>
                   );
                 })}
