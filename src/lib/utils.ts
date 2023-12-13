@@ -235,7 +235,10 @@ interface ParsedTime {
   hour: string;
   minute: string;
 }
-export const parseTimeValue = (value: string): ParsedTime => {
+export const parseTimeValue = (
+  value: string,
+  serviceTime: boolean,
+): ParsedTime => {
   if (!value) {
     return {
       year: "",
@@ -245,11 +248,12 @@ export const parseTimeValue = (value: string): ParsedTime => {
       minute: "",
     };
   }
-
-  value = value?.split(" ").join("T").concat("Z");
-
-  let toLocalDate = new Date(value).toLocaleString("en-US", {});
-  const date = new Date(toLocalDate);
+  let date = new Date(value);
+  if (serviceTime) {
+    value = value?.split(" ").join("T").concat("Z");
+    let toLocalDate = new Date(value).toLocaleString("en-US", {});
+    date = new Date(toLocalDate);
+  }
 
   const year = date.getFullYear();
   const month =

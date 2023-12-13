@@ -466,7 +466,10 @@ const Space: React.FC<Iprops> = (props) => {
             title={speceTime(timepiece, "Bidding End Time")}
             rightChildren={
               <TimePicker
-                value={parseTimeValue(formMap.biddingEndTime)}
+                value={parseTimeValue(
+                  formMap.biddingEndTime,
+                  detailId ? true : false,
+                )}
                 onSelectTime={(timeValue) => {
                   setFormMap({
                     ...formMap,
@@ -483,7 +486,10 @@ const Space: React.FC<Iprops> = (props) => {
             title={speceTime(timepiece, "Space Beginning Time")}
             rightChildren={
               <TimePicker
-                value={parseTimeValue(formMap.spaceBeginTime)}
+                value={parseTimeValue(
+                  formMap.spaceBeginTime,
+                  detailId ? true : false,
+                )}
                 onSelectTime={(timeString) => {
                   setFormMap({
                     ...formMap,
