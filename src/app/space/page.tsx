@@ -119,6 +119,8 @@ const Space: React.FC<Iprops> = (props) => {
 
   const [isExistDetailByUserInfo, setIsExistDetailByUserInfo] = useState(false);
 
+  const [showSearchList, setShowSearchList] = useState(false);
+
   const [selectedPeopleList, setSelectedPeopleList] = React.useState<
     UserInfoType[]
   >([]);
@@ -400,6 +402,8 @@ const Space: React.FC<Iprops> = (props) => {
               title={"Co-Host"}
               rightChildren={
                 <CoHostAdd
+                  showSearchList={showSearchList}
+                  setShowSearchList={setShowSearchList}
                   detailId={detailId}
                   coHostUserEdit={() => {
                     // 如果是详情页，不允许添加
@@ -428,9 +432,11 @@ const Space: React.FC<Iprops> = (props) => {
                 <SearchView
                   hideSearchView={() => {
                     setShowSelectSearchView(false);
+                    setShowSearchList(false);
                   }}
                   selectedPeople={(value) => {
                     clickSelectPeopleConfirm(value);
+                    setShowSearchList(false);
                   }}
                 ></SearchView>
               </div>
@@ -656,13 +662,13 @@ const CoHostList: React.FC<ICoHostList> = ({ CoHostUserDelete, list }) => {
 type coHostAddType = {
   coHostUserEdit: () => void;
   detailId: string | undefined;
+  showSearchList: boolean;
+  setShowSearchList: (value: boolean) => void;
 };
 
 const CoHostAdd: React.FC<coHostAddType> = (props) => {
-  const { coHostUserEdit, detailId } = props;
-  const [value, setValue] = React.useState("");
-
-  const [showSearchList, setShowSearchList] = React.useState(true);
+  const { coHostUserEdit, detailId, showSearchList, setShowSearchList } = props;
+  // const [value, setValue] = React.useState("");
 
   return (
     <div className={styles.coHostRightAddIcon}>
@@ -677,9 +683,10 @@ const CoHostAdd: React.FC<coHostAddType> = (props) => {
         className={detailId ? styles.grid : ""}
         onClick={() => {
           coHostUserEdit();
+          if (detailId) return;
           setShowSearchList(!showSearchList);
         }}
-        src={addIcon}
+        src={!showSearchList ? addIcon : decreateIcon}
         width={30}
         height={30}
         alt=""

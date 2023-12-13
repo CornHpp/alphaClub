@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "@/components/custom/footer";
 import LeftBar from "@/components/custom/leftBar";
 import { Providers } from "@/components/custom/Providers";
@@ -10,6 +10,9 @@ import { setIsMobile } from "@/redux/features/userSlice";
 import { spaceCheckStatus } from "@/service/userService";
 import Notification from "@/components/custom/notification";
 import { sendTwitter } from "@/service/space";
+import { BackGround } from "@/components/custom/pwaNotification";
+import pwaIcon from "@/assets/images/logoColorful.png";
+import Image from "next/image";
 
 import { ApplicationInsights } from "@microsoft/applicationinsights-web";
 
@@ -30,6 +33,8 @@ import Toast from "@/components/custom/Toast/Toast";
 // }
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
+  const [useMobile, setUseMobile] = useState(false);
+
   const [showNotification, setShowNotification] = React.useState(false);
 
   const [detailMap, setDetailMap] = React.useState({
@@ -66,8 +71,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         document.documentElement.clientWidth || document.body.clientWidth; // 实际宽度
       if (actualWidth > 431) {
         setIsMobile(true);
+        // setUseMobile(true);
       } else {
         setIsMobile(false);
+        // setUseMobile(false);
       }
     };
 
@@ -110,6 +117,33 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           your balance!
         </div>
       </Notification>
+      {useMobile && (
+        <BackGround
+          show={useMobile}
+          opacity={0.9}
+          hideShow={() => {
+            console.log("hide");
+          }}
+        >
+          <div
+            className="w-[400px] h-[50vh] bg-white rounded-[20px] flex flex-col
+            items-center justify-center
+          "
+          >
+            <Image
+              unoptimized
+              className="mt-[-30px]"
+              src={pwaIcon}
+              height={375}
+              width={225}
+              alt="pwaIcon"
+            ></Image>
+            <div className="text-[30px] mt-[20px]">
+              Please open it on mobile
+            </div>
+          </div>
+        </BackGround>
+      )}
     </Providers>
   );
 }

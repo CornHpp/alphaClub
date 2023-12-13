@@ -18,6 +18,7 @@ const showFooterTabBarPathList = [
 
 const LeftBar: React.FC = () => {
   const [isShow, setIsShow] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
@@ -27,6 +28,7 @@ const LeftBar: React.FC = () => {
     console.log("pathname1111111", pathname);
 
     const isShow = showFooterTabBarPathList.includes(pathname);
+    setShowLoading(false);
 
     setIsShow(isShow);
     setActiveKey(pathname);
@@ -35,6 +37,8 @@ const LeftBar: React.FC = () => {
   //   const navigate = useNavigate();
   const [activeKey, setActiveKey] = useState("/home");
   const onTabChange = (val: string) => {
+    setShowLoading(true);
+
     setActiveKey(val);
 
     router.push(val);
@@ -69,6 +73,7 @@ const LeftBar: React.FC = () => {
           </div>
         );
       })}
+      {showLoading && <Loading />}
     </div>
   ) : null;
 };

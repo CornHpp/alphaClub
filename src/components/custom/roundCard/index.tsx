@@ -36,6 +36,12 @@ const RoundCard: React.FC<RoundCardProps> = (props) => {
           {!isRound ? (
             <div
               className={`flex w-full flex-col items-center ${styles.cardFront}`}
+              onClick={() => {
+                setRoundCardTimer(true);
+                setTimeout(() => {
+                  setIsRound(true);
+                }, 100);
+              }}
             >
               <Image
                 className="mt-12"
@@ -53,12 +59,6 @@ const RoundCard: React.FC<RoundCardProps> = (props) => {
                 alt="doubt"
                 width={80}
                 height={30}
-                onClick={() => {
-                  setRoundCardTimer(true);
-                  setTimeout(() => {
-                    setIsRound(true);
-                  }, 100);
-                }}
               />
             </div>
           ) : (
