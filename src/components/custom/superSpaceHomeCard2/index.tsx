@@ -29,6 +29,7 @@ interface SuperSpaceCardProps {
   item: allSpaceResponse;
   isOnGoingSpace?: boolean;
   onClickDecide: (sid: number, val: number) => void;
+  clickTicker: (ticker: string) => void;
 }
 
 const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
@@ -38,6 +39,7 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
   isMySpace,
   isOnGoingSpace,
   onClickDecide,
+  clickTicker,
 }) => {
   const router = useRouter();
   const { setCurrentSpace, isLoadingSpace, currentSpace } = useSpace();
@@ -145,7 +147,19 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
           className="text-[#7948EAFF]
           w-[90px] whitespace-nowrap overflow-hidden overflow-ellipsis text-right"
         >
-          {item.ticker}
+          {item?.ticker?.split(",").map((ticker, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => {
+                  clickTicker(ticker);
+                }}
+                className="flex justify-end"
+              >
+                {item.ticker}
+              </div>
+            );
+          })}
         </div>
       </div>
       <div className="flex items-center mt-[15px] justify-between">

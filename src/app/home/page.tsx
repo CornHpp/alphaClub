@@ -65,6 +65,7 @@ type _selfParamsProps = {
   orderBy?: string;
   queryKey?: string;
   type?: string;
+  ticker?: string;
 };
 
 const Home: React.FC<homeProps> = (props) => {
@@ -85,8 +86,15 @@ const Home: React.FC<homeProps> = (props) => {
   let [pageMap, setPageMap] = useState({
     pageNum: 1,
     type: "new",
+    ticker: "",
   });
   const [queryKey, setQueryKey] = useState("");
+
+  const clickTickerSearch = (ticker: string) => {
+    if (isMySpace) return;
+    pageMap.ticker = ticker;
+    datalist("refresh");
+  };
 
   //获取首次渲染的数据
   const datalist = async (type?: string) => {
@@ -101,7 +109,12 @@ const Home: React.FC<homeProps> = (props) => {
       pageSize: 10,
       queryKey,
     };
-    isMySpace ? (param.type = pageMap.type) : (param.orderBy = nowTab);
+    if (isMySpace) {
+      param.type = pageMap.type;
+    } else {
+      param.orderBy = nowTab;
+      param.ticker = pageMap.ticker;
+    }
 
     return getListFunction(param).then((res) => {
       let { pageList = [], count = 0 } = res.result;
@@ -110,7 +123,7 @@ const Home: React.FC<homeProps> = (props) => {
 
       const newList = [...(isInit ? [] : data), ...(pageList ? pageList : [])];
 
-      console.log(newList);
+      pageMap.ticker = "";
       setData(newList);
       setHasMore(newList.length >= count ? false : pageList?.length > 0);
       if (newList.length < 10) {
@@ -297,6 +310,7 @@ const Home: React.FC<homeProps> = (props) => {
                       className={`w-full ${styles.wFull}`}
                     >
                       <SuperSpaceHomeCard2
+                        clickTicker={clickTickerSearch}
                         onClickDecide={onClickDecideSpace}
                         item={item}
                         isMySpace={isMySpace ? true : false}

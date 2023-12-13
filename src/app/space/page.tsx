@@ -329,6 +329,7 @@ const Space: React.FC<Iprops> = (props) => {
       }
       Toast.success("Twitter sent successfully");
       setShowSpacePopup(false);
+      getSpaceDetailFunc();
     });
   };
 
