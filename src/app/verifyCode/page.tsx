@@ -54,7 +54,7 @@ const Login: React.FC = () => {
           height="2.5rem"
           onClick={clickSubmitLogin}
         >
-          Login
+          Submit
         </Button>
 
         <div className={styles.getFromTwitter}>Or get from our twitter 👇</div>

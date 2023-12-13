@@ -20,7 +20,7 @@ import { getBalance } from "@/service/userService";
 import { Dialog } from "antd-mobile";
 import { useSelector } from "react-redux";
 import SpacePopup from "@/components/custom/spacePopup";
-
+import { parseTimeValue } from "@/lib/utils";
 import {
   createSpace,
   getSpaceDetail,
@@ -35,19 +35,6 @@ import {
   getNumberOfDaysInMonth,
 } from "@/components/custom/TimePicker";
 import { addHoursToTime, formatDate, utcToLocal } from "@/lib/utils";
-
-const parseTimeValue = (timeString: string) => {
-  const [_, year, month, date, hour, minute] =
-    timeString?.match(/(\d+)-(\d+)-(\d+) (\d+):(\d+):?(\d+)?/) ?? [];
-
-  return {
-    year,
-    month,
-    date,
-    hour,
-    minute,
-  };
-};
 
 interface Iprops {
   detailId?: string;
@@ -273,6 +260,12 @@ const Space: React.FC<Iprops> = (props) => {
 
   const clickSelectPeopleConfirm = (item: UserInfoType[]) => {
     console.log(item, userinfo.twitterName);
+    if (item.length == 0) {
+      Toast.info("co-host is not selected");
+      return;
+    }
+    setShowSearchList(false);
+
     item.forEach((i) => {
       const index = selectedPeopleList.findIndex((item) => {
         return item.twitterUidStr === i.twitterUidStr;
@@ -436,7 +429,6 @@ const Space: React.FC<Iprops> = (props) => {
                   }}
                   selectedPeople={(value) => {
                     clickSelectPeopleConfirm(value);
-                    setShowSearchList(false);
                   }}
                 ></SearchView>
               </div>

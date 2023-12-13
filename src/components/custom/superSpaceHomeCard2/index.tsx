@@ -74,10 +74,13 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
             src={item.imageUrl ? item.imageUrl : "headerImg"}
             alt=""
             className=" border-1 border-[#E8E8E8FF] border-solid"
+            onClick={() => {
+              window.open(`https://twitter.com/${item?.twitterScreenName}`);
+            }}
           />
           {item.cohost && item?.cohost.length > 0 && (
             <div className={styles.secondImage}>
-              {item.cohost.slice(0, 2).map((cohost) => {
+              {item.cohost.slice(0, 2).map((cohost, index) => {
                 return (
                   <Image
                     key={cohost.twitterScreenName}

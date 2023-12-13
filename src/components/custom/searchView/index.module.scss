@@ -8,13 +8,13 @@
     background-color: rgba(0, 0, 0, 0.5);
     width: 100vw;
     height: 100vh;
-    z-index: 100;
+    z-index: 200;
   }
   .searchBoxList {
     height: 40vh;
     background: #fff;
     position: relative;
-    z-index: 104;
+    z-index: 250;
     border-radius: 0 0 12px 12px;
     padding: 0 1rem;
     :global {

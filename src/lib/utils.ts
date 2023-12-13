@@ -228,3 +228,34 @@ export function localToUtc(time: string) {
   const target = new Date(toLocalDate);
   return formatDate(target, "yyyy-MM-dd hh:mm:ss");
 }
+
+export const parseTimeValue = (value: string) => {
+  if (!value) {
+    return "";
+  }
+
+  value = value?.split(" ").join("T").concat("Z");
+
+  let toLocalDate = new Date(value).toLocaleString("en-US", {});
+  const date = new Date(toLocalDate);
+
+  const year = date.getFullYear();
+  const month =
+    date.getMonth() + 1 < 10
+      ? "0" + (date.getMonth() + 1)
+      : date.getMonth() + 1;
+  const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  const hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+  const minutes =
+    date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+  const seconds =
+    date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+
+  return {
+    year,
+    month,
+    date: day,
+    hour: hours,
+    minute: minutes,
+  };
+};
