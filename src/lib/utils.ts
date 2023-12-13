@@ -228,10 +228,22 @@ export function localToUtc(time: string) {
   const target = new Date(toLocalDate);
   return formatDate(target, "yyyy-MM-dd hh:mm:ss");
 }
-
-export const parseTimeValue = (value: string) => {
+interface ParsedTime {
+  year: string;
+  month: string;
+  date: string;
+  hour: string;
+  minute: string;
+}
+export const parseTimeValue = (value: string): ParsedTime => {
   if (!value) {
-    return "";
+    return {
+      year: "",
+      month: "",
+      date: "",
+      hour: "",
+      minute: "",
+    };
   }
 
   value = value?.split(" ").join("T").concat("Z");
@@ -252,10 +264,10 @@ export const parseTimeValue = (value: string) => {
     date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
 
   return {
-    year,
-    month,
-    date: day,
-    hour: hours,
-    minute: minutes,
+    year: year.toString(),
+    month: month.toString(),
+    date: day.toString(),
+    hour: hours.toString(),
+    minute: minutes.toString(),
   };
 };
