@@ -142,6 +142,7 @@ const EarningPage = () => {
       <WithdrawETH
         hideWithDraw={() => {
           setShowWithdraw(false);
+          getBalanceFunction();
         }}
         showWithdraw={showWithdraw}
       ></WithdrawETH>

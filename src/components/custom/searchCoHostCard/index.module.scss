@@ -1,11 +1,10 @@
 .baseCard {
-  padding: 0.85rem;
-  border-radius: 0.57rem;
   background-color: #fff;
-  margin-bottom: 0.85rem;
   position: relative;
+  border-radius: 0.57rem 0.57rem 0 0;
 
   .top {
+    padding: 0.85rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,4 +17,10 @@
   .rightFlex {
     display: flex;
   }
+}
+.content {
+  background-color: #fff;
+  position: relative;
+  margin-bottom: 0.85rem;
+  border-radius: 0 0 0.57rem 0.57rem;
 }

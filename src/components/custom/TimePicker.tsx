@@ -136,13 +136,19 @@ export function TimePicker({
 
   return (
     <>
-      <Input
-        onFocus={() => (isMobile ? setIsPickerVisible(true) : null)}
-        value={`${year}-${month}-${date} ${hour}:${minute}:00`}
-        placeholder={placeholder ?? "Please select a time"}
-        type={isMobile ? "text" : "datetime-local"}
-        disabled={disabled}
-      />
+      <div
+        onClick={() => {
+          !disabled && isMobile ? setIsPickerVisible(true) : null;
+        }}
+      >
+        <Input
+          value={`${year}-${month}-${date} ${hour}:${minute}:00`}
+          placeholder={placeholder ?? "Please select a time"}
+          type={isMobile ? "text" : "datetime-local"}
+          disabled={disabled}
+          readOnly
+        />
+      </div>
 
       <Popup
         visible={isPickerVisible}

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import styles from "../space/index.module.scss";
 import AlphaCard from "@/components/custom/inputCard";
+import SearchCoHostCard from "@/components/custom/searchCoHostCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "antd-mobile";
 import addIcon from "@/assets/images/createSpace/add.png";
@@ -329,7 +330,6 @@ const Space: React.FC<Iprops> = (props) => {
       }
       Toast.success("Twitter sent successfully");
       setShowSpacePopup(false);
-      getSpaceDetailFunc();
     });
   };
 
@@ -341,6 +341,9 @@ const Space: React.FC<Iprops> = (props) => {
           onBack={() => {
             router.back();
             router.push("/home");
+          }}
+          style={{
+            zIndex: showSelectSearchView ? 100 : 300,
           }}
         >
           Space
@@ -391,7 +394,7 @@ const Space: React.FC<Iprops> = (props) => {
           </MemoAlphaCard>
 
           <div className={styles.coHostBox}>
-            <AlphaCard
+            <SearchCoHostCard
               className={styles.setZindex}
               title={"Co-Host"}
               rightChildren={
@@ -420,7 +423,7 @@ const Space: React.FC<Iprops> = (props) => {
                 }}
                 list={selectedPeopleList}
               ></CoHostList>
-            </AlphaCard>
+            </SearchCoHostCard>
             {showSelectSearchView && (
               <div className={styles.searchView}>
                 <SearchView

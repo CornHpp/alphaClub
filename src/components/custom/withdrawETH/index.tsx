@@ -6,24 +6,29 @@ import { Button } from "@/components/ui/button";
 import { sendEth } from "@/service/cryptoService";
 import { useSelector } from "react-redux";
 import { getBalance } from "@/service/userService";
+import Toast from "../Toast/Toast";
 interface Props {
   showWithdraw: boolean;
   hideWithDraw: () => void;
 }
 
 const WithdrawETH: React.FC<Props> = (props) => {
-  const [walletBalance, setWalletBalance] = useState<number>(0);
+  const [walletBalance, setWalletBalance] = useState("");
   const { showWithdraw, hideWithDraw } = props;
   const [address, setAddress] = useState<string>("");
-  const [amount, setAmount] = useState<number>();
+  const [amount, setAmount] = useState("");
 
   const handleTransferClick = () => {
     if (!amount) {
       return;
     }
 
-    sendEth(address, amount).then((res) => {
+    sendEth(address, Number(amount)).then((res) => {
       console.log("res: ", res);
+      Toast.info("Transfer success");
+      setAmount("");
+      setAddress("");
+      hideWithDraw();
     });
   };
 
@@ -38,7 +43,10 @@ const WithdrawETH: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <Mask visible={showWithdraw} onMaskClick={hideWithDraw}>
+    <Mask
+      visible={showWithdraw}
+      onMaskClick={hideWithDraw}
+    >
       <div className={styles.overlayContent}>
         <div className={styles.title}>Withdraw ETH</div>
         <div className={styles.explain}>
@@ -58,12 +66,18 @@ const WithdrawETH: React.FC<Props> = (props) => {
           className={styles.input}
           placeholder="Enter amount"
           value={amount}
-          onChange={(e) => setAmount(+e.target.value)}
+          onChange={(e) => {
+            console.log("e.target.value: ", e.target.value);
+            setAmount(e.target.value);
+          }}
         />
 
         <div className={styles.balance}>
           Your balance:{walletBalance} ETH
-          <div onClick={onclickMax} className={styles.buttonMax}>
+          <div
+            onClick={onclickMax}
+            className={styles.buttonMax}
+          >
             max
           </div>
         </div>
@@ -75,7 +89,10 @@ const WithdrawETH: React.FC<Props> = (props) => {
         >
           Transfer
         </Button>
-        <div className={styles.close} onClick={hideWithDraw}>
+        <div
+          className={styles.close}
+          onClick={hideWithDraw}
+        >
           Close
         </div>
       </div>

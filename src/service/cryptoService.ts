@@ -3,7 +3,7 @@ import request from "./config/request";
 export const buyShares = async (
   targetUser: string,
   amount: number,
-  buyPrice: number
+  buyPrice: number,
 ): Promise<any> => {
   const url =
     "Cheers/buyshares?targetUser=" +
@@ -20,7 +20,7 @@ export const getSharesOrder = async (
   targetUser: string,
   amount: number,
   action: string,
-  buyPrice: number
+  buyPrice: number,
 ): Promise<any> => {
   const url = "Cheers/getorder";
   const data: any = {
@@ -35,7 +35,7 @@ export const getSharesOrder = async (
 
 export const sellShares = async (
   targetUser: string,
-  amount: number
+  amount: number,
 ): Promise<any> => {
   const url =
     "Cheers/sellshares?targetUser=" + targetUser + "&amount=" + amount;
@@ -45,7 +45,7 @@ export const sellShares = async (
 
 export const fetchCheersHolders = async (
   targetUser: string,
-  token: string
+  token: string,
 ): Promise<number> => {
   const url = "Cheers/getholders?targetUser=" + targetUser;
   const options = {
@@ -59,7 +59,7 @@ export const fetchCheersHolders = async (
 
 export const fetchCheersCard = async (
   from: string,
-  to?: string
+  to?: string,
 ): Promise<any> => {
   const url = "Cheers/shareprofile?from=" + to + "&to=" + from;
 
@@ -88,7 +88,7 @@ export const getEthBalance = (address: string): Promise<number> => {
 
 export const getBuyPrice = (
   address: string,
-  amount: number
+  amount: number,
 ): Promise<number> => {
   const url = "Cheers/buyprice?targetUser=" + address + "&amount=" + amount;
   return request.get<number>(url);
@@ -100,6 +100,6 @@ export const getSellPrice = (address: string): Promise<number> => {
 };
 
 export const sendEth = (wallet: string, amount: number): Promise<string> => {
-  const url = "/wallet/transfer?wallet =" + wallet + "&amount=" + amount;
+  const url = "/wallet/transfer?wallet=" + wallet + "&amount=" + amount;
   return request.get<string>(url);
 };

@@ -22,7 +22,7 @@ const showFooterTabBarPathList = [
 
 const Footer: React.FC = () => {
   const [isShow, setIsShow] = useState(true);
-  const [showLoading, setShowLoading] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
   const pathname = usePathname();
 
   const router = useRouter();
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
           />
         ))}
       </TabBar>
-      {showLoading && <Loading />}
+      <div className=" z-[10000]">{showLoading && <Loading />}</div>
     </div>
   ) : null;
 };

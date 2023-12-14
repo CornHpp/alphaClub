@@ -6,7 +6,6 @@
   .navBar {
     position: sticky !important;
     top: 0;
-    z-index: 100;
     background-color: #fff;
     border-bottom: 1px solid var(--border);
   }
@@ -33,9 +32,8 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 0.85rem;
     border-top: 1px solid var(--border);
-    padding-top: 0.85rem;
+    padding: 0.85rem 0.85rem 0.85rem 0;
     .decreate {
       width: 1.87rem;
       height: 1.87rem;
@@ -44,14 +42,13 @@
   }
   .coHostBox {
     position: relative;
-    z-index: 250;
     .setZindex {
       z-index: 210;
     }
     .searchView {
       position: absolute;
       left: 0px;
-      top: 58px;
+      top: 57px;
       width: 100%;
     }
   }
@@ -154,7 +151,7 @@
 .noNore {
   width: 100%;
   text-align: center;
-  margin-top: 0.8rem;
+  padding-bottom: 0.85rem;
 }
 
 .grid {
