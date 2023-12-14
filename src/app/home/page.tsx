@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
 import Loading from "@/components/custom/Loading";
 import vector from "@/assets/images/home/Vector.png";
-import SuperSpaceHomeCard2 from "@/components/custom/superSpaceHomeCard2";
+import SuperSpaceHomeCard3 from "@/components/custom/superSpaceHomeCard3";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -309,7 +309,7 @@ const Home: React.FC<homeProps> = (props) => {
                       key={index + "s"}
                       className={`w-full ${styles.wFull}`}
                     >
-                      <SuperSpaceHomeCard2
+                      <SuperSpaceHomeCard3
                         clickTicker={clickTickerSearch}
                         onClickDecide={onClickDecideSpace}
                         item={item}
@@ -320,7 +320,7 @@ const Home: React.FC<homeProps> = (props) => {
                         }}
                         className={styles.superSpace}
                         isOnGoingSpace={item.spaceStatus == 1}
-                      ></SuperSpaceHomeCard2>
+                      ></SuperSpaceHomeCard3>
                     </div>
                   );
                 })}
