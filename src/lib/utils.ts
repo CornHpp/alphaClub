@@ -275,3 +275,11 @@ export const parseTimeValue = (
     minute: minutes.toString(),
   };
 };
+
+// 判断当前时间是否大于传入时间
+export const isTimeAfter = (time: string) => {
+  const now = new Date();
+  const target = new Date(time);
+
+  return Number(now) > Number(target);
+};

@@ -80,7 +80,12 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
         {item?.title}
       </div>
       <div className="flex mt-[8px] items-center justify-between">
-        <div className="flex items-center">
+        <div
+          className="flex items-center"
+          onClick={() => {
+            window.open(`https://twitter.com/${item?.twitterScreenName}`);
+          }}
+        >
           <Image
             width={36}
             height={36}
@@ -88,9 +93,6 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
             src={item.imageUrl ? item.imageUrl : "headerImg"}
             alt=""
             className="flex-shrink-0 w-[36px] h-[36px]"
-            onClick={() => {
-              window.open(`https://twitter.com/${item?.twitterScreenName}`);
-            }}
           />
 
           <div className="ml-[8px]">
@@ -113,7 +115,7 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
         <div className="flex">
           {item?.ticker
             ?.split(",")
-            .splice(0, 2)
+            .slice(0, 2)
             .map((ticker, index) => {
               return (
                 <div
@@ -134,7 +136,7 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
                   overflow-hidden 
                    py-[4px] px-[8px]  rounded-[4px]"
                 >
-                  {item.ticker}
+                  {ticker}
                 </div>
               );
             })}
@@ -143,9 +145,14 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
       <div className="mt-[12px] flex items-center justify-between">
         <div className="h-[42px]">
           <div className="text-[#333333] text-[12px]">
-            <span className="text-[#FF9500] text-[20px] font-bold">1 </span>
+            <span className="text-[#FF9500] text-[20px] font-bold">
+              {biddingEndTime.hours}{" "}
+            </span>
             hours{" "}
-            <span className="text-[#FF9500] text-[20px] font-bold"> 49 </span>
+            <span className="text-[#FF9500] text-[20px] font-bold">
+              {" "}
+              {biddingEndTime.minutes}{" "}
+            </span>
             mins left
           </div>
           <div className="w-[128px] h-[9px] relative   mt-[5px]">
@@ -229,7 +236,8 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
           </div>
         </div> */}
         <div className="text-[#333333] text-[12px] font-[500]">
-          <span className="text-[#999999]">Begins at </span>09:00 pm
+          <span className="text-[#999999]">Begins at </span>
+          {localToUtc(item.spaceBeginTime)}
         </div>
 
         <div className="flex items-center">

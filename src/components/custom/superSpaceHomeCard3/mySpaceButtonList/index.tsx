@@ -31,7 +31,7 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
 
   return (
     <div className={styles.container}>
-      {!isOnGoingSpace ? (
+      {isOnGoingSpace && item.seatStatus != -1 ? (
         <Button
           width="84px"
           className={styles.buttonPosition}

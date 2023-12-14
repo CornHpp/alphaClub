@@ -18,6 +18,7 @@ import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
 import Loading from "@/components/custom/Loading";
 import vector from "@/assets/images/home/Vector.png";
 import SuperSpaceHomeCard3 from "@/components/custom/superSpaceHomeCard3";
+import { isTimeAfter, localToUtc } from "@/lib/utils";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -304,6 +305,9 @@ const Home: React.FC<homeProps> = (props) => {
               )}
               {data.length > 0 &&
                 data.map((item, index) => {
+                  const isOnGoingSpace = isTimeAfter(
+                    localToUtc(item.spaceBeginTime),
+                  );
                   return (
                     <div
                       key={index + "s"}
@@ -319,7 +323,7 @@ const Home: React.FC<homeProps> = (props) => {
                           router.push("/space/" + item.sid);
                         }}
                         className={styles.superSpace}
-                        isOnGoingSpace={item.spaceStatus == 1}
+                        isOnGoingSpace={isOnGoingSpace}
                       ></SuperSpaceHomeCard3>
                     </div>
                   );
