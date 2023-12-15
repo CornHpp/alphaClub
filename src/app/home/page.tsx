@@ -9,7 +9,12 @@ import { SearchOutline } from "antd-mobile-icons";
 import SearchInput from "@/components/custom/searchInput";
 import { useRouter } from "next/navigation";
 import { RightOutline } from "antd-mobile-icons";
-import { InfiniteScroll, Dialog, PullToRefresh } from "antd-mobile";
+import {
+  InfiniteScroll,
+  Dialog,
+  PullToRefresh,
+  FloatingBubble,
+} from "antd-mobile";
 import { PullStatus } from "antd-mobile/es/components/pull-to-refresh";
 import { getAllSpace, getMySpace, spaceCohostDecide } from "@/service/space";
 import { getBalance } from "@/service/userService";
@@ -19,6 +24,7 @@ import Loading from "@/components/custom/Loading";
 import vector from "@/assets/images/home/Vector.png";
 import SuperSpaceHomeCard3 from "@/components/custom/superSpaceHomeCard3";
 import { isTimeAfter, localToUtc } from "@/lib/utils";
+import createSpaceIcon from "@/assets/images/home/createSpaceIcon.png";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -75,11 +81,11 @@ const Home: React.FC<homeProps> = (props) => {
 
   let [nowTab, setNowTab] = useState(isMySpace ? "joined" : "top");
   const [showIcon, setShowIcon] = useState(true);
-  const [showNotification, setShowNotification] = useState(false);
   const [walletBalance, setWalletBalance] = useState(0);
   const [showLoading, setShowLoading] = useState(false);
   const router = useRouter();
   const { userinfo } = useSelector((state: any) => state.user);
+  const [offset, setOffset] = useState({ x: -24, y: -24 });
 
   let [pageMap, setPageMap] = useState({
     pageNum: 1,
@@ -354,6 +360,33 @@ const Home: React.FC<homeProps> = (props) => {
 
       {/* next.js有编译的速度问题，加一个loading，来开启loading */}
       {showLoading && <Loading></Loading>}
+      {isMySpace && (
+        <FloatingBubble
+          onClick={() => {
+            router.push("createSpace");
+          }}
+          axis="xy"
+          magnetic="x"
+          style={{
+            "--initial-position-bottom": "80px",
+            "--initial-position-right": "0",
+            "--background": "var(--primary-background-color)",
+            "--edge-distance": "80px 16px",
+          }}
+          onOffsetChange={(offset) => {
+            setOffset(offset);
+          }}
+          offset={offset}
+        >
+          <Image
+            src={createSpaceIcon}
+            alt=""
+            className="w-[50px] h-[50px] max-w-[50px]"
+            width={50}
+            height={50}
+          ></Image>
+        </FloatingBubble>
+      )}
     </div>
   );
 };

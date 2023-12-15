@@ -71,10 +71,10 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         document.documentElement.clientWidth || document.body.clientWidth; // 实际宽度
       if (actualWidth > 431) {
         setIsMobile(true);
-        // setUseMobile(true);
+        setUseMobile(true);
       } else {
         setIsMobile(false);
-        // setUseMobile(false);
+        setUseMobile(false);
       }
     };
 

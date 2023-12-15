@@ -18,7 +18,11 @@ const Rewards = () => {
   //   const { userinfo } = useSelector((state: any) => state.user);
   const router = useRouter();
 
-  const [inviteCodeList, setInviteCodeList] = useState<inviteCodeType[]>([]);
+  const [inviteCodeList, setInviteCodeList] = useState<inviteCodeType[]>([
+    {
+      inviteCode: "AC-SecretGarden",
+    },
+  ]);
 
   const [ownerScore, setOwnerScore] = useState<number>(0);
 
@@ -37,11 +41,11 @@ const Rewards = () => {
   };
 
   useEffect(() => {
-    getInviteCode().then((res) => {
-      const { result } = res;
-      console.log(result);
-      setInviteCodeList(result);
-    });
+    // getInviteCode().then((res) => {
+    //   const { result } = res;
+    //   console.log(result);
+    //   setInviteCodeList(result);
+    // });
     getMyScoreFunc();
     getMyGroupScoreFunc();
   }, []);
