@@ -13,8 +13,25 @@ const inter = Inter({
 });
 
 const myFont = localFont({
-  src: "../lib/font/Barlow-Regular.ttf",
-  display: "swap",
+  src: [
+    {
+      path: "../lib/font/Poppins/Poppins-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../lib/font/Poppins/Poppins-Medium.ttf",
+      weight: "500",
+    },
+    {
+      path: "../lib/font/Poppins/Poppins-SemiBold.ttf",
+      weight: "600",
+    },
+    {
+      path: "../lib/font/Poppins/Poppins-Bold.ttf",
+      weight: "700",
+    },
+  ],
   variable: "--font-barlow",
 });
 

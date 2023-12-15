@@ -69,7 +69,13 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
           className="mr-[4px]"
           alt=""
         ></Image>
-        {item?.title}
+        <div
+          className="flex-1 
+         overflow-hidden overflow-ellipsis whitespace-nowrap
+        "
+        >
+          {item?.title}
+        </div>
       </div>
       <div className="flex mt-[8px] items-center justify-between">
         <div
