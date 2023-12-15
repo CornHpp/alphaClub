@@ -20,6 +20,7 @@ type allSpaceResponse = {
   imageUrl: string;
   maxSeatNumber: number;
   spaceBeginTime: string;
+  createTime: string;
   title: string;
   seatStatus: number;
   price: number;

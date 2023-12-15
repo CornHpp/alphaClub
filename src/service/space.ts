@@ -11,7 +11,7 @@ export const getAllSpace = (
 export const getMySpace = (
   data: getMySpaceType,
 ): Promise<ResponsePagingType<allSpaceResponse>> => {
-  const url = "/secret/space/getMySpace/v2";
+  const url = "/secret/space/getMySpace/v3";
 
   return request.get<ResponsePagingType<allSpaceResponse>>(url, data);
 };

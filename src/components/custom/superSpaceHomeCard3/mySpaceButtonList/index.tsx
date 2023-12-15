@@ -33,16 +33,18 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
     <div className={styles.container}>
       {isOnGoingSpace && item.seatStatus != -1 ? (
         <Button
-          width="84px"
+          width="125px"
           className={styles.buttonPosition}
           isLoading={isLoadingSpace}
           disabled={isLoadingSpace || !!currentSpace}
           onClick={handleJoinSpace}
-          background="linear-gradient(90deg, rgba(116, 252, 150, 1) 0%, rgba(252, 205, 116, 0.32) 44.19%, rgba(246, 252, 116, 0) 83.2%)"
+          background="linear-gradient(134.77deg, #E7FFA1 0%, #D7FF26 47%, #E7FFA1 99.67%)"
           showBorderShodow={false}
-          border="1px solid rgba(151, 151, 151, 1)"
+          border="none"
+          height="42px"
+          borderRadius="21px"
         >
-          Join
+          <div className="font-bold text-[16px]">Join</div>
         </Button>
       ) : (
         <div>
@@ -55,10 +57,13 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
               showBorderShodow={false}
               className={styles.button}
               onClick={onClickButton}
-              background="rgba(255, 242, 223, 1)"
-              border="1px solid rgba(151, 151, 151, 1)"
+              background="linear-gradient(134.77deg, #E7FFA1 0%, #D7FF26 47%, #E7FFA1 99.67%)"
+              border="none"
+              height="42px"
+              width="157px"
+              borderRadius="21px"
             >
-              Space Detail
+              <div className="font-bold text-[16px]">Space Detail</div>
             </Button>
           )}
           {item.role == "default" && (
@@ -78,33 +83,41 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
               </div>
             </SpaceButton>
           )}
-          {item.role == "cohost:selecting" && (
-            <Button
-              background="rgba(0, 0, 0, 1)"
-              className={styles.buttonPosition}
-              textColor="rgba(254, 213, 55, 1)"
-              onClick={() => {
-                onClickDecide(item.sid, 1);
-              }}
-              showBorderShodow={false}
-            >
-              Accept
-            </Button>
-          )}
-          {item.role == "cohost:selecting" && (
-            <div className="mt-[10px]">
+          <div className="flex ">
+            {item.role == "cohost:selecting" && (
+              <div className="mr-[6px]">
+                <Button
+                  background="rgba(243, 243, 243, 1)"
+                  className={styles.buttonDeclinePosition}
+                  backgroundColor="#EDEDED"
+                  onClick={() => {
+                    onClickDecide(item.sid, 0);
+                  }}
+                  height="42px"
+                  width="106px"
+                  borderRadius="21px"
+                  showBorderShodow={false}
+                >
+                  <div className="font-bold text-[16px]">Decline</div>
+                </Button>
+              </div>
+            )}
+            {item.role == "cohost:selecting" && (
               <Button
-                background="rgba(243, 243, 243, 1)"
-                className={styles.buttonDeclinePosition}
+                background="linear-gradient(134.77deg, #E7FFA1 0%, #D7FF26 47%, #E7FFA1 99.67%)"
+                className={styles.buttonPosition}
                 onClick={() => {
-                  onClickDecide(item.sid, 0);
+                  onClickDecide(item.sid, 1);
                 }}
+                height="42px"
+                width="106px"
+                borderRadius="21px"
                 showBorderShodow={false}
               >
-                Decline
+                <div className="font-bold text-[16px]">Accept</div>
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>

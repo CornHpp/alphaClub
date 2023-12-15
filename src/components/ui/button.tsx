@@ -20,6 +20,7 @@ interface ButtonProps {
   id?: string;
   disabled?: boolean;
   border?: string;
+  borderRadius?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -37,6 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
   border,
   id,
   disabled,
+  borderRadius,
 }) => {
   return (
     <div
@@ -56,6 +58,7 @@ export const Button: React.FC<ButtonProps> = ({
         maxWidth: maxWidth,
         border: border,
         background: background,
+        borderRadius: borderRadius,
       }}
     >
       {isLoading ? <Loading /> : children}

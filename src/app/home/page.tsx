@@ -44,16 +44,12 @@ const HometabsList = [
 
 const mySpaceTabsList = [
   {
-    title: "Created",
-    key: "created",
-  },
-  {
-    title: "Co-host",
-    key: "cohost",
-  },
-  {
-    title: "Join",
+    title: "Starting",
     key: "joined",
+  },
+  {
+    title: "Created&Co-Host",
+    key: "created",
   },
 ];
 type homeProps = {
@@ -67,6 +63,7 @@ type _selfParamsProps = {
   queryKey?: string;
   type?: string;
   ticker?: string;
+  joinedType?: string;
 };
 
 const Home: React.FC<homeProps> = (props) => {
@@ -76,7 +73,7 @@ const Home: React.FC<homeProps> = (props) => {
 
   const getListFunction = isMySpace ? getMySpace : getAllSpace;
 
-  let [nowTab, setNowTab] = useState("top");
+  let [nowTab, setNowTab] = useState(isMySpace ? "joined" : "top");
   const [showIcon, setShowIcon] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const [walletBalance, setWalletBalance] = useState(0);
@@ -112,6 +109,7 @@ const Home: React.FC<homeProps> = (props) => {
     };
     if (isMySpace) {
       param.type = pageMap.type;
+      param.joinedType = nowTab;
     } else {
       param.orderBy = nowTab;
       param.ticker = pageMap.ticker;
@@ -255,7 +253,7 @@ const Home: React.FC<homeProps> = (props) => {
             </Button>
           </div>
         </div>
-        {!isMySpace && (
+        {
           <div className={styles.tabsList}>
             {tabsList?.map((item, index) => {
               return (
@@ -276,7 +274,7 @@ const Home: React.FC<homeProps> = (props) => {
               );
             })}
           </div>
-        )}
+        }
 
         <div className={styles.cardList}>
           <PullToRefresh

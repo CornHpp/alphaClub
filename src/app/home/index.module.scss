@@ -124,7 +124,8 @@
     flex-shrink: 0;
 
     .tabs {
-      width: 5.71rem;
+      min-width: 5.71rem;
+      padding: 0 1.07rem;
       height: 2.14rem;
       border-radius: 1.07rem;
       background: var(--sconedBorder);

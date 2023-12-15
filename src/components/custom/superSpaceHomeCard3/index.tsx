@@ -9,7 +9,13 @@ import sofa from "@/assets/images/home/sofa.png";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { formatDate, formatDateCheers, localToUtc } from "@/lib/utils";
+import {
+  formatDate,
+  formatDateCheers,
+  getPercent,
+  localToUtc,
+  utcToLocal,
+} from "@/lib/utils";
 import { useSpace } from "../FloatingSpace/SpaceProvider";
 import moneyIcon from "@/assets/images/home/moneyIcon.png";
 import { getTimeRemaining } from "@/lib/utils";
@@ -20,8 +26,8 @@ import MySpaceButtonList from "./mySpaceButtonList";
 import Vector2 from "@/assets/images/home/Vector2.png";
 import person from "@/assets/images/home/person.png";
 import microphone from "@/assets/images/home/microphone.png";
-import progress from "@/assets/images/home/progress.png";
-import bell from "@/assets/images/home/bell.png";
+import hammer1 from "@/assets/images/home/hammer1.png";
+import ProgressView from "./progressView";
 
 interface SuperSpaceCardProps {
   title?: string;
@@ -52,20 +58,6 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
     }
     setCurrentSpace({ sid: item.sid, title: item.title });
   };
-
-  const [biddingEndTime, setBiddingEndTime] = useState(
-    getTimeRemaining(item?.biddingEndTtime),
-  );
-
-  useEffect(() => {
-    const timerInterval = setInterval(() => {
-      setBiddingEndTime(getTimeRemaining(item?.biddingEndTtime));
-    }, 1000);
-
-    return () => {
-      clearInterval(timerInterval);
-    };
-  }, [item]);
 
   return (
     <div className={[styles.superSpaceCard, className].join(" ")}>
@@ -143,45 +135,24 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
         </div>
       </div>
       <div className="mt-[12px] flex items-center justify-between">
-        <div className="h-[42px]">
-          <div className="text-[#333333] text-[12px]">
-            <span className="text-[#FF9500] text-[20px] font-bold">
-              {biddingEndTime.hours}{" "}
-            </span>
-            hours{" "}
-            <span className="text-[#FF9500] text-[20px] font-bold">
-              {" "}
-              {biddingEndTime.minutes}{" "}
-            </span>
-            mins left
+        {isMySpace ? (
+          <div className="">
+            <div className="flex items-center">
+              <Image
+                src={hammer1}
+                className="w-[12px] h-[12px] mr-[3px]"
+                alt=""
+                width={12}
+                height={12}
+              ></Image>
+              Bid price:
+            </div>
+            <div className="font-bold">{item.priceStr} ETH</div>
           </div>
-          <div className="w-[128px] h-[9px] relative   mt-[5px]">
-            <Image
-              src={progress}
-              alt="progress"
-              width={128}
-              height={9}
-            ></Image>
-            <div
-              className="absolute right-0 top-0 
-              h-full rounded-[4px] bg-[#EDEDED]"
-              style={{
-                width: "30%",
-              }}
-            ></div>
-            <Image
-              className="absolute top-[-4.5px] w-[18px] h-[18px]
-              "
-              style={{
-                right: "30%",
-              }}
-              src={bell}
-              alt="bell"
-              width={18}
-              height={18}
-            ></Image>
-          </div>
-        </div>
+        ) : (
+          <ProgressView item={item}></ProgressView>
+        )}
+
         <MySpaceButtonList
           item={item}
           onClickButton={onClick}

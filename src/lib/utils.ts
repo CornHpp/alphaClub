@@ -168,66 +168,6 @@ export function addHoursToTime(inputTime: string, hoursToAdd: number) {
   return formatDate(inputDate, "yyyy-MM-dd hh:mm:ss");
 }
 
-// 计算时间差值
-export function getTimeRemaining(targetDate: string) {
-  const now = new Date();
-  targetDate = targetDate?.split(" ").join("T").concat("Z");
-
-  let toLocalDate = new Date(targetDate).toLocaleString("en-US", {});
-
-  const target = new Date(toLocalDate);
-
-  // 计算时间差值（以毫秒为单位）
-  const timeDifference = Math.max(0, Number(target) - Number(now));
-
-  // 计算小时、分钟
-  const hours = Math.floor(timeDifference / (1000 * 60 * 60))
-    .toString()
-    .padStart(2, "0");
-  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60))
-    .toString()
-    .padStart(2, "0");
-  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000)
-    .toString()
-    .padStart(2, "0");
-
-  return {
-    hours,
-    minutes,
-    seconds,
-  };
-}
-
-export function formatDateIsEnd(
-  inputDateStr: string,
-  isSpace: boolean = false,
-): string {
-  const now = new Date();
-
-  const target = new Date(inputDateStr);
-
-  const timeDifference = Number(target) - Number(now);
-
-  return timeDifference > 0 ? inputDateStr : isSpace ? "Ready" : "Ended";
-}
-
-// utc时间转换为本地时间
-export function utcToLocal(time: string) {
-  const utcTime = formatDate(time, "yyyy-MM-dd hh:mm:ss");
-
-  return utcTime;
-}
-
-// 本地时间转换为utc时间 在转成常用的格式
-
-export function localToUtc(time: string) {
-  time = time?.split(" ").join("T").concat("Z");
-
-  let toLocalDate = new Date(time).toLocaleString("en-US", {});
-
-  const target = new Date(toLocalDate);
-  return formatDate(target, "yyyy-MM-dd hh:mm:ss");
-}
 interface ParsedTime {
   year: string;
   month: string;
@@ -276,10 +216,95 @@ export const parseTimeValue = (
   };
 };
 
+// 计算时间差值
+export function getTimeRemaining(targetDate: string) {
+  const now = new Date();
+  targetDate = targetDate?.split(" ").join("T").concat("Z");
+
+  let toLocalDate = new Date(targetDate).toLocaleString("en-US", {});
+
+  const target = new Date(toLocalDate);
+
+  // 计算时间差值（以毫秒为单位）
+  const timeDifference = Math.max(0, Number(target) - Number(now));
+
+  // 计算小时、分钟
+  const hours = Math.floor(timeDifference / (1000 * 60 * 60))
+    .toString()
+    .padStart(2, "0");
+  const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60))
+    .toString()
+    .padStart(2, "0");
+  const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000)
+    .toString()
+    .padStart(2, "0");
+
+  return {
+    hours,
+    minutes,
+    seconds,
+  };
+}
+
+export function formatDateIsEnd(
+  inputDateStr: string,
+  isSpace: boolean = false,
+): string {
+  const now = new Date();
+
+  const target = new Date(inputDateStr);
+
+  const timeDifference = Number(target) - Number(now);
+
+  return timeDifference > 0 ? inputDateStr : isSpace ? "Ready" : "Ended";
+}
+
+// utc时间转换为本地时间
+export function utcToLocal(time: string | Date) {
+  const utcTime = formatDate(time, "yyyy-MM-dd hh:mm:ss");
+  return utcTime;
+}
+
+// 本地时间转换为utc时间 在转成常用的格式
+
+export function localToUtc(time: string) {
+  time = time?.split(" ").join("T").concat("Z");
+
+  let toLocalDate = new Date(time).toLocaleString("en-US", {});
+
+  const target = new Date(toLocalDate);
+  return formatDate(target, "yyyy-MM-dd hh:mm:ss");
+}
 // 判断当前时间是否大于传入时间
 export const isTimeAfter = (time: string) => {
   const now = new Date();
   const target = new Date(time);
 
   return Number(now) > Number(target);
+};
+
+// 判断当前时间位于创建和结束时间的百分比
+export const getPercent = (
+  bidEndTime: string,
+  createTime: string,
+  title?: string,
+) => {
+  const localTime = new Date(); // 当前本地时间
+  const start = new Date(createTime); // 开始时间
+  const end = new Date(bidEndTime); // 结束时间
+
+  const total = Number(end) - Number(start); // 总时间
+  const current = Number(end) - Number(localTime); // 得到现在距离结束时间的毫秒数
+
+  if (current < 0) {
+    return 0;
+  }
+
+  const percent = ((current / total) * 100).toFixed(2); // 计算百分比
+
+  if (Number(percent) > 85) {
+    return 85;
+  }
+
+  return percent;
 };
