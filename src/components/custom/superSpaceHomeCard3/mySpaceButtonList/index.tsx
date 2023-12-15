@@ -77,9 +77,11 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
                     height={14}
                     className="w-[12px] h-[14px] mr-1"
                   ></Image>
-                  <span className="text-[16px] font-bold">{item.priceStr}</span>
+                  <span className="text-[16px] font-semibold">
+                    {item.priceStr}
+                  </span>
                 </div>
-                <div>Place a bid</div>
+                <div className="font-medium">Place a bid</div>
               </div>
             </SpaceButton>
           )}

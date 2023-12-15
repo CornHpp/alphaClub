@@ -72,6 +72,7 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
         <div
           className="flex-1 
          overflow-hidden overflow-ellipsis whitespace-nowrap
+         font-medium
         "
         >
           {item?.title}

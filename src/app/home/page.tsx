@@ -25,6 +25,7 @@ import vector from "@/assets/images/home/Vector.png";
 import SuperSpaceHomeCard3 from "@/components/custom/superSpaceHomeCard3";
 import { isTimeAfter, localToUtc } from "@/lib/utils";
 import createSpaceIcon from "@/assets/images/home/createSpaceIcon.png";
+import moneyIcon from "@/assets/images/home/moneyIcon.png";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -252,10 +253,14 @@ const Home: React.FC<homeProps> = (props) => {
                 height={40}
                 alt=""
               />
-              <span style={{ lineHeight: 0 }}>
-                {walletBalance.toFixed(5)} ETH
-              </span>
-              <RightOutline />
+              <div className="flex items-center">
+                <span className="mt-[4px]">{walletBalance.toFixed(5)} </span>
+                <Image
+                  src={moneyIcon}
+                  alt=""
+                  className="w-[18px] h-[18px] mx-[6px]"
+                ></Image>
+              </div>
             </Button>
           </div>
         </div>
@@ -268,6 +273,7 @@ const Home: React.FC<homeProps> = (props) => {
                   className={[
                     nowTab == item.key ? styles.active : "",
                     styles.tabs,
+                    "font-semibold",
                   ].join(" ")}
                   onClick={() => {
                     nowTab = item.key;
@@ -295,15 +301,14 @@ const Home: React.FC<homeProps> = (props) => {
                 <div className={styles.natification}>
                   <div className={styles.text}>
                     Bid for a voice 🎙️ space below ,earn
-                    &nbsp;&nbsp;&nbsp;&nbsp; when you are kicked out, listen &
-                    earn alpha when you stay.
-                    <Image
+                    <span className={styles.vector}></span>
+                    {/* <Image
                       src={vector}
                       alt=""
                       width={11}
-                      className={styles.vector}
                       height={18}
-                    ></Image>
+                    ></Image>{" "} */}
+                    when you are kicked out, listen & earn alpha when you stay.
                   </div>
                 </div>
               )}
