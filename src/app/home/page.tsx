@@ -54,7 +54,7 @@ const mySpaceTabsList = [
     key: "joined",
   },
   {
-    title: "Created&Co-Host",
+    title: "Created & Co-Host",
     key: "created",
   },
 ];
@@ -224,6 +224,9 @@ const Home: React.FC<homeProps> = (props) => {
               value={queryKey}
               className={styles.searchBar}
               onChange={(value: any) => {
+                if (value == "") {
+                  datalist("refresh");
+                }
                 setQueryKey(value);
               }}
               onEnterPress={() => {
@@ -367,6 +370,7 @@ const Home: React.FC<homeProps> = (props) => {
       {isMySpace && (
         <FloatingBubble
           onClick={() => {
+            setShowLoading(true);
             router.push("createSpace");
           }}
           axis="xy"

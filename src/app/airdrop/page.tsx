@@ -20,7 +20,7 @@ const Rewards = () => {
 
   const [inviteCodeList, setInviteCodeList] = useState<inviteCodeType[]>([
     {
-      inviteCode: "AC-SecretGarden",
+      inviteCode: "AC-EarlyAccess",
     },
   ]);
 
@@ -67,14 +67,14 @@ const Rewards = () => {
       >
         <div className={styles.navBarTitle}>
           AirDrop
-          <Button
+          {/* <Button
             onClick={() => {
               setShowAirdropRule(true);
             }}
             className={styles.moreBtn}
           >
             More
-          </Button>
+          </Button> */}
           {/* <Image
             src={questionMarkIcon}
             onClick={() => {
