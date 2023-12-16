@@ -22,6 +22,7 @@ const Login: React.FC = () => {
     const shareCode = localStorage.getItem("shareCode");
     if (shareCode) {
       setInviteCode(shareCode);
+      localStorage.removeItem("shareCode");
     }
   };
 
@@ -29,7 +30,7 @@ const Login: React.FC = () => {
     getShartCode();
   }, []);
 
-  const [showRoundCard, setShowRoundCard] = useState<boolean>(false);
+  const [showRoundCard, setShowRoundCard] = useState<boolean>(true);
 
   const [points, setPoints] = useState<number>(0);
 

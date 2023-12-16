@@ -3,6 +3,8 @@ import styles from "./index.module.scss";
 import { Mask } from "antd-mobile";
 import doubtIcon from "@/assets/images/login/doubt.png";
 import rightArrow from "@/assets/images/login/rightArrow.png";
+import frontCard from "@/assets/images/login/frontCard.png";
+import backCard from "@/assets/images/login/backCard.png";
 import Image from "next/image";
 
 interface RoundCardProps {
@@ -35,7 +37,7 @@ const RoundCard: React.FC<RoundCardProps> = (props) => {
         >
           {!isRound ? (
             <div
-              className={`flex w-full flex-col items-center ${styles.cardFront}`}
+              className={`flex  flex-col items-center w-[255px] h-[412px]`}
               onClick={() => {
                 setRoundCardTimer(true);
                 setTimeout(() => {
@@ -44,45 +46,33 @@ const RoundCard: React.FC<RoundCardProps> = (props) => {
               }}
             >
               <Image
-                className="mt-12"
-                src={doubtIcon}
+                className="w-full"
+                src={frontCard}
                 alt="doubt"
-                width={44}
-                height={44}
-              />
-              <div className="w-5/6 text-4xl text-center font-bold text-white mt-8">
-                Congrats!
-              </div>
-              <Image
-                className="mt-12"
-                src={rightArrow}
-                alt="doubt"
-                width={80}
-                height={30}
+                width={255}
+                height={412}
               />
             </div>
           ) : (
             <div
-              className={`flex w-full flex-col items-center ${styles.cardBack}`}
+              className={`flex w-[255px] h-[412px] relative flex-col items-center ${styles.cardBack}`}
             >
               <Image
-                className="mt-12"
-                src={doubtIcon}
+                className="w-full"
+                src={backCard}
                 alt="doubt"
-                width={44}
-                height={44}
+                width={255}
+                height={412}
               />
-              <div className="w-5/6 text-4xl text-center font-bold text-white mt-6">
-                Bid or be bid on to claim points
-              </div>
-
               <div
-                className="text-4xl text-center font-bold text-white mt-8 w-2/4"
-                style={{
-                  color: "rgba(254, 215, 73, 1)",
-                }}
+                className="absolute bottom-[76px] 
+                left-[73px] font-bold text-[#FF5C35]
+              text-[32px]
+              w-[59px]
+              text-center
+              "
               >
-                + {points} Points
+                {points}
               </div>
             </div>
           )}
