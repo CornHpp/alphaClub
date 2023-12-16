@@ -135,7 +135,7 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
                   overflow-hidden 
                    py-[4px] px-[8px]  rounded-[4px]"
                 >
-                  {ticker.indexOf("$") != -1
+                  {ticker.indexOf("$") !== -1
                     ? ticker
                     : `$${ticker.split("$")[0]}`}
                 </div>
