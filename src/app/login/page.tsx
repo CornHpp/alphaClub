@@ -43,6 +43,22 @@ const Login: React.FC = () => {
     }
   };
 
+  // 获取分享码
+  const getShareCode = () => {
+    const urlParams: any = new URLSearchParams(window.location.search);
+    const paramsObj: { [key: string]: string } = {};
+
+    for (const [key, value] of urlParams.entries()) {
+      paramsObj[key] = value;
+    }
+    localStorage.setItem("shareCode", paramsObj.shareCode);
+    return paramsObj;
+  };
+
+  useEffect(() => {
+    getShareCode();
+  }, []);
+
   const [showSafariNotification, setShowSafariNotification] = useState(false);
 
   const showSafariBrowserNotificationFunc = () => {

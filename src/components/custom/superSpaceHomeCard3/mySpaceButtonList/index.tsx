@@ -81,7 +81,7 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
                     {item.priceStr}
                   </span>
                 </div>
-                <div className="font-medium">Place a buy</div>
+                <div className="font-medium">Buy</div>
               </div>
             </SpaceButton>
           )}

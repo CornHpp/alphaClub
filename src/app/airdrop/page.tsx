@@ -41,11 +41,11 @@ const Rewards = () => {
   };
 
   useEffect(() => {
-    // getInviteCode().then((res) => {
-    //   const { result } = res;
-    //   console.log(result);
-    //   setInviteCodeList(result);
-    // });
+    getInviteCode().then((res) => {
+      const { result } = res;
+      console.log(result);
+      setInviteCodeList(result);
+    });
     getMyScoreFunc();
     getMyGroupScoreFunc();
   }, []);
@@ -91,7 +91,7 @@ const Rewards = () => {
         Points are the tickets to $ALPHA
       </div>
       <div className={styles.inviteCodeContent}>
-        <div className={styles.inviteTitle}>Invite a Friend</div>
+        {/* <div className={styles.inviteTitle}>Invite a Friend</div> */}
 
         {inviteCodeList.map((item, index) => {
           return (

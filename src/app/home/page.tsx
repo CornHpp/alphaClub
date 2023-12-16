@@ -50,7 +50,7 @@ const HometabsList = [
 
 const mySpaceTabsList = [
   {
-    title: "Starting",
+    title: "Bought",
     key: "joined",
   },
   {

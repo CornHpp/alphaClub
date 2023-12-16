@@ -18,6 +18,17 @@ const Login: React.FC = () => {
 
   const [inviteCode, setInviteCode] = useState<string>("");
 
+  const getShartCode = () => {
+    const shareCode = localStorage.getItem("shareCode");
+    if (shareCode) {
+      setInviteCode(shareCode);
+    }
+  };
+
+  useEffect(() => {
+    getShartCode();
+  }, []);
+
   const [showRoundCard, setShowRoundCard] = useState<boolean>(false);
 
   const [points, setPoints] = useState<number>(0);

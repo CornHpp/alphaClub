@@ -597,7 +597,7 @@ const Space: React.FC<Iprops> = (props) => {
             <div>
               You just created your space, you will earn the first{" "}
               <span> {formMap.maxSeatNumber}</span> people&apos;s seat price +{" "}
-              7.5% from every transaction. Come join us @tryalpha_club and share
+              5% from every transaction. Come join us @tryalpha_club and share
               your space on twitter!
             </div>
           )}
