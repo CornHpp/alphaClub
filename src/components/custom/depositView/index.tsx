@@ -101,7 +101,7 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
         <div className={styles.openDeposit}>
           <div className={styles.title}>Let{"'"}s deposit some ETH.</div>
           <div className={[styles.title, styles.smallTitle].join(" ")}>
-            You need some ETH in your wallet to get started（Base Goerli）.
+            You need some ETH in your wallet to get started.
           </div>
 
           <WalletConnectButton />

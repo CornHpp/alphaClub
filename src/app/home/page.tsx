@@ -21,7 +21,6 @@ import { getBalance } from "@/service/userService";
 import { useSelector } from "react-redux";
 import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
 import Loading from "@/components/custom/Loading";
-import vector from "@/assets/images/home/Vector.png";
 import SuperSpaceHomeCard3 from "@/components/custom/superSpaceHomeCard3";
 import { isTimeAfter, localToUtc } from "@/lib/utils";
 import createSpaceIcon from "@/assets/images/home/createSpaceIcon.png";

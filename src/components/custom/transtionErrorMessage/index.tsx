@@ -97,6 +97,7 @@ export const TranstionErrorMessage: React.FC<TranstionErrorMessageProps> = ({
           ) : (
             <div className={styles.content}>{msg}</div>
           )}
+          {/*todo 别忘了把这个改了，上主网要改地址*/}
           {transaction ? (
             <a
               href={`https://goerli.etherscan.io/tx/${transaction.transactionHash}`}
@@ -108,10 +109,16 @@ export const TranstionErrorMessage: React.FC<TranstionErrorMessageProps> = ({
           <div
             style={{ width: "80%", marginLeft: "30px", paddingBottom: "30px" }}
           >
-            <ProgressBar percent={progress} text></ProgressBar>
+            <ProgressBar
+              percent={progress}
+              text
+            ></ProgressBar>
           </div>
 
-          <div onClick={hideErrorMessage} className={styles.okbutton}>
+          <div
+            onClick={hideErrorMessage}
+            className={styles.okbutton}
+          >
             OK
           </div>
         </div>
