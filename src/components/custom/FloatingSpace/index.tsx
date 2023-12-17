@@ -549,11 +549,8 @@ function useAzureCommunicationService(
     } else {
       await call.mute();
     }
+    setIsMuted(call.isMuted);
   }, [call]);
-
-  useEffect(() => {
-    setIsMuted(call?.isMuted ?? true);
-  }, [call?.isMuted]);
 
   const handleRaiseHand = useCallback(() => {
     if (!room) {
@@ -594,17 +591,8 @@ function useAzureCommunicationService(
     }
 
     setIsMuted(!!adapter.getState().call?.isMuted);
-    const handleMutedChanged: IsMutedChangedListener = ({
-      identifier,
-      isMuted,
-    }) => {
-      if (
-        (identifier as CommunicationUserIdentifier).communicationUserId ===
-        currentUserInRoom.identity
-      ) {
-        setIsMuted(isMuted);
-      }
-    };
+    const handleMutedChanged: IsMutedChangedListener = ({ isMuted }) =>
+      setIsMuted(isMuted);
 
     adapter.on("isMutedChanged", handleMutedChanged);
     adapter.on("participantsJoined", ({ joined }) => {
