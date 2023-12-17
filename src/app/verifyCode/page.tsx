@@ -19,15 +19,15 @@ const Login: React.FC = () => {
   const [inviteCode, setInviteCode] = useState<string>("");
 
   const getShartCode = () => {
-    const shareCode = localStorage.getItem("shareCode");
-    if (shareCode) {
-      setInviteCode(shareCode);
-      localStorage.removeItem("shareCode");
-    }
+    // const shareCode = localStorage.getItem("shareCode");
+    // if (shareCode) {
+    //   setInviteCode(shareCode);
+    //   localStorage.removeItem("shareCode");
+    // }
   };
 
   useEffect(() => {
-    getShartCode();
+    // getShartCode();
   }, []);
 
   const [showRoundCard, setShowRoundCard] = useState<boolean>(false);
