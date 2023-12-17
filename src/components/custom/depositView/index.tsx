@@ -19,6 +19,8 @@ import { getBalance } from "@/service/userService";
 import { toast } from "react-toastify";
 import CopyIcon from "@/assets/images/earning/copy.png";
 import toaster from "../Toast/Toast";
+import { arbitrum, baseGoerli, base } from "viem/chains";
+import { switchNetwork } from "@wagmi/core";
 
 interface walletMapType {
   address: string;
@@ -79,10 +81,19 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
   //   to: address,
   //   value: parseEther(transferAmount),
   // })
+
+  // todo: 根据生产或者测试环境来进行配置chainid
+  // 测试
+
+  const chain = baseGoerli;
+  // 生产
+  // const chains = base;
+
   const { data, isLoading, isSuccess, sendTransactionAsync, error, isError } =
     useSendTransaction({
       to: userinfo.walletAddress,
       value: parseEther(transferAmount ?? "0.01"),
+      chainId: chain.id,
     });
 
   return (
@@ -123,7 +134,8 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
                     disabled={isLoading}
                   />
                   <Button
-                    onClick={() => {
+                    onClick={async () => {
+                      await switchNetwork({ chainId: chain.id });
                       sendTransactionAsync?.();
                       toaster.info(
                         "Please go to your wallet to confirm the transaction.",
@@ -146,59 +158,58 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
 
               {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
             </>
-          ) : (
-            <>
-              <div
-                className={[
-                  styles.title,
-                  styles.smallTitle,
-                  styles.marginTop,
-                ].join(" ")}
-              >
-                Transfer to base address
-              </div>
+          ) : null}
+          <>
+            <div
+              className={[
+                styles.title,
+                styles.smallTitle,
+                styles.marginTop,
+              ].join(" ")}
+            >
+              Transfer to Base address
+            </div>
 
+            <Button
+              onClick={clickCopy}
+              textColor={"rgba(0, 0, 0, 1)"}
+              background={"rgba(254, 211, 53, 1)"}
+              width="100%"
+              height="3.1rem"
+              className="font-bold relative"
+            >
+              {filterString(walletMap?.address)}
+              <Image
+                src={CopyIcon}
+                alt=""
+                width={20}
+                height={20}
+                className={styles.copyIcon}
+              />
+            </Button>
+
+            <div className={[styles.balance, styles.marginTop].join(" ")}>
+              <div className={[styles.title, styles.balanceText].join(" ")}>
+                Balance:{" "}
+              </div>
               <Button
-                onClick={clickCopy}
+                width={"50%"}
                 textColor={"rgba(0, 0, 0, 1)"}
                 background={"rgba(254, 211, 53, 1)"}
-                width="100%"
-                height="3.1rem"
-                className="font-bold relative"
               >
-                {filterString(walletMap?.address)}
-                <Image
-                  src={CopyIcon}
-                  alt=""
-                  width={20}
-                  height={20}
-                  className={styles.copyIcon}
-                />
-              </Button>
-
-              <div className={[styles.balance, styles.marginTop].join(" ")}>
-                <div className={[styles.title, styles.balanceText].join(" ")}>
-                  Balance:{" "}
+                <div className="flex item-center">
+                  <Image
+                    width={22}
+                    height={22}
+                    src={ETH}
+                    className={styles.ethIcon}
+                    alt=""
+                  />
+                  {formatBalanceNumber(walletMap?.balanceNumber)}
                 </div>
-                <Button
-                  width={"50%"}
-                  textColor={"rgba(0, 0, 0, 1)"}
-                  background={"rgba(254, 211, 53, 1)"}
-                >
-                  <div className="flex item-center">
-                    <Image
-                      width={22}
-                      height={22}
-                      src={ETH}
-                      className={styles.ethIcon}
-                      alt=""
-                    />
-                    {formatBalanceNumber(walletMap?.balanceNumber)}
-                  </div>
-                </Button>
-              </div>
-            </>
-          )}
+              </Button>
+            </div>
+          </>
         </div>
       </Popup>
     </>

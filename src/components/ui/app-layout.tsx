@@ -132,7 +132,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               alt="pwaIcon"
             ></Image>
             <div className="text-[30px] mt-[20px]">
-              Please open it on mobile
+              PC Compatible version will be released soon, switch to phone to
+              continue using the application (add it to home screen for best
+              experience)
             </div>
           </div>
         </BackGround>
