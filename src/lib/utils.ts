@@ -283,6 +283,14 @@ export const isTimeAfter = (time: string) => {
   return Number(now) > Number(target);
 };
 
+// 判断当前时间是否大于传入时间4小时
+export const isTimeAfterFourHours = (time: string) => {
+  const now = new Date();
+  const target = new Date(time);
+
+  return Number(now) > Number(target) + 4 * 60 * 60 * 1000;
+};
+
 // 判断当前时间位于创建和结束时间的百分比
 export const getPercent = (
   bidEndTime: string,

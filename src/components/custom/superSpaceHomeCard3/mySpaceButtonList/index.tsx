@@ -14,6 +14,7 @@ interface HomeButtonListProps {
   isOnGoingSpace?: boolean;
   onClickDecide: (sid: number, val: number) => void;
   isLoadingSpace: boolean;
+  isTimeAfterFourHours?: boolean;
 }
 
 const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
@@ -21,6 +22,7 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
   onClickButton,
   isOnGoingSpace,
   onClickDecide,
+  isTimeAfterFourHours,
 }) => {
   const { setCurrentSpace, isLoadingSpace, currentSpace } = useSpace();
   const handleJoinSpace = () => {
@@ -52,12 +54,10 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
           <div className="font-bold text-[16px]">Join</div>
         </Button>
       ) : (
+        //
+
         <div>
-          {(item.role == "joined" ||
-            item.role == "created" ||
-            item.role == "cohost:yes" ||
-            item.role == "waiting" ||
-            item.seatStatus == -1) && (
+          {(isTimeAfterFourHours || item.seatStatus == -1) && (
             <Button
               id="spaceDetailButton"
               showBorderShodow={false}
@@ -72,10 +72,33 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
               width="157px"
               borderRadius="21px"
             >
-              <div className="font-bold text-[16px]">Space Detail</div>
+              <div className="font-bold text-[16px]">Ended</div>
             </Button>
           )}
-          {item.role == "default" && (
+          {!isTimeAfterFourHours &&
+            (item.role == "joined" ||
+              item.role == "created" ||
+              item.role == "cohost:yes" ||
+              item.role == "waiting" ||
+              item.seatStatus == -1) && (
+              <Button
+                id="spaceDetailButton"
+                showBorderShodow={false}
+                className={styles.button}
+                onClick={() => {
+                  clickInsights("spaceDetailButton");
+                  onClickButton();
+                }}
+                background="linear-gradient(134.77deg, #E7FFA1 0%, #D7FF26 47%, #E7FFA1 99.67%)"
+                border="none"
+                height="42px"
+                width="157px"
+                borderRadius="21px"
+              >
+                <div className="font-bold text-[16px]">Space Detail</div>
+              </Button>
+            )}
+          {!isTimeAfterFourHours && item.role == "default" && (
             <SpaceButton
               clickButton={() => {
                 clickInsights("buyButton");
@@ -103,7 +126,7 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
             </SpaceButton>
           )}
           <div className="flex ">
-            {item.role == "cohost:selecting" && (
+            {!isTimeAfterFourHours && item.role == "cohost:selecting" && (
               <div className="mr-[6px]">
                 <Button
                   id="declineButton"
@@ -123,7 +146,7 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
                 </Button>
               </div>
             )}
-            {item.role == "cohost:selecting" && (
+            {!isTimeAfterFourHours && item.role == "cohost:selecting" && (
               <Button
                 id="acceptButton"
                 background="linear-gradient(134.77deg, #E7FFA1 0%, #D7FF26 47%, #E7FFA1 99.67%)"

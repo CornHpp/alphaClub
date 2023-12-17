@@ -39,6 +39,7 @@ interface SuperSpaceCardProps {
   isOnGoingSpace?: boolean;
   onClickDecide: (sid: number, val: number) => void;
   clickTicker: (ticker: string) => void;
+  isTimeAfterFourHours?: boolean;
 }
 
 const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
@@ -49,6 +50,7 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
   isOnGoingSpace,
   onClickDecide,
   clickTicker,
+  isTimeAfterFourHours,
 }) => {
   const router = useRouter();
   const { setCurrentSpace, isLoadingSpace, currentSpace } = useSpace();
@@ -168,6 +170,7 @@ const SuperSpaceHomeCard2: React.FC<SuperSpaceCardProps> = ({
           isOnGoingSpace={isOnGoingSpace}
           onClickDecide={onClickDecide}
           isLoadingSpace={isLoadingSpace}
+          isTimeAfterFourHours={isTimeAfterFourHours}
         ></MySpaceButtonList>
       </div>
       <div className="flex items-center mt-[17px] justify-between">

@@ -59,9 +59,9 @@ const mySpaceTabsList = [
     key: "created",
   },
 ];
-type homeProps = {
+interface homeProps {
   isMySpace: boolean;
-};
+}
 
 type _selfParamsProps = {
   pageNum: number;
@@ -184,9 +184,9 @@ const Home: React.FC<homeProps> = (props) => {
   useEffect(() => {
     getBalanceFunction();
     return () => {
-      LeaveInsights("home");
+      LeaveInsights(isMySpace ? "MySpace" : "Home");
     };
-  }, [getBalanceFunction]);
+  }, [getBalanceFunction, isMySpace]);
 
   const goCreateSpace = () => {
     setShowLoading(true);
@@ -334,6 +334,9 @@ const Home: React.FC<homeProps> = (props) => {
                   const isOnGoingSpace = isTimeAfter(
                     localToUtc(item.spaceBeginTime),
                   );
+                  const isTimeAfterFourHours = isTimeAfter(
+                    localToUtc(item.spaceBeginTime),
+                  );
                   return (
                     <div
                       key={index + "s"}
@@ -349,7 +352,8 @@ const Home: React.FC<homeProps> = (props) => {
                           router.push("/space/" + item.sid);
                         }}
                         className={styles.superSpace}
-                        isOnGoingSpace={isOnGoingSpace}
+                        isOnGoingSpace={isOnGoingSpace && !isTimeAfterFourHours}
+                        isTimeAfterFourHours={isTimeAfterFourHours}
                       ></SuperSpaceHomeCard3>
                     </div>
                   );
