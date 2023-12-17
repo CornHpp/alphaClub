@@ -72,6 +72,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     };
 
     window.addEventListener("resize", setRem);
+    setRem();
+
     return () => {
       window.removeEventListener("resize", setRem);
     };
@@ -131,7 +133,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
               width={225}
               alt="pwaIcon"
             ></Image>
-            <div className="text-[30px] mt-[20px]">
+            <div className="text-[24px] mt-[20px] w-[90%] text-center">
               PC Compatible version will be released soon, switch to phone to
               continue using the application (add it to home screen for best
               experience)
