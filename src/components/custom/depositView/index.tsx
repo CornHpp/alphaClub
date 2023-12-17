@@ -85,7 +85,7 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
   // todo: 根据生产或者测试环境来进行配置chainid
   // 测试
 
-  const chain = baseGoerli;
+  const chain = process.env.NODE_ENV == "production" ? base : baseGoerli;
   // 生产
   // const chains = base;
 
