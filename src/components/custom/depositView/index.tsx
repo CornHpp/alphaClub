@@ -99,7 +99,9 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
         }}
       >
         <div className={styles.openDeposit}>
-          <div className={styles.title}>Let{"'"}s deposit some ETH.</div>
+          <div className={styles.title}>
+            Let{"'"}s deposit some ETH on Base (Layer 2)
+          </div>
           <div className={[styles.title, styles.smallTitle].join(" ")}>
             You need some ETH in your wallet to get started.
           </div>
@@ -153,7 +155,7 @@ export const DepositView: React.FC<DepositViewProps> = (props) => {
                   styles.marginTop,
                 ].join(" ")}
               >
-                Transfer with address
+                Transfer to base address
               </div>
 
               <Button
