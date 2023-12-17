@@ -7,6 +7,7 @@ import { sendEth } from "@/service/cryptoService";
 import { useSelector } from "react-redux";
 import { getBalance } from "@/service/userService";
 import Toast from "../Toast/Toast";
+import { clickInsights } from "@/lib/appInsights";
 interface Props {
   showWithdraw: boolean;
   hideWithDraw: () => void;
@@ -22,7 +23,7 @@ const WithdrawETH: React.FC<Props> = (props) => {
     if (!amount) {
       return;
     }
-
+    clickInsights("transfer");
     sendEth(address, Number(amount)).then((res) => {
       console.log("res: ", res);
       Toast.info("Transfer success");
@@ -83,6 +84,7 @@ const WithdrawETH: React.FC<Props> = (props) => {
         </div>
 
         <Button
+          id="transfer"
           onClick={handleTransferClick}
           height={"2rem"}
           className={styles.transferButton}

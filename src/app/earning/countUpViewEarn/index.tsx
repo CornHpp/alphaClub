@@ -15,7 +15,6 @@ const CountUpViewEarn = () => {
     const result = String(res.result);
     const index = result.indexOf(".");
     let decimals = result.length - index - 1;
-    console.log("decimals", decimals);
     setDecimals(decimals > 5 ? 5 : decimals);
   };
 

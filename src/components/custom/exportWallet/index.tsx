@@ -12,6 +12,7 @@ import copy from "copy-to-clipboard";
 import toaster from "@/components/custom/Toast/Toast";
 import Image from "next/image";
 import { copyTextToClipboardSafari } from "@/lib/utils";
+import { clickInsights } from "@/lib/appInsights";
 
 interface Props {
   showWallet: boolean;
@@ -85,7 +86,10 @@ const ExportWallet: React.FC<Props> = (props) => {
           <div className={styles.copyKeybutton}>
             <Button
               className={styles.button}
-              onClick={clickCopy}
+              onClick={() => {
+                clickInsights("copy");
+                clickCopy();
+              }}
               id="copy"
             >
               <TextOutline className={styles.leftCopy}></TextOutline>

@@ -5,6 +5,7 @@ import { useSpace } from "@/components/custom/FloatingSpace/SpaceProvider";
 import SpaceButton from "../spaceButton";
 import moneyIcon from "@/assets/images/home/moneyIcon.png";
 import Image from "next/image";
+import { clickInsights } from "@/lib/appInsights";
 
 interface HomeButtonListProps {
   // Define your props here
@@ -33,11 +34,15 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
     <div className={styles.container}>
       {isOnGoingSpace && item.seatStatus != -1 ? (
         <Button
+          id="joinButton"
           width="125px"
           className={styles.buttonPosition}
           isLoading={isLoadingSpace}
           disabled={isLoadingSpace || !!currentSpace}
-          onClick={handleJoinSpace}
+          onClick={() => {
+            clickInsights("joinButton");
+            handleJoinSpace();
+          }}
           background="linear-gradient(134.77deg, #E7FFA1 0%, #D7FF26 47%, #E7FFA1 99.67%)"
           showBorderShodow={false}
           border="none"
@@ -54,9 +59,13 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
             item.role == "waiting" ||
             item.seatStatus == -1) && (
             <Button
+              id="spaceDetailButton"
               showBorderShodow={false}
               className={styles.button}
-              onClick={onClickButton}
+              onClick={() => {
+                clickInsights("spaceDetailButton");
+                onClickButton();
+              }}
               background="linear-gradient(134.77deg, #E7FFA1 0%, #D7FF26 47%, #E7FFA1 99.67%)"
               border="none"
               height="42px"
@@ -67,8 +76,16 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
             </Button>
           )}
           {item.role == "default" && (
-            <SpaceButton clickButton={onClickButton}>
-              <div className="flex flex-col items-center leading-4">
+            <SpaceButton
+              clickButton={() => {
+                clickInsights("buyButton");
+                onClickButton();
+              }}
+            >
+              <div
+                id="buyButton"
+                className="flex flex-col items-center leading-4"
+              >
                 <div className="flex items-center">
                   <Image
                     src={moneyIcon}
@@ -89,11 +106,13 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
             {item.role == "cohost:selecting" && (
               <div className="mr-[6px]">
                 <Button
+                  id="declineButton"
                   background="rgba(243, 243, 243, 1)"
                   className={styles.buttonDeclinePosition}
                   backgroundColor="#EDEDED"
                   onClick={() => {
                     onClickDecide(item.sid, 0);
+                    clickInsights("declineButton");
                   }}
                   height="42px"
                   width="106px"
@@ -106,10 +125,12 @@ const MySpaceButtonList: React.FC<HomeButtonListProps> = ({
             )}
             {item.role == "cohost:selecting" && (
               <Button
+                id="acceptButton"
                 background="linear-gradient(134.77deg, #E7FFA1 0%, #D7FF26 47%, #E7FFA1 99.67%)"
                 className={styles.buttonPosition}
                 onClick={() => {
                   onClickDecide(item.sid, 1);
+                  clickInsights("acceptButton");
                 }}
                 height="42px"
                 width="106px"

@@ -1,27 +1,32 @@
-import { useWeb3Modal } from "@web3modal/wagmi/react"
-import Button from "@/components/ui/button"
-import { useAccount, useDisconnect, useEnsName } from "wagmi"
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import Button from "@/components/ui/button";
+import { useAccount, useDisconnect, useEnsName } from "wagmi";
+import { clickInsights } from "@/lib/appInsights";
 
 type WalletConnectButtonProps = {
   // openTheModal: () => void
-}
+};
 
 const WalletConnectButton: React.FC<WalletConnectButtonProps> = (props) => {
   // 4. Use modal hook
-  const { open } = useWeb3Modal()
-  const { isConnected, address } = useAccount()
-  const { data: ensName } = useEnsName({ address })
-  const { disconnect } = useDisconnect()
+  const { open } = useWeb3Modal();
+  const { isConnected, address } = useAccount();
+  const { data: ensName } = useEnsName({ address });
+  const { disconnect } = useDisconnect();
 
   const clickOpenWallet = () => {
-    open()
-
+    open();
+    clickInsights("connectWallet");
     // props.openTheModal()
-  }
+  };
   return (
     <div>
       {!isConnected ? (
-        <Button height="3rem" onClick={clickOpenWallet}>
+        <Button
+          height="3rem"
+          id="connectWallet"
+          onClick={clickOpenWallet}
+        >
           Connect Your Wallet
         </Button>
       ) : (
@@ -37,6 +42,6 @@ const WalletConnectButton: React.FC<WalletConnectButtonProps> = (props) => {
         Open Network Modal
       </Button> */}
     </div>
-  )
-}
-export default WalletConnectButton
+  );
+};
+export default WalletConnectButton;

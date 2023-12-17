@@ -16,6 +16,7 @@ import { NavBar } from "antd-mobile";
 import { useRouter } from "next/navigation";
 import CountUpViewEarn from "./countUpViewEarn";
 import CountUpViewBalance from "./countUpViewBalance";
+import { LeaveInsights, clickInsights } from "@/lib/appInsights";
 
 const EarningPage = () => {
   const [nowRank, setNowRank] = React.useState(0);
@@ -36,6 +37,9 @@ const EarningPage = () => {
 
   useEffect(() => {
     getBalanceFunction();
+    return () => {
+      LeaveInsights("earning");
+    };
   }, []);
 
   const handleClick = useCallback(() => {
@@ -82,7 +86,11 @@ const EarningPage = () => {
         <div className="flex">
           <div
             className="flex flex-col items-center"
-            onClick={handleClick}
+            id="deposit"
+            onClick={() => {
+              clickInsights("deposit");
+              handleClick();
+            }}
           >
             <Image
               width={68}
@@ -93,9 +101,10 @@ const EarningPage = () => {
             Deposit
           </div>
           <div
+            id="withdraw"
             className="flex flex-col items-center"
             onClick={() => {
-              console.log("openWithdraw");
+              clickInsights("withdraw");
               setShowWithdraw(true);
             }}
           >
@@ -109,7 +118,9 @@ const EarningPage = () => {
           </div>
           <div
             className="flex flex-col items-center"
+            id="export"
             onClick={() => {
+              clickInsights("export");
               setShowWallet(true);
             }}
           >

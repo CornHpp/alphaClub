@@ -14,17 +14,9 @@ import { BackGround } from "@/components/custom/pwaNotification";
 import pwaIcon from "@/assets/images/logoColorful.png";
 import Image from "next/image";
 
-import { ApplicationInsights } from "@microsoft/applicationinsights-web";
-
-const key = process.env.NEXT_PUBLIC_APP_CONNECTION_KEY;
-const appInsights = new ApplicationInsights({
-  config: {
-    connectionString: key,
-  },
-});
-appInsights.loadAppInsights();
-appInsights.trackPageView();
+import "@/lib/appInsights";
 import Toast from "@/components/custom/Toast/Toast";
+import { leaveAppInsights } from "@/lib/appInsights";
 
 // import VConsole from "vconsole";
 
@@ -62,6 +54,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 
     return () => {
       clearInterval(timer);
+      leaveAppInsights();
     };
   }, []);
 

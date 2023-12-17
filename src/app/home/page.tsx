@@ -25,6 +25,7 @@ import SuperSpaceHomeCard3 from "@/components/custom/superSpaceHomeCard3";
 import { isTimeAfter, localToUtc } from "@/lib/utils";
 import createSpaceIcon from "@/assets/images/home/createSpaceIcon.png";
 import moneyIcon from "@/assets/images/home/moneyIcon.png";
+import { LeaveInsights, clickInsights } from "@/lib/appInsights";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -98,6 +99,7 @@ const Home: React.FC<homeProps> = (props) => {
     if (isMySpace) return;
     pageMap.ticker = ticker;
     datalist("refresh");
+    clickInsights("searchInputId");
   };
 
   //获取首次渲染的数据
@@ -181,11 +183,15 @@ const Home: React.FC<homeProps> = (props) => {
 
   useEffect(() => {
     getBalanceFunction();
+    return () => {
+      LeaveInsights("home");
+    };
   }, [getBalanceFunction]);
 
   const goCreateSpace = () => {
     setShowLoading(true);
     router.push("/createSpace");
+    clickInsights("createSpaceButton");
   };
 
   const onClickDecideSpace = (sid: number, val: number) => {
@@ -227,6 +233,7 @@ const Home: React.FC<homeProps> = (props) => {
             </div>
           ) : (
             <SearchInput
+              id="searchInputId"
               value={queryKey}
               className={styles.searchBar}
               onChange={(value: any) => {
@@ -277,6 +284,7 @@ const Home: React.FC<homeProps> = (props) => {
             {tabsList?.map((item, index) => {
               return (
                 <div
+                  id="tab"
                   key={index + "q"}
                   className={[
                     nowTab == item.key ? styles.active : "",
@@ -287,6 +295,7 @@ const Home: React.FC<homeProps> = (props) => {
                     nowTab = item.key;
                     datalist("refresh");
                     setNowTab(item.key);
+                    clickInsights("tab");
                   }}
                 >
                   {item.title}
@@ -359,6 +368,7 @@ const Home: React.FC<homeProps> = (props) => {
         {!isMySpace && (
           <div className={styles.createSpace}>
             <Button
+              id="createSpaceButton"
               maxWidth={"340px"}
               onClick={goCreateSpace}
               width={"90vw"}
@@ -378,6 +388,7 @@ const Home: React.FC<homeProps> = (props) => {
           onClick={() => {
             setShowLoading(true);
             router.push("createSpace");
+            clickInsights("createSpaceButton");
           }}
           axis="xy"
           magnetic="x"

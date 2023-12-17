@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import AirdropRule from "@/components/custom/airdropRule";
 import Button from "@/components/ui/button";
 import { getMyScore, getMyGroupScore } from "@/service/userService";
+import { LeaveInsights } from "@/lib/appInsights";
 
 const Rewards = () => {
   //   const { userinfo } = useSelector((state: any) => state.user);
@@ -48,6 +49,10 @@ const Rewards = () => {
     });
     getMyScoreFunc();
     getMyGroupScoreFunc();
+
+    return () => {
+      LeaveInsights("airdrop");
+    };
   }, []);
 
   const copyInviteCode = (code: string) => {
