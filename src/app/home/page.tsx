@@ -130,7 +130,13 @@ const Home: React.FC<homeProps> = (props) => {
 
       pageMap.ticker = "";
       setData(newList);
-      setHasMore(newList.length >= count ? false : pageList?.length > 0);
+      setHasMore(
+        newList.length >= count
+          ? false
+          : isMySpace
+          ? true
+          : pageList?.length > 0,
+      );
       if (newList.length < 10) {
         pageMap.pageNum = 1;
         pageMap.type = "old";

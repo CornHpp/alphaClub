@@ -55,7 +55,7 @@ export default function SpaceAvatar({
     !!userInfo?.identity &&
     isParticipantHandRaised(
       { communicationUserId: userInfo.identity },
-      raisedHands
+      raisedHands,
     );
 
   const avatarNode = (
@@ -63,7 +63,7 @@ export default function SpaceAvatar({
       <div
         className={cn(
           "relative rounded-full border-2 border-transparent transition",
-          userInfo?.isSpeaking && "border-blue-500 border-opacity-100"
+          userInfo?.isSpeaking && "border-blue-500 border-opacity-100",
         )}
       >
         <RaisedHandIcon isHandRaised={isHandRaised} />
@@ -90,6 +90,7 @@ export default function SpaceAvatar({
     <Popover.Menu
       actions={actions}
       onAction={(node) => {
+        console.log("onAction", node);
         onMenuClick?.(node.key! as string);
       }}
       placement="bottom-start"
