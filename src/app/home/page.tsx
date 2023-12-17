@@ -334,9 +334,10 @@ const Home: React.FC<homeProps> = (props) => {
                   const isOnGoingSpace = isTimeAfter(
                     localToUtc(item.spaceBeginTime),
                   );
-                  const isTimeAfterFourHours = isTimeAfter(
-                    localToUtc(item.spaceBeginTime),
-                  );
+                  const isTimeAfterFourHours =
+                    process.env.NODE_ENV == "production"
+                      ? isTimeAfter(localToUtc(item.spaceBeginTime))
+                      : false;
                   return (
                     <div
                       key={index + "s"}
