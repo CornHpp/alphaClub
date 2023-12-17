@@ -124,7 +124,7 @@ const Rewards = () => {
           <div className="font-bold mt-2 text-2xl">{ownerScore}</div>
         </div>
         <div className="flex items-center justify-center flex-1 flex-col">
-          <div className="font-bold text-base">Your rank</div>
+          {/* <div className="font-bold text-base">Your rank</div> */}
 
           <div className={styles.button}>{mygroupScore} of 3 ETH</div>
 

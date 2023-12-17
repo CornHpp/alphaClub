@@ -1,38 +1,42 @@
-"use client"
-import { useEffect, useState } from "react"
+"use client";
+import { useEffect, useState } from "react";
 
-import { ExploreWrapper } from "@/components/custom/exploreWrapper"
-import RewardsBackgroundImg from "@/assets/images/airdrop/rewardsBackground.png"
-import rewardsRank from "@/assets/images/airdrop/rewards.png"
-import styles from "./index.module.scss"
-import copyIcon from "@/assets/images/copyIcon.png"
-import { copyTextToClipboardSafari } from "@/lib/utils"
+import { ExploreWrapper } from "@/components/custom/exploreWrapper";
+import RewardsBackgroundImg from "@/assets/images/airdrop/rewardsBackground.png";
+import rewardsRank from "@/assets/images/airdrop/rewards.png";
+import styles from "./index.module.scss";
+import copyIcon from "@/assets/images/copyIcon.png";
+import { copyTextToClipboardSafari } from "@/lib/utils";
 
-import { useSelector } from "react-redux"
-import Image from "next/image"
-import { getInviteCode } from "@/service/userService"
-import { toast } from "react-toastify"
+import { useSelector } from "react-redux";
+import Image from "next/image";
+import { getInviteCode } from "@/service/userService";
+import { toast } from "react-toastify";
 
 const Rewards = () => {
   //   const { userinfo } = useSelector((state: any) => state.user);
 
-  const [inviteCodeList, setInviteCodeList] = useState<inviteCodeType[]>([])
+  const [inviteCodeList, setInviteCodeList] = useState<inviteCodeType[]>([]);
 
   useEffect(() => {
     getInviteCode().then((res) => {
-      const { result } = res
-      console.log(result)
-      setInviteCodeList(result)
-    })
-  }, [])
+      const { result } = res;
+      console.log(result);
+      setInviteCodeList(result);
+    });
+  }, []);
 
   const copyInviteCode = (code: string) => {
-    console.log(code)
-    copyTextToClipboardSafari(code)
-  }
+    console.log(code);
+    copyTextToClipboardSafari(code);
+  };
 
   return (
-    <ExploreWrapper Title={"Rewards"} BgImg={undefined} BgColor={"black"}>
+    <ExploreWrapper
+      Title={"Rewards"}
+      BgImg={undefined}
+      BgColor={"black"}
+    >
       <div
         style={{
           fontSize: "34px",
@@ -82,17 +86,20 @@ const Rewards = () => {
               Invite a Friend
               {inviteCodeList.map((item, index) => {
                 return (
-                  <div key={index + "q"} className={styles.code}>
+                  <div
+                    key={index + "q"}
+                    className={styles.code}
+                  >
                     <div className={item.invitedTwitterUid ? styles.used : ""}>
                       {item.inviteCode}
                     </div>
                     <Image
                       onClick={() => {
                         if (item.invitedTwitterUid) {
-                          toast.error("This code has been used")
-                          return
+                          toast.error("This code has been used");
+                          return;
                         }
-                        copyInviteCode(item.inviteCode)
+                        copyInviteCode(item.inviteCode);
                       }}
                       width={15}
                       height={15}
@@ -100,17 +107,22 @@ const Rewards = () => {
                       alt=""
                     ></Image>
                   </div>
-                )
+                );
               })}
             </div>
           </div>
           <div className={styles.rank}>
             <div>Your Rank</div>
-            <Image width={142} height={32} src={rewardsRank} alt="" />
+            <Image
+              width={142}
+              height={32}
+              src={rewardsRank}
+              alt=""
+            />
           </div>
         </div>
       </div>
     </ExploreWrapper>
-  )
-}
-export default Rewards
+  );
+};
+export default Rewards;

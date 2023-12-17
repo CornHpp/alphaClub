@@ -30,7 +30,7 @@ const Login: React.FC = () => {
     getShartCode();
   }, []);
 
-  const [showRoundCard, setShowRoundCard] = useState<boolean>(true);
+  const [showRoundCard, setShowRoundCard] = useState<boolean>(false);
 
   const [points, setPoints] = useState<number>(0);
 
