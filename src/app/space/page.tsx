@@ -227,6 +227,7 @@ const Space: React.FC<Iprops> = (props) => {
         .catch((err) => {
           console.log(err);
           // setNowShowPopupCurrent(2);
+          setShowSpacePopup(true);
         });
     } else {
       Dialog.confirm({
@@ -300,9 +301,12 @@ const Space: React.FC<Iprops> = (props) => {
           getSpaceDetailFunc();
           setShowOrderMessage(false);
         } else {
-          // setShowSpacePopup(true);
           // setNowShowPopupCurrent(2);
+
+          setShowStealSeatButton(false);
           setShowOrderMessage(false);
+          setNowShowPopupCurrent(3);
+          setShowSpacePopup(true);
         }
       });
   };
