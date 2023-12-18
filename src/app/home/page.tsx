@@ -334,8 +334,10 @@ const Home: React.FC<homeProps> = (props) => {
                   const isOnGoingSpace = isTimeAfter(
                     localToUtc(item.spaceBeginTime),
                   );
-                  const isTimeAfterFourHours = false;
-                  // const isTimeAfterFourHours =isTimeAfter(localToUtc(item.spaceBeginTime))
+                  // const isTimeAfterFourHours = false;
+                  const isTimeAfterFourHours = isTimeAfter(
+                    localToUtc(item.spaceBeginTime),
+                  );
 
                   return (
                     <div
