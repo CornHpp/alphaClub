@@ -294,11 +294,19 @@ const Space: React.FC<Iprops> = (props) => {
       })
       .catch((err) => {
         console.log(err);
-        if (err.data.code == "90001") {
+        if (err?.data?.code == "90001") {
           Toast.error("Price has changed, retriving new price.");
           getSpaceDetailFunc();
-        } else {
+          setShowOrderMessage(false);
+        } 
+        else if (err?.data?.code == "90004") {
+          Toast.error("Insuficient Funds, please top up in home screen.");
+          getSpaceDetailFunc();
+          setShowOrderMessage(false);
+        }
+        else {
           setShowStealSeatButton(false);
+          setShowOrderMessage(false);
           setShowSpacePopup(true);
         }
       })
