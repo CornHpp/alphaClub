@@ -290,7 +290,6 @@ const Space: React.FC<Iprops> = (props) => {
       .then((res) => {
         console.log(res);
         setShowStealSeatButton(false);
-        setShowOrderMessage(false);
         setShowSpacePopup(true);
       })
       .catch((err) => {
@@ -298,14 +297,13 @@ const Space: React.FC<Iprops> = (props) => {
         if (err.data.code == "90001") {
           Toast.error("Price has changed, retriving new price.");
           getSpaceDetailFunc();
-          setShowOrderMessage(false);
         } else {
           setShowStealSeatButton(false);
-          setShowOrderMessage(false);
-          Toast.error("aaaaaaaaaaaaaaa");
-
           setShowSpacePopup(true);
         }
+      })
+      .finally(() => {
+        setShowOrderMessage(false);
       });
   };
 
