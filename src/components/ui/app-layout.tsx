@@ -18,11 +18,11 @@ import "@/lib/appInsights";
 import Toast from "@/components/custom/Toast/Toast";
 import { leaveAppInsights } from "@/lib/appInsights";
 
-import VConsole from "vconsole";
+// import VConsole from "vconsole";
 
-if (typeof window !== "undefined") {
-  new VConsole();
-}
+// if (typeof window !== "undefined") {
+//   new VConsole();
+// }
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const [useMobile, setUseMobile] = useState(false);

@@ -47,11 +47,10 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (res: any) => {
-    console.log("🚀 ~ file: http.interceptor.ts:50 ~ res:", res)
     // 未设置状态码则默认成功状态
-    const code = res.data.code || 200;
+    const code = res?.data?.code || 200;
     // 获取错误信息
-    const msg = res.data.message || getErrorInfoByCodeStatus(code);
+    const msg = res?.data?.message || getErrorInfoByCodeStatus(code);
 
     // 二进制数据则直接返回
     const { responseType } = res.request;
@@ -65,15 +64,13 @@ service.interceptors.response.use(
       }
     }, 200);
 
-    
+    // if (code == "90001") {
+    //   return Promise.reject(res);
+    // }
 
-    if (code == "90001") {
-      return Promise.reject(res);
-    }
-
-    if (code == "90004") {
-      return Promise.reject(res);
-    }
+    // if (code == "90004") {
+    //   return Promise.reject(res);
+    // }
 
     if (code != 200) {
       console.error(`[${res.config.url}]: ` + msg);
@@ -86,7 +83,8 @@ service.interceptors.response.use(
         return {};
       }
       toast.warning(msg);
-      return Promise.reject(res);
+      return res;
+      // return Promise.reject(res);s
     }
     return res.data;
   },
@@ -116,7 +114,9 @@ service.interceptors.response.use(
       // 登录失败不提示失败信息
       if (status !== 424) {
         console.error(`[${error.config.url}]: ` + errorMsg);
-        toast.warning(errorMsg);
+        if (errorMsg && errorMsg != "") {
+          toast.warning(errorMsg);
+        }
         // location.href = `${location.origin}/404`;
       }
     }

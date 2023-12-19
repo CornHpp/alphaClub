@@ -25,7 +25,7 @@ export const getErrorInfoByCodeStatus = (status: number): string => {
       content = "Request timed out! Please try again later";
       break;
     case 500:
-      content = "Service exception!";
+      // content = "Service exception!";
       break;
     case 502:
       content = "Gateway error!";
@@ -37,7 +37,7 @@ export const getErrorInfoByCodeStatus = (status: number): string => {
       content = "gateway timeout!";
       break;
     default:
-      content = "Block Chain is currently busy, your request has already submit, please wait for a moment and refresh the app!";
+      // content = "Block Chain is currently busy, your request has already submit, please wait for a moment and refresh the app!";
   }
   return content;
 };

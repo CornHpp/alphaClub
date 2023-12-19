@@ -285,7 +285,6 @@ const Space: React.FC<Iprops> = (props) => {
       web3Sid: Number(formMap.web3Sid),
       price: Number(order.biddingPrice),
     };
-    Toast.info("bid bid bid....");
     setNowShowPopupCurrent(3);
     spaceBidding(data)
       .then((res) => {
@@ -295,17 +294,20 @@ const Space: React.FC<Iprops> = (props) => {
         setShowSpacePopup(true);
       })
       .catch((err) => {
-        Toast.error(err);
         console.log(err);
-        if (err.data.code == "90001") {
+        if (err?.data?.code == "90001") {
           Toast.error("Price has changed, retriving new price.");
           getSpaceDetailFunc();
           setShowOrderMessage(false);
-        } else {
+        } 
+        else if (err?.data?.code == "90004") {
+          Toast.error("Insuficient Funds, please top up in home screen.");
+          getSpaceDetailFunc();
+          setShowOrderMessage(false);
+        }
+        else {
           setShowStealSeatButton(false);
           setShowOrderMessage(false);
-          Toast.error("aaaaaaaaaaaaaaa");
-
           setShowSpacePopup(true);
         }
       });
