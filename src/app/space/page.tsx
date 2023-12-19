@@ -218,15 +218,14 @@ const Space: React.FC<Iprops> = (props) => {
         title: formMap.title,
         ticker: formMap.ticker,
       };
+      setNowShowPopupCurrent(1);
       createSpace(param)
         .then((res) => {
           console.log(res);
-          setNowShowPopupCurrent(1);
           setShowSpacePopup(true);
         })
         .catch((err) => {
           console.log(err);
-          // setNowShowPopupCurrent(2);
           setShowSpacePopup(true);
         });
     } else {
@@ -286,12 +285,12 @@ const Space: React.FC<Iprops> = (props) => {
       web3Sid: Number(formMap.web3Sid),
       price: Number(order.biddingPrice),
     };
+    setNowShowPopupCurrent(3);
     spaceBidding(data)
       .then((res) => {
         console.log(res);
         setShowStealSeatButton(false);
         setShowOrderMessage(false);
-        setNowShowPopupCurrent(3);
         setShowSpacePopup(true);
       })
       .catch((err) => {
@@ -301,11 +300,10 @@ const Space: React.FC<Iprops> = (props) => {
           getSpaceDetailFunc();
           setShowOrderMessage(false);
         } else {
-          // setNowShowPopupCurrent(2);
-
           setShowStealSeatButton(false);
           setShowOrderMessage(false);
-          setNowShowPopupCurrent(3);
+          Toast.error("aaaaaaaaaaaaaaa");
+
           setShowSpacePopup(true);
         }
       });
