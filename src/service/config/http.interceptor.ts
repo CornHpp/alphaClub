@@ -64,13 +64,13 @@ service.interceptors.response.use(
       }
     }, 200);
 
-    // if (code == "90001") {
-    //   return Promise.reject(res);
-    // }
+    if (code == "90001") {
+      return Promise.reject(res);
+    }
 
-    // if (code == "90004") {
-    //   return Promise.reject(res);
-    // }
+    if (code == "90004") {
+      return Promise.reject(res);
+    }
 
     if (code != 200) {
       console.error(`[${res.config.url}]: ` + msg);
