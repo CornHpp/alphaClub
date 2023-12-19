@@ -285,6 +285,7 @@ const Space: React.FC<Iprops> = (props) => {
       web3Sid: Number(formMap.web3Sid),
       price: Number(order.biddingPrice),
     };
+    Toast.info("bid bid bid....");
     setNowShowPopupCurrent(3);
     spaceBidding(data)
       .then((res) => {
@@ -294,6 +295,7 @@ const Space: React.FC<Iprops> = (props) => {
         setShowSpacePopup(true);
       })
       .catch((err) => {
+        Toast.error(err);
         console.log(err);
         if (err.data.code == "90001") {
           Toast.error("Price has changed, retriving new price.");
