@@ -47,6 +47,7 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (res: any) => {
+    console.log("🚀 ~ file: http.interceptor.ts:50 ~ res:", res)
     // 未设置状态码则默认成功状态
     const code = res.data.code || 200;
     // 获取错误信息
@@ -64,7 +65,13 @@ service.interceptors.response.use(
       }
     }, 200);
 
+    
+
     if (code == "90001") {
+      return Promise.reject(res);
+    }
+
+    if (code == "90004") {
       return Promise.reject(res);
     }
 
