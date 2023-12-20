@@ -83,7 +83,7 @@ service.interceptors.response.use(
         return {};
       }
       toast.warning(msg);
-      return res;
+      return res.data;
       // return Promise.reject(res);s
     }
     return res.data;

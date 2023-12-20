@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
 import Loading from "@/components/custom/Loading";
 import SuperSpaceHomeCard3 from "@/components/custom/superSpaceHomeCard3";
-import { isTimeAfter, localToUtc } from "@/lib/utils";
+import { isTimeAfter, localToUtc,isTimeAfterFourHoursFuc} from "@/lib/utils";
 import createSpaceIcon from "@/assets/images/home/createSpaceIcon.png";
 import moneyIcon from "@/assets/images/home/moneyIcon.png";
 import { LeaveInsights, clickInsights } from "@/lib/appInsights";
@@ -334,8 +334,8 @@ const Home: React.FC<homeProps> = (props) => {
                   const isOnGoingSpace = isTimeAfter(
                     localToUtc(item.spaceBeginTime),
                   );
-                  // const isTimeAfterFourHours = false;
-                  const isTimeAfterFourHours = isTimeAfter(
+                  console.log(isOnGoingSpace)
+                  const isTimeAfterFour = isTimeAfterFourHoursFuc(
                     localToUtc(item.spaceBeginTime),
                   );
 
@@ -354,8 +354,8 @@ const Home: React.FC<homeProps> = (props) => {
                           router.push("/space/" + item.sid);
                         }}
                         className={styles.superSpace}
-                        isOnGoingSpace={isOnGoingSpace && !isTimeAfterFourHours}
-                        isTimeAfterFourHours={isTimeAfterFourHours}
+                        isOnGoingSpace={isOnGoingSpace && !isTimeAfterFour}
+                        isTimeAfterFourHours={isTimeAfterFour}
                       ></SuperSpaceHomeCard3>
                     </div>
                   );

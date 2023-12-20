@@ -277,14 +277,21 @@ export function localToUtc(time: string) {
 }
 // 判断当前时间是否大于传入时间
 export const isTimeAfter = (time: string) => {
+  console.log(time)
   const now = new Date();
-  const target = new Date(time);
 
-  return Number(now) > Number(target);
+  const target = new Date(time);
+  const fiveMintes = Number(target) - 5*60*1000
+
+  console.log('fiveMinte',fiveMintes)
+  
+
+  return Number(now) > fiveMintes;
 };
 
 // 判断当前时间是否大于传入时间4小时
-export const isTimeAfterFourHours = (time: string) => {
+export const isTimeAfterFourHoursFuc = (time: string) => {
+  console.log(time)
   const now = new Date();
   const target = new Date(time);
 

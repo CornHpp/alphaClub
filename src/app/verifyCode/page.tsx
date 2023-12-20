@@ -41,8 +41,11 @@ const Login: React.FC = () => {
     }
 
     bindInviteCode(inviteCode).then((res) => {
-      setShowRoundCard(true);
-      setPoints(res.result);
+      if(res.code=='200'){
+        setShowRoundCard(true);
+        setPoints(res.result);
+      }
+  
     });
   };
 
