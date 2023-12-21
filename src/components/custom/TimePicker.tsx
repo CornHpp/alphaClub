@@ -125,6 +125,7 @@ export function TimePicker({
   hourLimit,
   startingTime,
 }: TimePickerProps) {
+  const deepCopyValue = value;
   const [pickerValue, setPickerValue] = useState<PickerType>(value);
   const [isPickerVisible, setIsPickerVisible] = useState(false);
   const { year, month, date, hour, minute } = pickerValue;
@@ -152,7 +153,10 @@ export function TimePicker({
 
       <Popup
         visible={isPickerVisible}
-        onMaskClick={() => setIsPickerVisible(false)}
+        onMaskClick={() => {
+          setPickerValue(deepCopyValue);
+          setIsPickerVisible(false);
+        }}
         bodyStyle={{
           borderTopLeftRadius: "20px",
           borderTopRightRadius: "20px",
@@ -163,7 +167,10 @@ export function TimePicker({
 
           <button
             className="absolute right-4"
-            onClick={() => setIsPickerVisible(false)}
+            onClick={() => {
+              setPickerValue(deepCopyValue);
+              setIsPickerVisible(false);
+            }}
           >
             <CloseOutline
               className="w-6 h-6"

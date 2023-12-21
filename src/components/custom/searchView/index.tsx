@@ -25,10 +25,12 @@ const SearchView: React.FC<SearchViewType> = (props) => {
     if (time) {
       clearTimeout(time);
     }
+    setSearchList([])
     time = setTimeout(() => {
       if (!value) return;
       searchUserByUserName(value).then((res) => {
         const { pageList } = res.result;
+        setRes([])
         setSearchList(pageList);
       });
     }, 1000);
