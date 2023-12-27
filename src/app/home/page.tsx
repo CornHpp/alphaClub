@@ -22,10 +22,11 @@ import { useSelector } from "react-redux";
 import SuperSpaceHomeCard from "@/components/custom/superSpaceHomeCard";
 import Loading from "@/components/custom/Loading";
 import SuperSpaceHomeCard3 from "@/components/custom/superSpaceHomeCard3";
-import { isTimeAfter, localToUtc,isTimeAfterFourHoursFuc} from "@/lib/utils";
+import { isTimeAfter, localToUtc, isTimeAfterFourHoursFuc } from "@/lib/utils";
 import createSpaceIcon from "@/assets/images/home/createSpaceIcon.png";
 import moneyIcon from "@/assets/images/home/moneyIcon.png";
 import { LeaveInsights, clickInsights } from "@/lib/appInsights";
+import ComingSoon from "@/components/custom/comingSoon";
 
 const statusRecord: Record<PullStatus, string> = {
   pulling: "pull-down",
@@ -87,6 +88,8 @@ const Home: React.FC<homeProps> = (props) => {
   const router = useRouter();
   const { userinfo } = useSelector((state: any) => state.user);
   const [offset, setOffset] = useState({ x: -24, y: -24 });
+
+  const [showComingSoon, setShowComingSoon] = useState(true);
 
   let [pageMap, setPageMap] = useState({
     pageNum: 1,
@@ -305,71 +308,75 @@ const Home: React.FC<homeProps> = (props) => {
           </div>
         }
 
-        <div className={styles.cardList}>
-          <PullToRefresh
-            onRefresh={() => datalist("refresh")}
-            renderText={(status) => {
-              return <div>{statusRecord[status]}</div>;
-            }}
-          >
-            {/* 数据展示 */}
-            <div className={`flex flex-wrap justify-between w-full`}>
-              {!isMySpace && (
-                <div className={styles.natification}>
-                  <div className={styles.text}>
-                    Bid for a voice 🎙️ space below ,earn
-                    <span className={styles.vector}></span>
-                    {/* <Image
+        {showComingSoon ? (
+          <ComingSoon></ComingSoon>
+        ) : (
+          <div className={styles.cardList}>
+            <PullToRefresh
+              onRefresh={() => datalist("refresh")}
+              renderText={(status) => {
+                return <div>{statusRecord[status]}</div>;
+              }}
+            >
+              {/* 数据展示 */}
+              <div className={`flex flex-wrap justify-between w-full`}>
+                {!isMySpace && (
+                  <div className={styles.natification}>
+                    <div className={styles.text}>
+                      Bid for a voice 🎙️ space below ,earn
+                      <span className={styles.vector}></span>
+                      {/* <Image
                       src={vector}
                       alt=""
                       width={11}
                       height={18}
                     ></Image>{" "} */}
-                    when you are kicked out, listen & earn alpha when you stay.
-                  </div>
-                </div>
-              )}
-              {data.length > 0 &&
-                data.map((item, index) => {
-                  const isOnGoingSpace = isTimeAfter(
-                    localToUtc(item.spaceBeginTime),
-                  );
-                  console.log(isOnGoingSpace)
-                  const isTimeAfterFour = isTimeAfterFourHoursFuc(
-                    localToUtc(item.spaceBeginTime),
-                  );
-
-                  return (
-                    <div
-                      key={index + "s"}
-                      className={`w-full ${styles.wFull}`}
-                    >
-                      <SuperSpaceHomeCard3
-                        clickTicker={clickTickerSearch}
-                        onClickDecide={onClickDecideSpace}
-                        item={item}
-                        isMySpace={isMySpace ? true : false}
-                        onClick={() => {
-                          setShowLoading(true);
-                          router.push("/space/" + item.sid);
-                        }}
-                        className={styles.superSpace}
-                        isOnGoingSpace={isOnGoingSpace && !isTimeAfterFour}
-                        isTimeAfterFourHours={isTimeAfterFour}
-                      ></SuperSpaceHomeCard3>
+                      when you are kicked out, listen & earn alpha when you
+                      stay.
                     </div>
-                  );
-                })}
-            </div>
-          </PullToRefresh>
-          {/* 上拉刷新操作 */}
-          <InfiniteScroll
-            loadMore={() => datalist()}
-            hasMore={hasMore}
-          >
-            -- no more --
-          </InfiniteScroll>
-        </div>
+                  </div>
+                )}
+                {data.length > 0 &&
+                  data.map((item, index) => {
+                    const isOnGoingSpace = isTimeAfter(
+                      localToUtc(item.spaceBeginTime),
+                    );
+                    console.log(isOnGoingSpace);
+                    const isTimeAfterFour = isTimeAfterFourHoursFuc(
+                      localToUtc(item.spaceBeginTime),
+                    );
+
+                    return (
+                      <div
+                        key={index + "s"}
+                        className={`w-full ${styles.wFull}`}
+                      >
+                        <SuperSpaceHomeCard3
+                          clickTicker={clickTickerSearch}
+                          onClickDecide={onClickDecideSpace}
+                          item={item}
+                          isMySpace={isMySpace ? true : false}
+                          onClick={() => {
+                            setShowLoading(true);
+                            router.push("/space/" + item.sid);
+                          }}
+                          className={styles.superSpace}
+                          isOnGoingSpace={isOnGoingSpace && !isTimeAfterFour}
+                          isTimeAfterFourHours={isTimeAfterFour}
+                        ></SuperSpaceHomeCard3>
+                      </div>
+                    );
+                  })}
+              </div>
+            </PullToRefresh>
+            <InfiniteScroll
+              loadMore={() => datalist()}
+              hasMore={hasMore}
+            >
+              -- no more --
+            </InfiniteScroll>
+          </div>
+        )}
 
         {!isMySpace && (
           <div className={styles.createSpace}>
