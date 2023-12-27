@@ -90,6 +90,7 @@ const Home: React.FC<homeProps> = (props) => {
   const [offset, setOffset] = useState({ x: -24, y: -24 });
 
   const [showComingSoon, setShowComingSoon] = useState(true);
+  console.log("showComingSoon", showComingSoon);
 
   let [pageMap, setPageMap] = useState({
     pageNum: 1,
