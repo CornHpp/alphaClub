@@ -381,7 +381,7 @@ const Home: React.FC<homeProps> = (props) => {
 
         {!isMySpace && (
           <div className={styles.createSpace}>
-            <Button
+            {/* <Button
               id="createSpaceButton"
               maxWidth={"340px"}
               onClick={goCreateSpace}
@@ -390,14 +390,14 @@ const Home: React.FC<homeProps> = (props) => {
               className={styles.button}
             >
               Create a space
-            </Button>
+            </Button> */}
           </div>
         )}
       </div>
 
       {/* next.js有编译的速度问题，加一个loading，来开启loading */}
       {showLoading && <Loading></Loading>}
-      {isMySpace && (
+      {/* {isMySpace && (
         <FloatingBubble
           onClick={() => {
             setShowLoading(true);
@@ -425,7 +425,7 @@ const Home: React.FC<homeProps> = (props) => {
             height={50}
           ></Image>
         </FloatingBubble>
-      )}
+      )} */}
     </div>
   );
 };
